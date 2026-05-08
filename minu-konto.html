@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="et">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Minu konto — Drivers Club</title>
+<meta name="dc-api-base" content="">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="density-compact dashboard-page">
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brandmark" aria-label="Drivers Club">
+      <img class="brand-logo" src="assets/logo.png" srcset="assets/logo.png 1x, assets/logo@2x.png 2x" alt="" width="42" height="42"/>
+      <span class="brand-stack">
+        <span class="word">Drivers Club</span>
+        <span class="sub">Driven by Passion</span>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#about">Klubist</a>
+      <a href="index.html#cars">Autod</a>
+      <a href="index.html#cruises">Sõidud</a>
+      <a href="index.html#contact">Kontakt</a>
+      <a id="nav-admin-link" href="admin.html" hidden>Admin</a>
+    </div>
+    <button id="logout-btn" class="nav-cta" type="button">Logi välja</button>
+  </div>
+</nav>
+
+<main class="dash">
+  <div class="container">
+
+    <header class="dash-head">
+      <div class="section-eyebrow">
+        <span class="num">·</span>
+        <span class="line"></span>
+        <span>Minu konto</span>
+      </div>
+      <h1 class="dash-title">
+        Tere, <span id="dash-name" class="it">…</span>
+      </h1>
+      <p class="dash-meta">
+        <span id="dash-email">…</span>
+        <span id="dash-car-wrap" hidden> · <span id="dash-car"></span></span>
+      </p>
+    </header>
+
+    <section class="dash-section">
+      <div class="section-head">
+        <div>
+          <div class="section-eyebrow">
+            <span class="num">01</span>
+            <span class="line"></span>
+            <span>Minu sõidud</span>
+          </div>
+          <h2 class="section-title">Sinu <span class="it">registreeringud.</span></h2>
+        </div>
+        <p class="section-deck">Sõidud, millele oled registreerunud. Kinnitusmeil saadeti registreerimise hetkel sinu e-postile.</p>
+      </div>
+
+      <div id="my-cruises-status" class="dash-status">Laen sinu registreeringuid…</div>
+      <div id="my-cruises-list" class="cruise-list" hidden></div>
+      <div id="my-cruises-empty" class="dash-empty" hidden>
+        Sa pole veel ühelegi sõidule registreerunud.
+        <a href="#cruises-browse" class="dash-empty-link">Sirvi eelseisvaid sõite →</a>
+      </div>
+    </section>
+
+    <section id="cruises-browse" class="dash-section">
+      <div class="section-head">
+        <div>
+          <div class="section-eyebrow">
+            <span class="num">02</span>
+            <span class="line"></span>
+            <span>Eelseisvad sõidud</span>
+          </div>
+          <h2 class="section-title">Sõiduhooaeg <span class="it">2026.</span></h2>
+        </div>
+        <p class="section-deck">Klubi liikmetele mõeldud kuratoorsed maanteesõidud — kliki sõidule, et lugeda detaile ja registreeruda.</p>
+      </div>
+
+      <div id="cruise-list-status" class="dash-status">Laen sõite…</div>
+      <div id="cruise-list" class="cruise-list" hidden></div>
+    </section>
+
+    <section class="dash-section">
+      <div class="section-head">
+        <div>
+          <div class="section-eyebrow">
+            <span class="num">03</span>
+            <span class="line"></span>
+            <span>Veel tulekul</span>
+          </div>
+          <h2 class="section-title">Sinu klubi <span class="it">tööriistad.</span></h2>
+        </div>
+        <p class="section-deck">Lisame järk-järgult uusi võimalusi: sõitudele registreerimine, sõnumid, salvestatud autod ja palju muud.</p>
+      </div>
+
+      <div class="dash-grid">
+        <article class="dash-tile">
+          <div class="dash-tile-head">
+            <span class="dash-tile-num">01</span>
+            <span class="dash-tile-pill is-live">Aktiivne</span>
+          </div>
+          <h3 class="dash-tile-title">Sõidule registreerimine</h3>
+          <p class="dash-tile-desc">Broneeri koht ühe klikiga sõidu lehelt — kinnitusmeil saabub kohe.</p>
+        </article>
+
+        <article class="dash-tile dash-tile-empty">
+          <div class="dash-tile-head">
+            <span class="dash-tile-num">02</span>
+            <span class="dash-tile-pill">Tulekul</span>
+          </div>
+          <h3 class="dash-tile-title">Salvestatud autod</h3>
+          <p class="dash-tile-desc">Märgi müügis olevad autod jälgimiseks ja saa teavitusi hinnamuudatustest.</p>
+        </article>
+
+        <article class="dash-tile dash-tile-empty">
+          <div class="dash-tile-head">
+            <span class="dash-tile-num">03</span>
+            <span class="dash-tile-pill">Tulekul</span>
+          </div>
+          <h3 class="dash-tile-title">Sõnumid &amp; teated</h3>
+          <p class="dash-tile-desc">Klubi uudised, sõidumeenutused ja konsultatsiooni vastused ühel kanalil.</p>
+        </article>
+
+        <article class="dash-tile dash-tile-empty">
+          <div class="dash-tile-head">
+            <span class="dash-tile-num">04</span>
+            <span class="dash-tile-pill">Tulekul</span>
+          </div>
+          <h3 class="dash-tile-title">Profiili seaded</h3>
+          <p class="dash-tile-desc">Värskenda andmeid, lisa rohkem autosid ja muuda parooli.</p>
+        </article>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="dash-foot">
+  <div class="container foot-bottom">
+    <span>© 2026 Drivers Club MÜ</span>
+    <span>Driven by Passion · United by Legacy</span>
+  </div>
+</footer>
+
+<script src="assets/auth.js"></script>
+<script>
+  const ET_MONTHS = ['Jaan','Veebr','Märts','Apr','Mai','Juuni','Juuli','Aug','Sept','Okt','Nov','Dets'];
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  function cruiseRow(cr) {
+    const mon = ET_MONTHS[(cr.month || 1) - 1];
+    let metaLabel = '';
+    if (cr.status === 'full' || cr.spots_left === 0) metaLabel = 'Täis';
+    else if (typeof cr.spots_left === 'number')      metaLabel = 'Vabu kohti ' + cr.spots_left;
+    else                                             metaLabel = 'Avatud';
+    const subtitle = cr.subtitle ? '<span class="it">' + escapeHtml(cr.subtitle) + '</span>' : '';
+    return (
+      '<a class="cruise-item" href="soit.html?id=' + encodeURIComponent(cr.id) + '">' +
+        '<div class="cruise-date">' +
+          '<span class="day">' + escapeHtml(cr.day) + '</span>' +
+          '<span class="mon">' + escapeHtml(mon) + '</span>' +
+        '</div>' +
+        '<div class="cruise-name">' + escapeHtml(cr.name) + subtitle + '</div>' +
+        '<div class="cruise-route">' + escapeHtml(cr.route) + '</div>' +
+        '<div class="cruise-meta">' + escapeHtml(metaLabel) + '</div>' +
+        '<div class="cruise-arrow"></div>' +
+      '</a>'
+    );
+  }
+
+  (async function () {
+    const user = await DC.requireAuth();
+    if (!user) return;
+
+    document.getElementById('dash-name').textContent  = user.firstName;
+    document.getElementById('dash-email').textContent = user.email;
+    if (user.car) {
+      document.getElementById('dash-car').textContent = user.car;
+      document.getElementById('dash-car-wrap').hidden = false;
+    }
+
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+      await DC.logout();
+      window.location.assign('index.html');
+    });
+
+    // ── My cruises (registrations) ──
+    const myStatus = document.getElementById('my-cruises-status');
+    const myList   = document.getElementById('my-cruises-list');
+    const myEmpty  = document.getElementById('my-cruises-empty');
+    try {
+      const { cruises: mine } = await DC.myCruises();
+      if (!mine.length) {
+        myStatus.hidden = true;
+        myEmpty.hidden = false;
+      } else {
+        myList.innerHTML = mine.map(cruiseRow).join('');
+        myStatus.hidden = true;
+        myList.hidden = false;
+      }
+    } catch (err) {
+      myStatus.textContent = 'Registreeringuid ei saanud laadida: ' + (err.message || 'tundmatu viga');
+    }
+
+    // ── Browse upcoming ──
+    const status = document.getElementById('cruise-list-status');
+    const list   = document.getElementById('cruise-list');
+    try {
+      const { cruises } = await DC.cruises();
+      if (!cruises.length) {
+        status.textContent = 'Hetkel ei ole eelseisvaid sõite.';
+        return;
+      }
+      list.innerHTML = cruises.map(cruiseRow).join('');
+      status.hidden = true;
+      list.hidden = false;
+    } catch (err) {
+      status.textContent = 'Sõite ei saanud laadida: ' + (err.message || 'tundmatu viga');
+    }
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="et">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Logi sisse — Drivers Club</title>
+<meta name="description" content="Logi sisse Drivers Club kontosse, et näha eelseisvaid sõite ja klubi sisu." />
+<meta name="dc-api-base" content="">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="density-compact auth-page">
+
+<nav class="nav nav-slim">
+  <div class="nav-inner">
+    <a href="index.html" class="brandmark" aria-label="Drivers Club">
+      <img class="brand-logo" src="assets/logo.png" srcset="assets/logo.png 1x, assets/logo@2x.png 2x" alt="" width="42" height="42"/>
+      <span class="brand-stack">
+        <span class="word">Drivers Club</span>
+        <span class="sub">Driven by Passion</span>
+      </span>
+    </a>
+    <a href="index.html" class="nav-cta">Tagasi avalehele</a>
+  </div>
+</nav>
+
+<main class="auth-shell">
+  <div class="auth-bg"></div>
+  <div class="auth-grain"></div>
+
+  <section class="auth-card">
+    <div class="section-eyebrow">
+      <span class="num">01</span>
+      <span class="line"></span>
+      <span>Klubi sisemus</span>
+    </div>
+    <h1 class="auth-title">Logi <span class="it">sisse.</span></h1>
+    <p class="auth-lede">
+      Tere tulemast tagasi. Sisene oma kontosse, et näha eelseisvaid sõite ja klubi sisu.
+    </p>
+
+    <form id="login-form" class="auth-form" novalidate>
+      <label class="field">
+        <span class="field-label">E-post</span>
+        <input type="email" name="email" autocomplete="email" required placeholder="sina@näide.ee"/>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Parool</span>
+        <input type="password" name="password" autocomplete="current-password" required minlength="8" placeholder="••••••••"/>
+      </label>
+
+      <div id="login-error" class="auth-error" hidden></div>
+
+      <button type="submit" class="btn btn-primary auth-submit">
+        Logi sisse <span class="arrow-r"></span>
+      </button>
+    </form>
+
+    <p class="auth-footer">
+      Pole veel klubi liige? <a href="liitu.html">Liitu siit.</a>
+    </p>
+  </section>
+</main>
+
+<script src="assets/auth.js"></script>
+<script>
+  (async function () {
+    // If already logged in, send them to the dashboard.
+    const me = await DC.me();
+    if (me) { window.location.replace('minu-konto.html'); return; }
+
+    const form  = document.getElementById('login-form');
+    const error = document.getElementById('login-error');
+    const submit = form.querySelector('button[type="submit"]');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      error.hidden = true;
+      const fd = new FormData(form);
+      submit.disabled = true;
+      submit.textContent = 'Sisenen…';
+      try {
+        await DC.login(fd.get('email').trim(), fd.get('password'));
+        window.location.assign('minu-konto.html');
+      } catch (err) {
+        error.textContent = err.message || 'Sisselogimine ebaõnnestus.';
+        error.hidden = false;
+        submit.disabled = false;
+        submit.innerHTML = 'Logi sisse <span class="arrow-r"></span>';
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>

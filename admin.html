@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="et">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Admin paneel — Drivers Club</title>
+<meta name="dc-api-base" content="">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="density-compact dashboard-page admin-page">
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brandmark" aria-label="Drivers Club">
+      <img class="brand-logo" src="assets/logo.png" srcset="assets/logo.png 1x, assets/logo@2x.png 2x" alt="" width="42" height="42"/>
+      <span class="brand-stack">
+        <span class="word">Drivers Club</span>
+        <span class="sub">Admin</span>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="minu-konto.html">Minu konto</a>
+      <a href="index.html#cruises">Sõidud</a>
+      <a href="index.html#contact">Kontakt</a>
+    </div>
+    <button id="logout-btn" class="nav-cta" type="button">Logi välja</button>
+  </div>
+</nav>
+
+<main class="dash">
+  <div class="container">
+
+    <header class="dash-head">
+      <div class="section-eyebrow">
+        <span class="num">·</span>
+        <span class="line"></span>
+        <span>Admin paneel</span>
+      </div>
+      <h1 class="dash-title">Halda <span class="it">klubi.</span></h1>
+      <p class="dash-meta" id="admin-meta">Sõidud, osalejad ja klubi liikmed.</p>
+    </header>
+
+    <!-- ── Cruises management ── -->
+    <section class="dash-section">
+      <div class="section-head">
+        <div>
+          <div class="section-eyebrow">
+            <span class="num">01</span>
+            <span class="line"></span>
+            <span>Sõidud</span>
+          </div>
+          <h2 class="section-title">Hooaja <span class="it">kalender.</span></h2>
+        </div>
+        <p class="section-deck">
+          Kõik sõidud — möödunud ja eelseisvad. Klõpsa sõidu real, et näha osalejaid.
+        </p>
+      </div>
+
+      <div class="admin-toolbar">
+        <button id="add-cruise-btn" class="btn btn-primary" type="button">
+          + Lisa uus sõit
+        </button>
+      </div>
+
+      <form id="cruise-form" class="admin-form" hidden>
+        <h3 id="form-title" class="admin-form-title">Lisa uus sõit</h3>
+        <input type="hidden" name="id"/>
+
+        <div class="admin-form-grid">
+          <label class="field">
+            <span class="field-label">Kuupäev *</span>
+            <input type="date" name="event_date" required/>
+          </label>
+          <label class="field">
+            <span class="field-label">Nimi *</span>
+            <input type="text" name="name" required maxlength="200"/>
+          </label>
+          <label class="field">
+            <span class="field-label">Alapealkiri</span>
+            <input type="text" name="subtitle" maxlength="200"/>
+          </label>
+          <label class="field">
+            <span class="field-label">Marsruut *</span>
+            <input type="text" name="route" required maxlength="500" placeholder="Tallinn → … · 240 km"/>
+          </label>
+          <label class="field">
+            <span class="field-label">Olek</span>
+            <select name="status">
+              <option value="open">Avatud</option>
+              <option value="full">Täis</option>
+              <option value="closed">Suletud</option>
+            </select>
+          </label>
+          <label class="field">
+            <span class="field-label">Vabu kohti <span class="field-hint">(jäta tühjaks, kui piiramatu)</span></span>
+            <input type="number" name="spots_left" min="0"/>
+          </label>
+          <label class="field">
+            <span class="field-label">Pikkus (km)</span>
+            <input type="number" name="distance_km" min="0"/>
+          </label>
+          <label class="field">
+            <span class="field-label">Kestus</span>
+            <input type="text" name="duration" maxlength="80" placeholder="nt. 1 päev"/>
+          </label>
+          <label class="field">
+            <span class="field-label">Algus (kell)</span>
+            <input type="text" name="start_time" maxlength="20" placeholder="09:00"/>
+          </label>
+          <label class="field">
+            <span class="field-label">Kogunemiskoht</span>
+            <input type="text" name="start_place" maxlength="200"/>
+          </label>
+        </div>
+
+        <label class="field">
+          <span class="field-label">Kirjeldus</span>
+          <textarea name="description" rows="3" maxlength="4000"></textarea>
+        </label>
+        <label class="field">
+          <span class="field-label">Päevakava <span class="field-hint">üks samm rea kohta, vormingus: <code>HH:MM | Koht | Märkus</code></span></span>
+          <textarea name="itinerary" rows="6" placeholder="09:00 | Reidi tee parkla | Kohtumine&#10;13:00 | Pärnu | Lõuna"></textarea>
+        </label>
+        <label class="field">
+          <span class="field-label">Hinnas <span class="field-hint">üks ese rea kohta</span></span>
+          <textarea name="included" rows="4" placeholder="Hommikukohv&#10;Lõuna Pärnus"></textarea>
+        </label>
+
+        <div id="form-error" class="auth-error" hidden></div>
+        <div class="admin-form-actions">
+          <button type="submit" class="btn btn-primary" id="form-submit">Salvesta sõit</button>
+          <button type="button" class="btn btn-ghost" id="form-cancel">Tühista</button>
+        </div>
+      </form>
+
+      <div id="admin-cruise-status" class="dash-status">Laen sõite…</div>
+      <div id="admin-cruise-list" class="admin-cruise-list" hidden></div>
+    </section>
+
+    <!-- ── Users ── -->
+    <section class="dash-section">
+      <div class="section-head">
+        <div>
+          <div class="section-eyebrow">
+            <span class="num">02</span>
+            <span class="line"></span>
+            <span>Kasutajad</span>
+          </div>
+          <h2 class="section-title">Klubi <span class="it">liikmed.</span></h2>
+        </div>
+        <p class="section-deck">Registreerunud kasutajad. Halda õigusi otse andmebaasist.</p>
+      </div>
+
+      <div id="admin-users-status" class="dash-status">Laen kasutajaid…</div>
+      <div id="admin-users-table-wrap" class="admin-table-wrap" hidden>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Nimi</th>
+              <th>E-post</th>
+              <th>Auto</th>
+              <th>Liitus</th>
+              <th>Sõite</th>
+              <th>Roll</th>
+            </tr>
+          </thead>
+          <tbody id="admin-users-rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="dash-foot">
+  <div class="container foot-bottom">
+    <span>© 2026 Drivers Club MÜ</span>
+    <span>Driven by Passion · United by Legacy</span>
+  </div>
+</footer>
+
+<script src="assets/auth.js"></script>
+<script>
+  const ET_MONTHS_SHORT = ['Jaan','Veebr','Märts','Apr','Mai','Juuni','Juuli','Aug','Sept','Okt','Nov','Dets'];
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+  function fmtDate(iso) {
+    if (!iso) return '';
+    const d = new Date(iso + 'T00:00:00Z');
+    return d.getUTCDate() + '. ' + ET_MONTHS_SHORT[d.getUTCMonth()] + ' ' + d.getUTCFullYear();
+  }
+  function statusBadge(c) {
+    if (c.is_past) return '<span class="badge badge-muted">Möödunud</span>';
+    if (c.status === 'closed') return '<span class="badge badge-muted">Suletud</span>';
+    if (c.status === 'full' || c.spots_left === 0) return '<span class="badge badge-warn">Täis</span>';
+    return '<span class="badge badge-good">Avatud</span>';
+  }
+
+  // ── Itinerary / Included parsers ────────────────────────────────
+  function parseItinerary(text) {
+    return text.split('\n').map(s => s.trim()).filter(Boolean).map(line => {
+      const parts = line.split('|').map(p => p.trim());
+      return { time: parts[0] || '', place: parts[1] || '', note: parts[2] || null };
+    });
+  }
+  function formatItinerary(arr) {
+    return (arr || []).map(s => s.time + ' | ' + s.place + (s.note ? ' | ' + s.note : '')).join('\n');
+  }
+  function parseIncluded(text) {
+    return text.split('\n').map(s => s.trim()).filter(Boolean);
+  }
+  function formatIncluded(arr) { return (arr || []).join('\n'); }
+
+  // ── Form helpers ────────────────────────────────────────────────
+  const form = document.getElementById('cruise-form');
+  const formError = document.getElementById('form-error');
+  const formTitle = document.getElementById('form-title');
+  const formSubmit = document.getElementById('form-submit');
+
+  function showForm({ cruise } = {}) {
+    formError.hidden = true;
+    if (cruise) {
+      formTitle.textContent = 'Muuda sõitu';
+      formSubmit.textContent = 'Salvesta muudatused';
+      form.elements.id.value = cruise.id;
+      form.elements.event_date.value = cruise.event_date || '';
+      form.elements.name.value = cruise.name || '';
+      form.elements.subtitle.value = cruise.subtitle || '';
+      form.elements.route.value = cruise.route || '';
+      form.elements.status.value = cruise.status || 'open';
+      form.elements.spots_left.value = cruise.spots_left == null ? '' : cruise.spots_left;
+      form.elements.distance_km.value = cruise.distance_km == null ? '' : cruise.distance_km;
+      form.elements.duration.value = cruise.duration || '';
+      form.elements.start_time.value = cruise.start_time || '';
+      form.elements.start_place.value = cruise.start_place || '';
+      form.elements.description.value = cruise.description || '';
+      form.elements.itinerary.value = formatItinerary(cruise.itinerary);
+      form.elements.included.value = formatIncluded(cruise.included);
+    } else {
+      formTitle.textContent = 'Lisa uus sõit';
+      formSubmit.textContent = 'Salvesta sõit';
+      form.reset();
+      form.elements.id.value = '';
+      form.elements.status.value = 'open';
+    }
+    form.hidden = false;
+    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function hideForm() {
+    form.hidden = true;
+    form.reset();
+  }
+
+  document.getElementById('add-cruise-btn').addEventListener('click', () => showForm());
+  document.getElementById('form-cancel').addEventListener('click', hideForm);
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    formError.hidden = true;
+    const fd = new FormData(form);
+    const id = fd.get('id') || null;
+
+    // Build payload, normalising empty strings -> null and numbers -> ints.
+    const num = (v) => { const n = parseInt(v, 10); return Number.isFinite(n) ? n : null; };
+    const str = (v) => { const s = (v || '').toString().trim(); return s.length ? s : null; };
+
+    const payload = {
+      event_date:  str(fd.get('event_date')),
+      name:        str(fd.get('name')),
+      subtitle:    str(fd.get('subtitle')),
+      route:       str(fd.get('route')),
+      status:      str(fd.get('status')) || 'open',
+      spots_left:  num(fd.get('spots_left')),
+      distance_km: num(fd.get('distance_km')),
+      duration:    str(fd.get('duration')),
+      start_time:  str(fd.get('start_time')),
+      start_place: str(fd.get('start_place')),
+      description: str(fd.get('description')),
+      itinerary:   parseItinerary(fd.get('itinerary') || ''),
+      included:    parseIncluded(fd.get('included') || ''),
+    };
+    if (!payload.event_date || !payload.name || !payload.route) {
+      formError.textContent = 'Kuupäev, nimi ja marsruut on kohustuslikud.';
+      formError.hidden = false;
+      return;
+    }
+    if (!payload.itinerary.length) payload.itinerary = null;
+    if (!payload.included.length) payload.included = null;
+
+    formSubmit.disabled = true;
+    formSubmit.textContent = 'Salvestan…';
+    try {
+      if (id) await DC.admin.update(id, payload);
+      else    await DC.admin.create(payload);
+      hideForm();
+      await loadCruises();
+    } catch (err) {
+      formError.textContent = err.message || 'Salvestamine ebaõnnestus.';
+      formError.hidden = false;
+    } finally {
+      formSubmit.disabled = false;
+      formSubmit.textContent = id ? 'Salvesta muudatused' : 'Salvesta sõit';
+    }
+  });
+
+  // ── Cruise list rendering ──────────────────────────────────────
+  function cruiseRow(c) {
+    return (
+      '<details class="admin-cruise" data-id="' + escapeHtml(c.id) + '">' +
+        '<summary>' +
+          '<span class="ac-date">' + escapeHtml(fmtDate(c.event_date)) + '</span>' +
+          '<span class="ac-name">' + escapeHtml(c.name) +
+            (c.subtitle ? '<span class="it"> · ' + escapeHtml(c.subtitle) + '</span>' : '') +
+          '</span>' +
+          '<span class="ac-status">' + statusBadge(c) + '</span>' +
+          '<span class="ac-count">' + escapeHtml(String(c.participants ?? 0)) + ' osalejat</span>' +
+          '<span class="ac-toggle">▾</span>' +
+        '</summary>' +
+        '<div class="admin-cruise-body">' +
+          '<div class="admin-cruise-actions">' +
+            '<button type="button" class="btn btn-ghost" data-action="edit" data-id="' + escapeHtml(c.id) + '">Muuda</button>' +
+            '<button type="button" class="btn btn-ghost btn-danger" data-action="delete" data-id="' + escapeHtml(c.id) + '">Kustuta</button>' +
+            '<a class="btn btn-ghost" href="soit.html?id=' + escapeHtml(c.id) + '">Vaata avalehel</a>' +
+          '</div>' +
+          '<div class="admin-cruise-route">' + escapeHtml(c.route) + '</div>' +
+          '<div class="admin-participants" data-loaded="0">Laen osalejaid…</div>' +
+        '</div>' +
+      '</details>'
+    );
+  }
+
+  async function loadParticipants(cruiseId, container) {
+    if (container.dataset.loaded === '1') return;
+    try {
+      const { participants } = await DC.admin.participants(cruiseId);
+      if (!participants.length) {
+        container.innerHTML = '<p class="dash-empty">Veel ühtegi registreerimist ei ole.</p>';
+      } else {
+        container.innerHTML =
+          '<table class="admin-table"><thead><tr>' +
+            '<th>Nimi</th><th>E-post</th><th>Auto</th><th>Registreerus</th>' +
+          '</tr></thead><tbody>' +
+          participants.map(p => (
+            '<tr>' +
+              '<td>' + escapeHtml(p.first_name) + '</td>' +
+              '<td><a href="mailto:' + escapeHtml(p.email) + '">' + escapeHtml(p.email) + '</a></td>' +
+              '<td>' + escapeHtml(p.car || '—') + '</td>' +
+              '<td>' + escapeHtml(new Date(p.registered_at).toLocaleDateString('et-EE')) + '</td>' +
+            '</tr>'
+          )).join('') +
+          '</tbody></table>';
+      }
+      container.dataset.loaded = '1';
+    } catch (err) {
+      container.innerHTML = '<p class="auth-error" style="display:block">Osalejaid ei saanud laadida: ' + escapeHtml(err.message || '') + '</p>';
+    }
+  }
+
+  let CRUISE_CACHE = [];
+
+  async function loadCruises() {
+    const status = document.getElementById('admin-cruise-status');
+    const list   = document.getElementById('admin-cruise-list');
+    status.hidden = false;
+    status.textContent = 'Laen sõite…';
+    list.hidden = true;
+    try {
+      const { cruises } = await DC.admin.cruises();
+      CRUISE_CACHE = cruises;
+      if (!cruises.length) {
+        status.textContent = 'Sõite ei ole veel loodud. Kasuta nuppu "Lisa uus sõit".';
+        return;
+      }
+      list.innerHTML = cruises.map(cruiseRow).join('');
+      status.hidden = true;
+      list.hidden = false;
+    } catch (err) {
+      status.textContent = 'Sõite ei saanud laadida: ' + (err.message || 'tundmatu viga');
+    }
+  }
+
+  document.getElementById('admin-cruise-list').addEventListener('toggle', (e) => {
+    const t = e.target;
+    if (t.tagName !== 'DETAILS' || !t.open) return;
+    const cruiseId = t.dataset.id;
+    const container = t.querySelector('.admin-participants');
+    loadParticipants(cruiseId, container);
+  }, true);
+
+  document.getElementById('admin-cruise-list').addEventListener('click', async (e) => {
+    const btn = e.target.closest('button[data-action]');
+    if (!btn) return;
+    const id = btn.dataset.id;
+    const cruise = CRUISE_CACHE.find(c => String(c.id) === String(id));
+
+    if (btn.dataset.action === 'edit') {
+      // We need full cruise detail (description/itinerary/included aren't in the list payload)
+      try {
+        const { cruise: full } = await DC.cruise(id);
+        showForm({ cruise: full });
+      } catch (err) {
+        alert('Detaile ei saanud laadida: ' + (err.message || ''));
+      }
+    } else if (btn.dataset.action === 'delete') {
+      if (!cruise) return;
+      const ok = window.confirm('Kustutada sõit "' + cruise.name + '"? Kõik registreeringud kustutatakse.');
+      if (!ok) return;
+      try {
+        await DC.admin.remove(id);
+        await loadCruises();
+      } catch (err) {
+        alert('Kustutamine ebaõnnestus: ' + (err.message || ''));
+      }
+    }
+  });
+
+  // ── Users list ─────────────────────────────────────────────────
+  async function loadUsers() {
+    const status = document.getElementById('admin-users-status');
+    const wrap   = document.getElementById('admin-users-table-wrap');
+    const tbody  = document.getElementById('admin-users-rows');
+    try {
+      const { users } = await DC.admin.users();
+      if (!users.length) {
+        status.textContent = 'Kasutajaid pole.';
+        return;
+      }
+      tbody.innerHTML = users.map(u => (
+        '<tr>' +
+          '<td>' + escapeHtml(u.first_name) + '</td>' +
+          '<td><a href="mailto:' + escapeHtml(u.email) + '">' + escapeHtml(u.email) + '</a></td>' +
+          '<td>' + escapeHtml(u.car || '—') + '</td>' +
+          '<td>' + escapeHtml(new Date(u.created_at).toLocaleDateString('et-EE')) + '</td>' +
+          '<td>' + escapeHtml(String(u.registrations || 0)) + '</td>' +
+          '<td>' + (u.is_admin ? '<span class="badge badge-admin">Admin</span>' : '<span class="badge badge-muted">Liige</span>') + '</td>' +
+        '</tr>'
+      )).join('');
+      status.hidden = true;
+      wrap.hidden = false;
+    } catch (err) {
+      status.textContent = 'Kasutajaid ei saanud laadida: ' + (err.message || 'tundmatu viga');
+    }
+  }
+
+  // ── Bootstrap ──────────────────────────────────────────────────
+  (async function () {
+    const user = await DC.requireAdmin();
+    if (!user) return;
+
+    document.getElementById('admin-meta').textContent =
+      'Sisse logitud kui ' + user.firstName + ' (' + user.email + ').';
+
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+      await DC.logout();
+      window.location.assign('index.html');
+    });
+
+    await Promise.all([loadCruises(), loadUsers()]);
+  })();
+</script>
+
+</body>
+</html>

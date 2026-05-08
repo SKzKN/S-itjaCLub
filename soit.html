@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="et">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sõit — Drivers Club</title>
+<meta name="dc-api-base" content="">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="density-compact cruise-page">
+
+<nav class="nav nav-slim">
+  <div class="nav-inner">
+    <a href="index.html" class="brandmark" aria-label="Drivers Club">
+      <img class="brand-logo" src="assets/logo.png" srcset="assets/logo.png 1x, assets/logo@2x.png 2x" alt="" width="42" height="42"/>
+      <span class="brand-stack">
+        <span class="word">Drivers Club</span>
+        <span class="sub">Driven by Passion</span>
+      </span>
+    </a>
+    <a href="index.html#cruises" class="nav-cta">Kõik sõidud</a>
+  </div>
+</nav>
+
+<main>
+  <div id="cruise-loading" class="cruise-status-pane">Laen sõidu detaile…</div>
+  <div id="cruise-error"   class="cruise-status-pane" hidden></div>
+  <article id="cruise-content" hidden>
+
+    <header class="cruise-hero">
+      <div class="cruise-hero-bg"></div>
+      <div class="cruise-hero-grain"></div>
+      <div class="container">
+        <a class="cruise-back" href="index.html#cruises">← Sõiduhooaeg</a>
+
+        <div class="cruise-hero-grid">
+          <div class="cruise-hero-main">
+            <div class="section-eyebrow">
+              <span class="num" id="c-num">·</span>
+              <span class="line"></span>
+              <span>Sõiduhooaeg <span id="c-year">2026</span></span>
+            </div>
+            <h1 class="cruise-title">
+              <span id="c-name">…</span>
+              <span class="it" id="c-subtitle"></span>
+            </h1>
+            <p class="cruise-desc" id="c-desc">…</p>
+          </div>
+
+          <aside class="cruise-card">
+            <div class="cruise-bigdate">
+              <span class="day" id="c-day">·</span>
+              <span class="mon" id="c-mon">·</span>
+              <span class="yr"  id="c-yr">2026</span>
+            </div>
+            <div class="cruise-status-pill" id="c-status">…</div>
+            <dl class="cruise-facts">
+              <div><dt>Pikkus</dt><dd id="c-distance">—</dd></div>
+              <div><dt>Kestus</dt><dd id="c-duration">—</dd></div>
+              <div><dt>Algus</dt><dd id="c-time">—</dd></div>
+              <div><dt>Kogunemine</dt><dd id="c-place">—</dd></div>
+            </dl>
+            <button class="btn btn-primary cruise-cta" id="c-cta" type="button">
+              <span id="c-cta-label">Registreeri sõidule</span> <span class="arrow-r"></span>
+            </button>
+            <div id="c-reg-msg" class="cruise-reg-msg" hidden></div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="cruise-body">
+      <div class="container cruise-body-grid">
+
+        <div class="cruise-col">
+          <div class="section-eyebrow">
+            <span class="num">01</span>
+            <span class="line"></span>
+            <span>Marsruut</span>
+          </div>
+          <h2 class="cruise-section-title">Päevakava.</h2>
+          <ol class="itinerary-list" id="c-itinerary"></ol>
+
+          <p class="cruise-route-line" id="c-route">—</p>
+        </div>
+
+        <aside class="cruise-col cruise-side">
+          <div class="cruise-side-card">
+            <div class="section-eyebrow">
+              <span class="num">02</span>
+              <span class="line"></span>
+              <span>Hinnas</span>
+            </div>
+            <h2 class="cruise-section-title">Sisaldab.</h2>
+            <ul class="included-list" id="c-included"></ul>
+          </div>
+
+          <div class="cruise-side-card">
+            <div class="section-eyebrow">
+              <span class="num">03</span>
+              <span class="line"></span>
+              <span>Küsimused</span>
+            </div>
+            <h2 class="cruise-section-title">Võta ühendust.</h2>
+            <p class="cruise-desc">
+              Kui sul on sõidu kohta küsimusi või soovid kohta broneerida, kirjuta meile.
+            </p>
+            <a class="btn btn-ghost" href="mailto:contact@driversclub.ee">contact@driversclub.ee</a>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+  </article>
+</main>
+
+<footer class="dash-foot">
+  <div class="container foot-bottom">
+    <span>© 2026 Drivers Club MÜ</span>
+    <span>Driven by Passion · United by Legacy</span>
+  </div>
+</footer>
+
+<script src="assets/auth.js"></script>
+<script>
+  const ET_MONTHS_FULL = ['Jaanuar','Veebruar','Märts','Aprill','Mai','Juuni','Juuli','August','September','Oktoober','November','Detsember'];
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  function statusLabel(c) {
+    if (c.status === 'full' || c.spots_left === 0) return 'Täis';
+    if (typeof c.spots_left === 'number')          return 'Vabu kohti ' + c.spots_left;
+    return 'Avatud';
+  }
+
+  function pad2(n){ return String(n).padStart(2, '0'); }
+
+  let currentCruise = null;
+  let currentUser = null;
+  let userIsRegistered = false;
+
+  function setRegState(state, message) {
+    const cta = document.getElementById('c-cta');
+    const label = document.getElementById('c-cta-label');
+    const msg = document.getElementById('c-reg-msg');
+    cta.classList.remove('btn-primary', 'btn-ghost', 'is-disabled');
+    cta.disabled = false;
+    cta.dataset.state = state;
+    msg.hidden = !message;
+    msg.textContent = message || '';
+    msg.classList.remove('is-success', 'is-error', 'is-info');
+
+    switch (state) {
+      case 'past':
+        cta.classList.add('btn-ghost', 'is-disabled');
+        cta.disabled = true;
+        label.textContent = 'Sõit on möödas';
+        break;
+      case 'full':
+        cta.classList.add('btn-ghost', 'is-disabled');
+        cta.disabled = true;
+        label.textContent = 'Sõit on täis';
+        break;
+      case 'closed':
+        cta.classList.add('btn-ghost', 'is-disabled');
+        cta.disabled = true;
+        label.textContent = 'Registreerimine suletud';
+        break;
+      case 'anonymous':
+        cta.classList.add('btn-primary');
+        label.textContent = 'Logi sisse, et registreeruda';
+        break;
+      case 'register':
+        cta.classList.add('btn-primary');
+        label.textContent = 'Registreeri sõidule';
+        break;
+      case 'registered':
+        cta.classList.add('btn-ghost');
+        label.textContent = 'Tühista registreering';
+        if (message) msg.classList.add('is-success');
+        break;
+      case 'busy':
+        cta.classList.add('btn-primary', 'is-disabled');
+        cta.disabled = true;
+        label.textContent = message || 'Hetkeks…';
+        break;
+      case 'error':
+        cta.classList.add('btn-primary');
+        label.textContent = userIsRegistered ? 'Tühista registreering' : 'Registreeri sõidule';
+        if (message) msg.classList.add('is-error');
+        break;
+    }
+  }
+
+  async function refreshRegistrationState() {
+    if (!currentCruise) return;
+    if (currentCruise.is_past)            return setRegState('past');
+    if (currentCruise.status === 'closed') return setRegState('closed');
+    if (currentCruise.status === 'full' || currentCruise.spots_left === 0) {
+      if (!userIsRegistered) return setRegState('full');
+    }
+    if (!currentUser) return setRegState('anonymous');
+    setRegState(userIsRegistered ? 'registered' : 'register');
+  }
+
+  async function onCtaClick() {
+    if (!currentCruise) return;
+    if (currentCruise.is_past || currentCruise.status === 'closed') return;
+    if (!currentUser) {
+      window.location.assign('logi-sisse.html');
+      return;
+    }
+    try {
+      if (userIsRegistered) {
+        setRegState('busy', 'Tühistan…');
+        await DC.cancelRegistration(currentCruise.id);
+        userIsRegistered = false;
+        setRegState('register', 'Registreering tühistatud.');
+      } else {
+        setRegState('busy', 'Registreerin…');
+        await DC.registerForCruise(currentCruise.id);
+        userIsRegistered = true;
+        setRegState('registered', 'Oled registreeritud. Kinnitusmeil saadetud aadressile ' + currentUser.email + '.');
+      }
+    } catch (err) {
+      setRegState('error', err.message || 'Tegevus ebaõnnestus.');
+    }
+  }
+
+  function render(c) {
+    const monIdx = (c.month || 1) - 1;
+    document.title = c.name + ' — Drivers Club';
+
+    document.getElementById('c-num').textContent      = pad2(c.id);
+    document.getElementById('c-year').textContent     = c.year || (new Date(c.event_date).getUTCFullYear());
+    document.getElementById('c-name').textContent     = c.name;
+    document.getElementById('c-subtitle').textContent = c.subtitle || '';
+    document.getElementById('c-desc').textContent     = c.description || '';
+
+    document.getElementById('c-day').textContent = c.day;
+    document.getElementById('c-mon').textContent = ET_MONTHS_FULL[monIdx] || '';
+    document.getElementById('c-yr').textContent  = c.year || (new Date(c.event_date).getUTCFullYear());
+
+    const statusEl = document.getElementById('c-status');
+    statusEl.textContent = statusLabel(c);
+    statusEl.classList.toggle('is-full', c.status === 'full' || c.spots_left === 0);
+
+    document.getElementById('c-distance').textContent = c.distance_km ? (c.distance_km + ' km') : '—';
+    document.getElementById('c-duration').textContent = c.duration || '—';
+    document.getElementById('c-time').textContent     = c.start_time || '—';
+    document.getElementById('c-place').textContent    = c.start_place || '—';
+    document.getElementById('c-route').textContent    = c.route || '';
+
+    const itinerary = Array.isArray(c.itinerary) ? c.itinerary : [];
+    document.getElementById('c-itinerary').innerHTML = itinerary.map(step =>
+      '<li class="itinerary-step">' +
+        '<span class="step-time">' + escapeHtml(step.time || '') + '</span>' +
+        '<span class="step-body">' +
+          '<span class="step-place">' + escapeHtml(step.place || '') + '</span>' +
+          (step.note ? '<span class="step-note">' + escapeHtml(step.note) + '</span>' : '') +
+        '</span>' +
+      '</li>'
+    ).join('');
+
+    const included = Array.isArray(c.included) ? c.included : [];
+    document.getElementById('c-included').innerHTML = included.map(item =>
+      '<li>' + escapeHtml(item) + '</li>'
+    ).join('');
+
+    document.getElementById('cruise-loading').hidden = true;
+    document.getElementById('cruise-content').hidden = false;
+  }
+
+  function showError(msg) {
+    document.getElementById('cruise-loading').hidden = true;
+    const err = document.getElementById('cruise-error');
+    err.innerHTML = '<div class="container">' +
+      '<a class="cruise-back" href="index.html#cruises">← Sõiduhooaeg</a>' +
+      '<p>' + escapeHtml(msg) + '</p>' +
+    '</div>';
+    err.hidden = false;
+  }
+
+  (async function () {
+    const id = new URLSearchParams(window.location.search).get('id');
+    if (!id) { showError('Sõidu ID on puudu.'); return; }
+    try {
+      const [{ cruise }, user] = await Promise.all([DC.cruise(id), DC.me()]);
+      currentCruise = cruise;
+      currentUser   = user;
+      render(cruise);
+
+      if (currentUser && !cruise.is_past) {
+        try { userIsRegistered = await DC.isRegistered(cruise.id); }
+        catch { userIsRegistered = false; }
+      }
+
+      document.getElementById('c-cta').addEventListener('click', onCtaClick);
+      refreshRegistrationState();
+    } catch (err) {
+      showError(err.message || 'Sõite ei õnnestunud laadida.');
+    }
+  })();
+</script>
+
+</body>
+</html>
