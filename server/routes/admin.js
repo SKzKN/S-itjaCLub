@@ -32,6 +32,7 @@ const CruiseInput = z.object({
   description: z.string().trim().max(4000).optional().nullable(),
   itinerary:   z.array(ItineraryStep).optional().nullable(),
   included:    z.array(z.string().trim().max(200)).optional().nullable(),
+  price:       z.string().trim().max(100).optional().nullable(),
 });
 
 const cruiseValues = (c) => [
@@ -48,6 +49,7 @@ const cruiseValues = (c) => [
   c.description?.length ? c.description : null,
   c.itinerary?.length ? JSON.stringify(c.itinerary) : null,
   c.included?.length  ? JSON.stringify(c.included)  : null,
+  c.price?.length     ? c.price                     : null,
 ];
 
 // ── Cruises (admin sees all, including past) ───────────────────────────
@@ -75,8 +77,8 @@ adminRouter.post('/cruises', async (req, res) => {
   const { rows } = await q(
     `INSERT INTO cruises
         (event_date, name, subtitle, route, status, spots_left,
-         distance_km, duration, start_time, start_place, description, itinerary, included)
-     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
+         distance_km, duration, start_time, start_place, description, itinerary, included, price)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
      RETURNING id`,
     cruiseValues(c)
   );
@@ -94,8 +96,8 @@ adminRouter.put('/cruises/:id', async (req, res) => {
         event_date  = $1, name        = $2, subtitle   = $3, route      = $4,
         status      = $5, spots_left  = $6, distance_km = $7, duration   = $8,
         start_time  = $9, start_place = $10, description = $11,
-        itinerary   = $12, included    = $13
-     WHERE id = $14`,
+        itinerary   = $12, included    = $13, price       = $14
+     WHERE id = $15`,
     [...cruiseValues(c), id]
   );
   if (!r.rowCount) return res.status(404).json({ error: 'Sõitu ei leitud.' });

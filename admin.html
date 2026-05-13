@@ -114,6 +114,16 @@
             <span class="field-label">Kogunemiskoht</span>
             <input type="text" name="start_place" maxlength="200"/>
           </label>
+          <div class="field">
+            <span class="field-label">Hind</span>
+            <div class="price-field-row">
+              <label class="price-free-toggle">
+                <input type="checkbox" name="price_free" id="price-free-chk"/>
+                <span>Tasuta</span>
+              </label>
+              <input type="text" name="price" maxlength="100" placeholder="nt. 15€ / inimene" id="price-input"/>
+            </div>
+          </div>
         </div>
 
         <label class="field">
@@ -243,12 +253,17 @@
       form.elements.description.value = cruise.description || '';
       form.elements.itinerary.value = formatItinerary(cruise.itinerary);
       form.elements.included.value = formatIncluded(cruise.included);
+      const isFree = cruise.price === 'Tasuta';
+      form.elements.price_free.checked = isFree;
+      form.elements.price.value = isFree ? '' : (cruise.price || '');
+      document.getElementById('price-input').disabled = isFree;
     } else {
       formTitle.textContent = 'Lisa uus sõit';
       formSubmit.textContent = 'Salvesta sõit';
       form.reset();
       form.elements.id.value = '';
       form.elements.status.value = 'open';
+      document.getElementById('price-input').disabled = false;
     }
     form.hidden = false;
     form.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -257,6 +272,11 @@
     form.hidden = true;
     form.reset();
   }
+
+  document.getElementById('price-free-chk').addEventListener('change', (e) => {
+    document.getElementById('price-input').disabled = e.target.checked;
+    if (e.target.checked) document.getElementById('price-input').value = '';
+  });
 
   document.getElementById('add-cruise-btn').addEventListener('click', () => showForm());
   document.getElementById('form-cancel').addEventListener('click', hideForm);
@@ -285,6 +305,7 @@
       description: str(fd.get('description')),
       itinerary:   parseItinerary(fd.get('itinerary') || ''),
       included:    parseIncluded(fd.get('included') || ''),
+      price:       fd.get('price_free') === 'on' ? 'Tasuta' : (str(fd.get('price'))),
     };
     if (!payload.event_date || !payload.name || !payload.route) {
       formError.textContent = 'Kuupäev, nimi ja marsruut on kohustuslikud.';

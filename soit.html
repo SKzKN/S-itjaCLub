@@ -62,6 +62,7 @@
               <div><dt>Kestus</dt><dd id="c-duration">—</dd></div>
               <div><dt>Algus</dt><dd id="c-time">—</dd></div>
               <div><dt>Kogunemine</dt><dd id="c-place">—</dd></div>
+              <div id="c-price-row" hidden><dt>Hind</dt><dd id="c-price">—</dd></div>
             </dl>
             <button class="btn btn-primary cruise-cta" id="c-cta" type="button">
               <span id="c-cta-label">Registreeri sõidule</span> <span class="arrow-r"></span>
@@ -257,6 +258,10 @@
     document.getElementById('c-duration').textContent = c.duration || '—';
     document.getElementById('c-time').textContent     = c.start_time || '—';
     document.getElementById('c-place').textContent    = c.start_place || '—';
+    if (c.price) {
+      document.getElementById('c-price').textContent = c.price;
+      document.getElementById('c-price-row').hidden = false;
+    }
     document.getElementById('c-route').textContent    = c.route || '';
 
     const itinerary = Array.isArray(c.itinerary) ? c.itinerary : [];

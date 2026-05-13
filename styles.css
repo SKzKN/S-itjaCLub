@@ -636,6 +636,17 @@ body.auth-page{ min-height: 100vh; display: flex; flex-direction: column; }
   color: var(--fg-muted);
   text-transform: none;
 }
+.price-field-row{
+  display: flex; align-items: center; gap: 16px; margin-top: 6px;
+}
+.price-field-row input[type="text"]{
+  flex: 1;
+}
+.price-free-toggle{
+  display: flex; align-items: center; gap: 6px;
+  font-size: 14px; color: var(--fg-muted); cursor: pointer; white-space: nowrap;
+}
+.price-free-toggle input{ cursor: pointer; accent-color: var(--accent); }
 .field input{
   font-family: inherit;
   font-size: 15px;

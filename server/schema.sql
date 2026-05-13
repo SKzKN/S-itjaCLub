@@ -29,6 +29,7 @@ ALTER TABLE cruises ADD COLUMN IF NOT EXISTS start_time  TEXT;
 ALTER TABLE cruises ADD COLUMN IF NOT EXISTS start_place TEXT;
 ALTER TABLE cruises ADD COLUMN IF NOT EXISTS itinerary   JSONB;
 ALTER TABLE cruises ADD COLUMN IF NOT EXISTS included    JSONB;
+ALTER TABLE cruises ADD COLUMN IF NOT EXISTS price       TEXT;
 
 CREATE INDEX IF NOT EXISTS cruises_event_date_idx ON cruises (event_date);
 

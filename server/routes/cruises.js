@@ -67,7 +67,7 @@ cruisesRouter.get('/:id', async (req, res) => {
             EXTRACT(YEAR  FROM event_date)::int AS year,
             name, subtitle, route, status, spots_left,
             description, distance_km, duration, start_time, start_place,
-            itinerary, included,
+            itinerary, included, price,
             event_date < CURRENT_DATE AS is_past
      FROM cruises
      WHERE id = $1`,
