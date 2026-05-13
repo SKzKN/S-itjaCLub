@@ -24,6 +24,9 @@ contactRouter.post('/', openCors, limiter, async (req, res) => {
   const { name, email, subject, message } = parsed.data;
   const subjectLine = subject ? `Kontaktivorm: ${subject}` : `Kontaktivorm — ${name}`;
 
+  // Always log to Render console so no submission is lost
+  console.log('[contact] submission:', { name, email, subject: subjectLine, message });
+
   try {
     await sendEmail({
       to:      'contact@driversclub.ee',
@@ -37,11 +40,11 @@ contactRouter.post('/', openCors, limiter, async (req, res) => {
         <p style="white-space:pre-wrap">${esc(message)}</p>
       `,
     });
-    res.json({ ok: true });
   } catch (e) {
-    console.error('[contact] email failed:', e?.message || e);
-    res.status(500).json({ error: 'E-kirja saatmine ebaõnnestus. Proovi uuesti.' });
+    console.error('[contact] resend failed (submission logged above):', e?.message || e);
   }
+
+  res.json({ ok: true });
 });
 
 function esc(s) {
