@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="et">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kontakt — Drivers Club</title>
+<meta name="description" content="Võta Drivers Clubiga ühendust — oleme siin, et aidata Sul leida oma unistuste klassikaline auto või liituda meie kogukonnaga." />
+<meta name="dc-api-base" content="https://drivers-club-api.onrender.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .contact-shell {
+    min-height: 100vh;
+    padding: 140px 0 80px;
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+    margin-top: 48px;
+  }
+  @media (max-width: 768px) {
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+  .contact-info-block {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .contact-info-item h4 {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent, #c9a84c);
+    margin: 0 0 8px;
+  }
+  .contact-info-item p,
+  .contact-info-item a {
+    font-size: 15px;
+    color: var(--fg, #fff);
+    text-decoration: none;
+    line-height: 1.6;
+  }
+  .contact-info-item a:hover { text-decoration: underline; }
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .form-group label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-muted, rgba(255,255,255,0.5));
+  }
+  .form-group input,
+  .form-group textarea {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 4px;
+    padding: 12px 16px;
+    color: var(--fg, #fff);
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: var(--accent, #c9a84c);
+  }
+  .form-group textarea {
+    resize: vertical;
+    min-height: 140px;
+  }
+  .form-notice {
+    font-size: 12px;
+    color: var(--fg-muted, rgba(255,255,255,0.4));
+    margin-top: 4px;
+  }
+  .form-success {
+    display: none;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 4px;
+    padding: 16px;
+    color: var(--accent, #c9a84c);
+    font-size: 14px;
+  }
+  .social-links {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+  }
+  .social-links a {
+    font-size: 13px;
+    color: var(--fg-muted, rgba(255,255,255,0.5));
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 6px 14px;
+    border-radius: 3px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .social-links a:hover {
+    color: var(--accent, #c9a84c);
+    border-color: var(--accent, #c9a84c);
+  }
+</style>
+</head>
+<body class="density-compact">
+
+<nav class="nav nav-slim">
+  <div class="nav-inner">
+    <a href="index.html" class="brandmark" aria-label="Drivers Club">
+      <img class="brand-logo" src="assets/logo.png" srcset="assets/logo.png 1x, assets/logo@2x.png 2x" alt="" width="42" height="42"/>
+      <span class="brand-stack">
+        <span class="word">Drivers Club</span>
+        <span class="sub">Driven by Passion</span>
+      </span>
+    </a>
+    <a href="index.html" class="nav-cta">Tagasi avalehele</a>
+  </div>
+</nav>
+
+<main class="contact-shell">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="section-eyebrow">
+          <span class="num">04</span>
+          <span class="line"></span>
+          <span>Kontakt</span>
+        </div>
+        <h1 class="section-title">Võta meiega <span class="it">ühendust.</span></h1>
+      </div>
+      <p class="section-deck">Kas sul on küsimus, soov liituda või vajad abi klassikalise auto leidmisel? Oleme siin.</p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-info-block">
+        <div class="contact-info-item">
+          <h4>E-post</h4>
+          <a href="mailto:contact@driversclub.ee">contact@driversclub.ee</a>
+        </div>
+        <div class="contact-info-item">
+          <h4>Asukoht</h4>
+          <p>Tallinn, Eesti</p>
+        </div>
+        <div class="contact-info-item">
+          <h4>Sotsiaalmeedia</h4>
+          <div class="social-links">
+            <a href="https://www.facebook.com/people/Drivers-Club/61575109125587/" target="_blank" rel="noreferrer noopener">Facebook</a>
+            <a href="https://www.youtube.com/@DriversClub_est" target="_blank" rel="noreferrer noopener">YouTube</a>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <h4>Liitumine</h4>
+          <p>Kas soovid klubiga liituda? <a href="liitu.html">Täida liitumisvorm</a>.</p>
+        </div>
+      </div>
+
+      <form class="contact-form" id="contact-form">
+        <div class="form-group">
+          <label for="name">Nimi</label>
+          <input type="text" id="name" name="name" placeholder="Sinu nimi" required />
+        </div>
+        <div class="form-group">
+          <label for="email">E-post</label>
+          <input type="email" id="email" name="email" placeholder="sinu@email.ee" required />
+        </div>
+        <div class="form-group">
+          <label for="subject">Teema</label>
+          <input type="text" id="subject" name="subject" placeholder="Millest soovid rääkida?" />
+        </div>
+        <div class="form-group">
+          <label for="message">Sõnum</label>
+          <textarea id="message" name="message" placeholder="Kirjuta siia..." required></textarea>
+        </div>
+        <div>
+          <button type="submit" class="btn btn-primary">Saada sõnum <span class="arrow-r"></span></button>
+          <p class="form-notice">Vastame tavaliselt 1–2 tööpäeva jooksul.</p>
+        </div>
+        <div class="form-success" id="form-success">
+          Täname! Sinu sõnum on saadetud. Võtame peagi ühendust.
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="foot-bottom">
+      <span>© 2026 Drivers Club MÜ</span>
+      <span>Driven by Passion · United by Legacy</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('contact-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const form = this;
+    const data = new FormData(form);
+    const mailto = 'contact@driversclub.ee';
+    const subject = encodeURIComponent(data.get('subject') || 'Kontaktivorm — Drivers Club');
+    const body = encodeURIComponent(
+      'Nimi: ' + data.get('name') + '\n' +
+      'E-post: ' + data.get('email') + '\n\n' +
+      data.get('message')
+    );
+    window.location.href = 'mailto:' + mailto + '?subject=' + subject + '&body=' + body;
+    document.getElementById('form-success').style.display = 'block';
+    form.reset();
+  });
+</script>
+
+</body>
+</html>

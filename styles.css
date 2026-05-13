@@ -220,6 +220,32 @@ section{ padding: var(--section-pad) 0; position: relative; }
 .about-grid p{
   font-size: 16px; line-height: 1.75; color: var(--fg-muted); margin: 0;
 }
+.about-left, .about-right{
+  display: flex; flex-direction: column; gap: 32px;
+}
+.about-img-frame{
+  position: relative;
+  border: 1px solid var(--accent);
+  padding: 10px;
+}
+.about-img-frame::before{
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border: 1px solid rgba(201,168,76,0.25);
+  pointer-events: none;
+}
+.about-img-frame img{
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.about-left .stat-row{
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 0;
+  padding-top: 24px;
+}
 .stat-row{
   display: grid; grid-template-columns: repeat(3, 1fr);
   gap: 32px;
