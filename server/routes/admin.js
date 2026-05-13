@@ -13,7 +13,7 @@ const intParam = (s) => {
 };
 
 const ItineraryStep = z.object({
-  time:  z.string().trim().max(40),
+  time:  z.string().trim().max(200),
   place: z.string().trim().max(200),
   note:  z.string().trim().max(400).optional().nullable(),
 });
