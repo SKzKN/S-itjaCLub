@@ -1,11 +1,13 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import rateLimit from 'express-rate-limit';
+import cors from 'cors';
 import { sendEmail } from '../lib/email.js';
 
 export const contactRouter = Router();
 
 const limiter = rateLimit({ windowMs: 60 * 60 * 1000, max: 10, standardHeaders: true, legacyHeaders: false });
+const openCors = cors({ origin: '*' });
 
 const ContactInput = z.object({
   name:    z.string().trim().min(1).max(100),
@@ -14,7 +16,8 @@ const ContactInput = z.object({
   message: z.string().trim().min(1).max(5000),
 });
 
-contactRouter.post('/', limiter, async (req, res) => {
+contactRouter.options('/', openCors);
+contactRouter.post('/', openCors, limiter, async (req, res) => {
   const parsed = ContactInput.safeParse(req.body);
   if (!parsed.success) return res.status(400).json({ error: parsed.error.issues[0]?.message || 'Vigane sisestus.' });
 

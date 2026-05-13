@@ -222,7 +222,7 @@
     const data = new FormData(form);
 
     btn.disabled = true;
-    btn.textContent = 'Saadan…';
+    btn.innerHTML = 'Saadan…';
     success.style.display = 'none';
     errorEl.style.display = 'none';
 
@@ -246,7 +246,7 @@
       errorEl.style.display = 'block';
     } finally {
       btn.disabled = false;
-      btn.textContent = 'Saada sõnum';
+      btn.innerHTML = 'Saada sõnum <span class="arrow-r"></span>';
     }
   });
 </script>
