@@ -7,6 +7,7 @@ import rateLimit from 'express-rate-limit';
 import { authRouter } from './routes/auth.js';
 import { cruisesRouter } from './routes/cruises.js';
 import { adminRouter } from './routes/admin.js';
+import { contactRouter } from './routes/contact.js';
 import { initDb } from './scripts/init-db.js';
 
 dotenv.config();
@@ -37,6 +38,7 @@ app.use('/api/auth',
 );
 app.use('/api/cruises', cruisesRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api/contact', contactRouter);
 
 app.use((err, _req, res, _next) => {
   console.error(err);

@@ -195,6 +195,7 @@
         <div class="form-success" id="form-success">
           Täname! Sinu sõnum on saadetud. Võtame peagi ühendust.
         </div>
+        <div class="form-error" id="form-error" style="display:none;color:#e57373;font-size:13px;margin-top:8px;"></div>
       </form>
     </div>
   </div>
@@ -210,20 +211,43 @@
 </footer>
 
 <script>
-  document.getElementById('contact-form').addEventListener('submit', function (e) {
+  const API = document.querySelector('meta[name="dc-api-base"]')?.content || '';
+
+  document.getElementById('contact-form').addEventListener('submit', async function (e) {
     e.preventDefault();
     const form = this;
+    const btn = form.querySelector('button[type="submit"]');
+    const success = document.getElementById('form-success');
+    const errorEl = document.getElementById('form-error');
     const data = new FormData(form);
-    const mailto = 'contact@driversclub.ee';
-    const subject = encodeURIComponent(data.get('subject') || 'Kontaktivorm — Drivers Club');
-    const body = encodeURIComponent(
-      'Nimi: ' + data.get('name') + '\n' +
-      'E-post: ' + data.get('email') + '\n\n' +
-      data.get('message')
-    );
-    window.location.href = 'mailto:' + mailto + '?subject=' + subject + '&body=' + body;
-    document.getElementById('form-success').style.display = 'block';
-    form.reset();
+
+    btn.disabled = true;
+    btn.textContent = 'Saadan…';
+    success.style.display = 'none';
+    errorEl.style.display = 'none';
+
+    try {
+      const res = await fetch(API + '/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:    data.get('name'),
+          email:   data.get('email'),
+          subject: data.get('subject') || undefined,
+          message: data.get('message'),
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || 'Viga saatmisel.');
+      success.style.display = 'block';
+      form.reset();
+    } catch (err) {
+      errorEl.textContent = err.message || 'Midagi läks valesti. Proovi uuesti.';
+      errorEl.style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Saada sõnum';
+    }
   });
 </script>
 
