@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="et">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Autod müügil — Drivers Club</title>
+<meta name="description" content="Drivers Club kureeritud klassikaliste autode kollektsioon. BMW M6, Jaguar XK, Maserati Spyder, Bentley Arnage ja muud hinnatud sõidukid müügil." />
+<meta name="dc-api-base" content="https://drivers-club-api.onrender.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ── CARS LISTING PAGE ───────────────────────────── */
+
+body.cars-page { min-height: 100vh; display: flex; flex-direction: column; }
+body.cars-page > main { flex: 1; }
+
+.cars-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 120px 0 72px;
+  border-bottom: 1px solid var(--rule);
+}
+.cars-hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 85% 30%, rgba(163,143,109,0.16), transparent 60%),
+    radial-gradient(ellipse 50% 80% at 0% 100%, rgba(20,32,25,0.9), transparent 50%),
+    linear-gradient(180deg, var(--green-deep) 0%, var(--green) 60%, var(--green-deep) 100%);
+}
+.cars-hero-grain {
+  position: absolute; inset: 0; z-index: 0;
+  background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0 1px, transparent 1px 3px);
+  pointer-events: none; mix-blend-mode: overlay;
+}
+.cars-hero .container { position: relative; z-index: 1; }
+
+.cars-hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 80px;
+  align-items: end;
+  margin-top: 32px;
+}
+.cars-hero-title {
+  font-weight: 300;
+  font-size: clamp(52px, 7.5vw, 108px);
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  margin: 0;
+  color: var(--cream);
+}
+.cars-hero-title .it {
+  display: block;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--tan);
+}
+.cars-hero-side {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding-bottom: 6px;
+}
+.cars-hero-desc {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--fg-muted);
+  margin: 0;
+  max-width: 420px;
+}
+.cars-hero-stats {
+  display: flex;
+  gap: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+}
+.cars-hero-stat .num {
+  font-weight: 300;
+  font-size: 36px;
+  letter-spacing: -0.04em;
+  color: var(--tan);
+  line-height: 1;
+}
+.cars-hero-stat .lbl {
+  margin-top: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* ── FILTER BAR ──────────────────────────────────── */
+.cars-filter-bar {
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--rule);
+  position: sticky;
+  top: 57px;
+  z-index: 40;
+}
+.cars-filter-scroll {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.cars-filter-scroll::-webkit-scrollbar { display: none; }
+
+.filter-btn {
+  font-family: inherit;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 18px 22px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color .2s, border-color .2s;
+  position: relative;
+  bottom: -1px;
+}
+.filter-btn:hover { color: var(--cream); }
+.filter-btn.is-active {
+  color: var(--tan);
+  border-bottom-color: var(--tan);
+}
+.filter-btn .filter-count {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--tan);
+  opacity: 0.7;
+}
+.filter-btn.is-active .filter-count { opacity: 1; }
+
+/* ── LISTING BODY ────────────────────────────────── */
+.cars-listing {
+  flex: 1;
+  padding: 72px 0 120px;
+  background: var(--bg);
+}
+
+.listing-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 52px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--rule);
+}
+.listing-count {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.listing-count strong {
+  color: var(--tan);
+  font-weight: 700;
+}
+
+.car[hidden] { display: none !important; }
+
+.no-results {
+  grid-column: 1 / -1;
+  padding: 64px 0;
+  text-align: center;
+  font-size: 14px;
+  color: var(--fg-muted);
+}
+.no-results-link {
+  display: inline-block;
+  margin-top: 16px;
+  color: var(--tan);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(163,143,109,0.4);
+  padding-bottom: 2px;
+  transition: border-color .2s;
+}
+.no-results-link:hover { border-bottom-color: var(--tan); }
+
+/* ── CONSULT STRIP ───────────────────────────────── */
+.cars-consult {
+  background: var(--bg-alt);
+  border-top: 1px solid var(--rule);
+  padding: 80px 0;
+}
+.cars-consult-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.cars-consult-copy {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--fg-muted);
+  margin: 0 0 32px;
+  max-width: 440px;
+}
+.cars-consult-visual {
+  display: grid;
+  place-items: center;
+  opacity: 0.45;
+  filter: saturate(0.7);
+}
+.cars-consult-visual img {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────── */
+@media (max-width: 1100px) {
+  .cars-hero-grid { grid-template-columns: 1fr; gap: 48px; }
+  .cars-hero-side { max-width: 600px; }
+  .cars-consult-inner { grid-template-columns: 1fr; gap: 40px; }
+  .cars-consult-visual { display: none; }
+}
+@media (max-width: 720px) {
+  .cars-hero { padding: 96px 0 56px; }
+  .cars-hero-stats { gap: 28px; }
+  .filter-btn { padding: 16px 14px; font-size: 10px; }
+  .listing-toolbar { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .cars-listing { padding: 56px 0 80px; }
+}
+</style>
+</head>
+<body class="density-compact cars-page">
+
+<!-- ─── NAV ─── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brandmark" aria-label="Drivers Club">
+      <img class="brand-logo" src="assets/logo.png" srcset="assets/logo.png 1x, assets/logo@2x.png 2x" alt="" width="42" height="42"/>
+      <span class="brand-stack">
+        <span class="word">Drivers Club</span>
+        <span class="sub">Driven by Passion</span>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#about">Klubist</a>
+      <a href="autod.html" style="color: var(--accent)">Autod</a>
+      <a href="index.html#consult">Konsultatsioon</a>
+      <a href="index.html#cruises">Sõidud</a>
+      <a href="kontakt.html">Kontakt</a>
+    </div>
+    <a href="logi-sisse.html" class="nav-cta">Logi sisse</a>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<header class="cars-hero">
+  <div class="cars-hero-bg"></div>
+  <div class="cars-hero-grain"></div>
+  <div class="container">
+    <div class="section-eyebrow">
+      <span class="num">03</span>
+      <span class="line"></span>
+      <span>Müügis</span>
+    </div>
+    <div class="cars-hero-grid">
+      <h1 class="cars-hero-title">
+        Kureeritud
+        <span class="it">kollektsioon.</span>
+      </h1>
+      <div class="cars-hero-side">
+        <p class="cars-hero-desc">
+          Kõik need hinnatud ja stiilsed autod on müüa ning otsivad armastavat uut omanikku. Iga sõiduk on hoolikalt valitud, sõidukorras ja dokumenteeritud.
+        </p>
+        <div class="cars-hero-stats">
+          <div class="cars-hero-stat">
+            <div class="num" id="stat-total">7</div>
+            <div class="lbl">Autot müügil</div>
+          </div>
+          <div class="cars-hero-stat">
+            <div class="num">6</div>
+            <div class="lbl">Kategooriat</div>
+          </div>
+          <div class="cars-hero-stat">
+            <div class="num">2006<span style="font-size:20px">–</span>88</div>
+            <div class="lbl">Aastaarvahemik</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ─── FILTER BAR ─── -->
+<div class="cars-filter-bar" role="tablist" aria-label="Kategooria filter">
+  <div class="container">
+    <div class="cars-filter-scroll">
+      <button class="filter-btn is-active" data-filter="all" role="tab" aria-selected="true">
+        Kõik <span class="filter-count">7</span>
+      </button>
+      <button class="filter-btn" data-filter="convertible" role="tab" aria-selected="false">
+        Kabriolett <span class="filter-count">1</span>
+      </button>
+      <button class="filter-btn" data-filter="grand-tourer" role="tab" aria-selected="false">
+        Grand Tourer <span class="filter-count">2</span>
+      </button>
+      <button class="filter-btn" data-filter="italian-sport" role="tab" aria-selected="false">
+        Itaalia Sport <span class="filter-count">1</span>
+      </button>
+      <button class="filter-btn" data-filter="british-luxury" role="tab" aria-selected="false">
+        Briti Luksus <span class="filter-count">1</span>
+      </button>
+      <button class="filter-btn" data-filter="80s-icon" role="tab" aria-selected="false">
+        80ndate Ikoon <span class="filter-count">1</span>
+      </button>
+      <button class="filter-btn" data-filter="american-cult" role="tab" aria-selected="false">
+        Ameerika Kultus <span class="filter-count">1</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── LISTING ─── -->
+<main class="cars-listing">
+  <div class="container">
+
+    <div class="listing-toolbar">
+      <p class="listing-count">Näitan <strong id="visible-count">7</strong> autot</p>
+      <a href="kontakt.html" class="btn btn-outline-tan" style="padding: 11px 20px; font-size: 10.5px;">
+        Küsi konsultatsiooni <span class="arrow-r"></span>
+      </a>
+    </div>
+
+    <div class="cars-grid" id="cars-grid">
+
+      <!-- Aston Martin DB9 Volante -->
+      <article class="car" data-category="grand-tourer">
+        <div class="car-img">
+          <span class="car-tag">Grand Tourer</span>
+          <img src="assets/car-db9.png" alt="Aston Martin DB9 Volante" loading="lazy" style="object-fit:cover;width:100%;height:100%"/>
+        </div>
+        <div class="car-body">
+          <div class="car-price">Küsi hinda</div>
+          <h2 class="car-name">Aston Martin DB9</h2>
+          <div class="car-rule"></div>
+          <p class="car-desc">DB9 Volante – käsitsivalmistatud V12 grand tourer Gaydon'i töökodadest. AM04 mootor, 5935 cm³, 350 kW. Lahtine kere, valge, automaat käigukast, tagavedu. Esmane registreerimine 2008.</p>
+          <div class="car-meta">
+            <span>V12 5.9L</span><span class="dot"></span>
+            <span>350 kW</span><span class="dot"></span>
+            <span>Automaat</span>
+          </div>
+          <a class="car-cta" href="auto.html?id=aston-martin-db9">Uuri lähemalt</a>
+        </div>
+      </article>
+
+      <!-- BMW M6 -->
+      <article class="car" data-category="convertible">
+        <div class="car-img">
+          <span class="car-tag">Convertible</span>
+          <img src="assets/car-bmw.png" alt="BMW M6 Convertible" loading="lazy"/>
+        </div>
+        <div class="car-body">
+          <div class="car-price">24 000€</div>
+          <h2 class="car-name">BMW M6</h2>
+          <div class="car-rule"></div>
+          <p class="car-desc">BMW M6 Convertible – aegade kiireim "soft-top" BMW, mis debüteeris aastal 2006. Auhinnatud 5-liitrise vabalthingava V10 jõud viiakse läbi F1 tehnoloogiaid kasutava SMG-käigukasti tagasilda ning 4,8 sekundiline sõit sajani saab alata.</p>
+          <div class="car-meta">
+            <span>V10 • 507 hj</span><span class="dot"></span>
+            <span>SMG</span><span class="dot"></span>
+            <span>4,8 sek 0–100</span>
+          </div>
+          <a class="car-cta" href="auto.html?id=bmw-m6">Uuri lähemalt</a>
+        </div>
+      </article>
+
+      <!-- Jaguar XK -->
+      <article class="car" data-category="grand-tourer">
+        <div class="car-img">
+          <span class="car-tag">Grand Tourer</span>
+          <img src="assets/car-jaguar.png" alt="Jaguar XK Convertible" loading="lazy"/>
+        </div>
+        <div class="car-body">
+          <div class="car-price">17 900€</div>
+          <h2 class="car-name">Jaguar XK</h2>
+          <div class="car-rule"></div>
+          <p class="car-desc">Jaguar XK Convertible 4.2 2007 – kaheukseline 2+2 kohaline grand tourer, mida toodeti kahe põlvkonna aastatel 1996–2014 nii kupeena kui ka kabrioletina. Teine generatsioon sai alguse 2005 ning läbis aastaks 2007 täieliku disainimuudatuse.</p>
+          <div class="car-meta">
+            <span>V8 4.2L</span><span class="dot"></span>
+            <span>Kabriolett</span><span class="dot"></span>
+            <span>2+2 kohta</span>
+          </div>
+          <a class="car-cta" href="auto.html?id=jaguar-xk">Uuri lähemalt</a>
+        </div>
+      </article>
+
+      <!-- Maserati Spyder -->
+      <article class="car" data-category="italian-sport">
+        <div class="car-img">
+          <span class="car-tag">Italian Sport</span>
+          <img src="assets/car-maserati.png" alt="Maserati Spyder" loading="lazy"/>
+        </div>
+        <div class="car-body">
+          <div class="car-price">26 000€</div>
+          <h2 class="car-name">Maserati Spyder</h2>
+          <div class="car-rule"></div>
+          <p class="car-desc">Puhtavereline itaalia sportauto, mis on sama kirglik nagu itaallanna, ja seda parimas tähenduses. Ferrari päritolu mootor ja Spyder mudeli lühem teljevahe loovad vägagi sportlikud sõiduomadused, millele lisab veelgi elamust avatav katus.</p>
+          <div class="car-meta">
+            <span>V8 Ferrari</span><span class="dot"></span>
+            <span>Manuaal</span><span class="dot"></span>
+            <span>Cabrio</span>
+          </div>
+          <a class="car-cta" href="auto.html?id=maserati-spyder">Uuri lähemalt</a>
+        </div>
+      </article>
+
+      <!-- Bentley Arnage -->
+      <article class="car" data-category="british-luxury">
+        <div class="car-img">
+          <span class="car-tag">British Luxury</span>
+          <img src="assets/car-bentley.png" alt="Bentley Arnage" loading="lazy"/>
+        </div>
+        <div class="car-body">
+          <div class="car-price">28 000€</div>
+          <h2 class="car-name">Bentley Arnage</h2>
+          <div class="car-rule"></div>
+          <p class="car-desc">Ülimalt stiilne ja luksuslik briti eksklusiivauto. Antud Arnage on varustatud BMW ja Cosworth poolt koostöös loodud V8 mootoriga, mis on kasutamisel tänapäevasem ja kuluefektiivsem, lisaks autol ka ZF-käigukast.</p>
+          <div class="car-meta">
+            <span>V8 BMW/Cosworth</span><span class="dot"></span>
+            <span>ZF automaatkast</span><span class="dot"></span>
+            <span>Limuusin</span>
+          </div>
+          <a class="car-cta" href="auto.html?id=bentley-arnage">Uuri lähemalt</a>
+        </div>
+      </article>
+
+      <!-- Opel Omega 3000 -->
+      <article class="car" data-category="80s-icon">
+        <div class="car-img">
+          <span class="car-tag">80s Icon</span>
+          <img src="assets/car-opel.png" alt="Opel Omega 3000" loading="lazy"/>
+        </div>
+        <div class="car-body">
+          <div class="car-price">8 000€</div>
+          <h2 class="car-name">Opel Omega 3000</h2>
+          <div class="car-rule"></div>
+          <p class="car-desc">Üks õige suur 80ndate ja 90ndate sportsedaan, millel kiidetud veermik, legendaarne 3.0 24V mootor ja aerodünaamiline kere – kõik see on põhjuseks, miks tollal Omega 3000 24V lõviosas kui mitte kõik võrdlustestid võitis.</p>
+          <div class="car-meta">
+            <span>3.0 24V</span><span class="dot"></span>
+            <span>Sedaan</span><span class="dot"></span>
+            <span>Klassika</span>
+          </div>
+          <a class="car-cta" href="auto.html?id=opel-omega">Uuri lähemalt</a>
+        </div>
+      </article>
+
+      <!-- Pontiac Fiero -->
+      <article class="car" data-category="american-cult">
+        <div class="car-img">
+          <span class="car-tag">American Cult</span>
+          <img src="assets/car-pontiac.png" alt="Pontiac Fiero" loading="lazy"/>
+        </div>
+        <div class="car-body">
+          <div class="car-price">7 500€</div>
+          <h2 class="car-name">Pontiac Fiero</h2>
+          <div class="car-rule"></div>
+          <p class="car-desc">1983–1988 toodetud Pontiac Fiero on üks huvitavamaid USA autötööstuse poolt valmistatud autosid. Tegu on esimese keskmootoriga seeriaautoga USA ajaloos. Saada olid R4 ja V6 mootorid, kokku toodeti Fierosi 370 168 tükki.</p>
+          <div class="car-meta">
+            <span>Mid-engine</span><span class="dot"></span>
+            <span>USA</span><span class="dot"></span>
+            <span>V6 / R4</span>
+          </div>
+          <a class="car-cta" href="auto.html?id=pontiac-fiero">Uuri lähemalt</a>
+        </div>
+      </article>
+
+    </div>
+
+    <div id="no-results" class="no-results" hidden>
+      Selles kategoorias autosid parasjagu ei ole.
+      <a href="kontakt.html" class="no-results-link">Küsi konsultatsiooni ja leiame sobiva →</a>
+    </div>
+
+  </div>
+</main>
+
+<!-- ─── CONSULT STRIP ─── -->
+<section class="cars-consult">
+  <div class="container">
+    <div class="cars-consult-inner">
+      <div>
+        <div class="section-eyebrow" style="margin-bottom: 20px">
+          <span class="line"></span>
+          <span>Hobiauto konsultatsioon</span>
+        </div>
+        <h2 class="section-title" style="margin-bottom: 20px">
+          Ei leidnud <span class="it">sobivat?</span>
+        </h2>
+        <p class="cars-consult-copy">
+          Kui meie valikust endale sobilikku klassikalist autot ei leia, samas vajad sellise auto ostmisel abi, siis pöördu julgelt meie poole. Võtame meeleldi müüki ka Sinu auto — aitame läbi oma kontaktide uue omaniku leida.
+        </p>
+        <div class="consult-actions">
+          <a class="btn btn-primary" href="mailto:contact@driversclub.ee">
+            Küsi konsultatsiooni <span class="arrow-r"></span>
+          </a>
+          <a class="btn btn-ghost" href="kontakt.html">
+            Kirjuta meile
+          </a>
+        </div>
+      </div>
+      <div class="cars-consult-visual">
+        <img src="assets/logo@2x.png" srcset="assets/logo.png 1x, assets/logo@2x.png 2x" alt="Drivers Club"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-col foot-brand">
+        <div class="foot-brand-row">
+          <img class="brand-logo" src="assets/logo.png" srcset="assets/logo.png 1x, assets/logo@2x.png 2x" alt="" width="36" height="36"/>
+          <span class="word">Drivers Club</span>
+        </div>
+        <p>Klassikaliste autode klubi Eestis. Driven by Passion. United by Legacy.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Klubi</h4>
+        <a href="index.html#about">Klubist</a>
+        <a href="index.html#cruises">Sõiduhooaeg</a>
+        <a href="index.html#consult">Konsultatsioon</a>
+        <a href="autod.html">Müügis olevad autod</a>
+      </div>
+      <div class="foot-col">
+        <h4>Kogukond</h4>
+        <a href="https://www.facebook.com/people/Drivers-Club/61575109125587/" target="_blank" rel="noreferrer noopener">Facebook</a>
+        <a href="https://www.youtube.com/@DriversClub_est" target="_blank" rel="noreferrer noopener">YouTube</a>
+      </div>
+      <div class="foot-col">
+        <h4>Kontakt</h4>
+        <a href="mailto:contact@driversclub.ee">contact@driversclub.ee</a>
+        <p>Tallinn, Eesti</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Drivers Club</span>
+      <span>Driven by Passion · United by Legacy</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cars       = document.querySelectorAll('#cars-grid .car');
+  const countEl   = document.getElementById('visible-count');
+  const noResults = document.getElementById('no-results');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+
+      filterBtns.forEach(b => {
+        b.classList.remove('is-active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('is-active');
+      btn.setAttribute('aria-selected', 'true');
+
+      let count = 0;
+      cars.forEach(car => {
+        const show = filter === 'all' || car.dataset.category === filter;
+        car.hidden = !show;
+        if (show) count++;
+      });
+
+      countEl.textContent = count;
+      noResults.hidden = count > 0;
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

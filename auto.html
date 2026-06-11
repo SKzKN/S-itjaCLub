@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="et">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Drivers Club — Auto</title>
+<meta name="dc-api-base" content="https://drivers-club-api.onrender.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+body.car-page { min-height: 100vh; display: flex; flex-direction: column; }
+body.car-page > footer { margin-top: auto; }
+
+/* ── HERO ──────────────────────────────────────────── */
+.car-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 80px 0 0;
+  border-bottom: 1px solid var(--rule);
+}
+.car-hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 55% 70% at 95% 50%, rgba(163,143,109,0.15), transparent 55%),
+    radial-gradient(ellipse 45% 90% at 0% 100%, rgba(10,20,15,0.95), transparent 50%),
+    linear-gradient(155deg, var(--green-deep) 0%, var(--green) 55%, var(--green-deep) 100%);
+}
+.car-hero-grain {
+  position: absolute; inset: 0; z-index: 0;
+  background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0 1px, transparent 1px 3px);
+  pointer-events: none; mix-blend-mode: overlay;
+}
+.car-hero .container { position: relative; z-index: 1; }
+
+.car-back {
+  display: inline-flex; align-items: center; gap: 14px;
+  font-size: 10.5px; font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 52px;
+  transition: color .2s;
+}
+.car-back-arrow {
+  width: 28px; height: 1px; background: currentColor; display: inline-block;
+  position: relative; flex-shrink: 0;
+}
+.car-back-arrow::before {
+  content: ''; position: absolute; left: 0; top: -3.5px;
+  width: 8px; height: 8px;
+  border-bottom: 1px solid currentColor; border-left: 1px solid currentColor;
+  transform: rotate(45deg);
+}
+.car-back:hover { color: var(--tan); }
+
+.car-hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 0;
+  align-items: end;
+}
+
+.car-hero-img-wrap {
+  position: relative;
+  padding: 32px 48px 0;
+}
+.car-hero-img-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0 20px 0;
+  background: radial-gradient(ellipse 70% 50% at 50% 60%, rgba(163,143,109,0.08), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+.car-hero-img {
+  display: block;
+  width: 100%; height: auto;
+  max-height: 440px;
+  object-fit: contain;
+  filter: drop-shadow(0 28px 52px rgba(0,0,0,0.7));
+  position: relative; z-index: 1;
+}
+.car-hero-img.is-photo {
+  object-fit: cover;
+  height: 440px;
+  border-radius: 0;
+  filter: none;
+}
+
+.car-hero-info {
+  padding: 0 0 72px 48px;
+  display: flex; flex-direction: column;
+  gap: 20px;
+}
+.car-hero-tag {
+  align-self: flex-start;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--tan);
+  padding: 7px 13px;
+  border: 1px solid var(--rule);
+  background: rgba(20, 32, 25, 0.5);
+}
+.car-hero-price {
+  font-weight: 300; font-style: italic;
+  font-size: clamp(42px, 5.5vw, 76px);
+  letter-spacing: -0.03em;
+  color: var(--tan); line-height: 1;
+  margin-top: -4px;
+}
+.car-hero-name {
+  font-weight: 300;
+  font-size: clamp(34px, 4.5vw, 60px);
+  line-height: 1.0; letter-spacing: -0.04em;
+  margin: -4px 0 0; color: var(--cream);
+}
+.car-hero-tagline {
+  font-size: 14px; line-height: 1.7;
+  color: var(--fg-muted);
+  margin: 0; max-width: 340px;
+}
+
+.hero-specs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--rule);
+  align-self: flex-start;
+  min-width: 280px;
+}
+.hero-spec {
+  padding: 14px 18px;
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.hero-spec:nth-child(even) { border-right: none; }
+.hero-spec:nth-last-child(-n+2) { border-bottom: none; }
+.hero-spec-lbl {
+  font-size: 9px; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--tan); margin-bottom: 5px;
+}
+.hero-spec-val {
+  font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+  color: var(--cream);
+}
+.car-hero-cta { align-self: flex-start; margin-top: 4px; }
+
+/* ── BODY ──────────────────────────────────────────── */
+.car-detail-body {
+  padding: 80px 0 120px;
+  background: var(--bg);
+}
+.car-body-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+.car-main-col { display: flex; flex-direction: column; gap: 64px; }
+
+.car-section { display: flex; flex-direction: column; gap: 0; }
+.car-section-heading {
+  font-weight: 300;
+  font-size: clamp(26px, 3vw, 40px);
+  letter-spacing: -0.035em;
+  margin: 14px 0 32px;
+  color: var(--cream);
+}
+.car-section-heading .it { font-style: italic; color: var(--tan); }
+
+.car-desc-full {
+  display: flex; flex-direction: column; gap: 20px;
+}
+.car-desc-full p {
+  font-size: 15.5px; line-height: 1.8; color: var(--fg-muted); margin: 0;
+}
+
+/* Specs table */
+.specs-dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0; padding: 0;
+  border: 1px solid var(--rule);
+  overflow: hidden;
+}
+.spec-pair { display: contents; }
+.spec-pair dt, .spec-pair dd {
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--rule);
+  margin: 0;
+}
+.spec-pair:last-child dt, .spec-pair:last-child dd { border-bottom: none; }
+.spec-pair dt {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--tan);
+  border-right: 1px solid var(--rule);
+  background: rgba(163,143,109,0.035);
+  display: flex; align-items: center;
+}
+.spec-pair dd {
+  font-size: 13.5px; color: var(--cream);
+  display: flex; align-items: center;
+}
+
+/* ── SIDEBAR ────────────────────────────────────────── */
+.car-sidebar { position: sticky; top: 88px; }
+.car-sidebar-card {
+  background: var(--bg-alt);
+  border: 1px solid var(--rule);
+  padding: 36px;
+  display: flex; flex-direction: column; gap: 0;
+}
+.sidebar-price {
+  font-weight: 300; font-style: italic;
+  font-size: 44px; letter-spacing: -0.03em;
+  color: var(--tan); line-height: 1;
+  margin-bottom: 6px;
+}
+.sidebar-car-name {
+  font-size: 15px; font-weight: 600; letter-spacing: -0.01em;
+  color: var(--cream); margin-bottom: 28px;
+}
+.sidebar-divider {
+  width: 100%; height: 1px;
+  background: var(--rule); margin-bottom: 24px;
+}
+.sidebar-specs-list {
+  list-style: none; margin: 0 0 28px; padding: 0;
+}
+.sidebar-spec {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.sidebar-spec:last-child { border-bottom: none; }
+.sidebar-spec-lbl {
+  font-size: 9.5px; font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--tan);
+}
+.sidebar-spec-val {
+  font-size: 13px; font-weight: 500; color: var(--cream);
+}
+
+/* Inline inquiry form */
+.inquiry-form { display: flex; flex-direction: column; gap: 14px; }
+.inquiry-form .field input {
+  font-size: 13.5px; padding: 12px 14px;
+}
+.inquiry-submit { width: 100%; margin-top: 6px; }
+.inquiry-submit:disabled { opacity: 0.6; cursor: progress; }
+.inquiry-feedback {
+  font-size: 12.5px; line-height: 1.55;
+  padding: 12px 14px;
+  margin-top: 4px;
+}
+.inquiry-feedback.is-success {
+  color: var(--tan);
+  border: 1px solid rgba(163,143,109,0.3);
+  background: rgba(163,143,109,0.06);
+}
+.inquiry-feedback.is-error {
+  color: #ECA796;
+  border: 1px solid rgba(236,167,150,0.4);
+  background: rgba(198,107,88,0.06);
+}
+.sidebar-note {
+  font-size: 11.5px; color: var(--fg-muted);
+  margin: 16px 0 0; line-height: 1.55;
+  text-align: center;
+}
+
+/* ── RELATED ────────────────────────────────────────── */
+.car-related {
+  padding: 80px 0;
+  background: var(--bg-alt);
+  border-top: 1px solid var(--rule);
+}
+.related-title {
+  font-weight: 300;
+  font-size: clamp(28px, 3.5vw, 48px);
+  letter-spacing: -0.04em;
+  margin: 14px 0 52px; color: var(--cream);
+}
+.related-title .it { font-style: italic; color: var(--tan); }
+.related-foot {
+  margin-top: 56px; text-align: center;
+}
+
+/* ── NOT FOUND ──────────────────────────────────────── */
+.not-found-shell {
+  flex: 1;
+  display: flex; align-items: center;
+  padding: 100px 0;
+  background: var(--bg);
+}
+.not-found-inner { text-align: center; }
+.not-found-inner h1 {
+  font-weight: 300;
+  font-size: clamp(44px, 7vw, 92px);
+  letter-spacing: -0.04em;
+  color: var(--cream); margin: 0 0 20px;
+}
+.not-found-inner h1 .it { font-style: italic; color: var(--tan); }
+.not-found-inner p { font-size: 15px; color: var(--fg-muted); margin: 0 0 36px; }
+
+/* ── RESPONSIVE ─────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .car-hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .car-hero-img-wrap { padding: 40px 0 0; max-width: 560px; }
+  .car-hero-info { padding: 0 0 60px 0; }
+  .car-body-grid { grid-template-columns: 1fr; gap: 48px; }
+  .car-sidebar { position: static; }
+}
+@media (max-width: 720px) {
+  .car-hero { padding: 72px 0 0; }
+  .car-back { margin-bottom: 32px; }
+  .hero-specs-grid { grid-template-columns: 1fr 1fr; min-width: 0; width: 100%; }
+  .car-hero-info { gap: 16px; }
+  .specs-dl { grid-template-columns: 1fr; }
+  .spec-pair dt { border-right: none; }
+  .car-sidebar-card { padding: 24px; }
+  .car-related { padding: 56px 0; }
+}
+</style>
+</head>
+<body class="density-compact car-page">
+
+<!-- ─── NAV ─── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brandmark" aria-label="Drivers Club">
+      <img class="brand-logo" src="assets/logo.png" srcset="assets/logo.png 1x, assets/logo@2x.png 2x" alt="" width="42" height="42"/>
+      <span class="brand-stack">
+        <span class="word">Drivers Club</span>
+        <span class="sub">Driven by Passion</span>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#about">Klubist</a>
+      <a href="autod.html" style="color: var(--accent)">Autod</a>
+      <a href="index.html#consult">Konsultatsioon</a>
+      <a href="index.html#cruises">Sõidud</a>
+      <a href="kontakt.html">Kontakt</a>
+    </div>
+    <a href="logi-sisse.html" class="nav-cta">Logi sisse</a>
+  </div>
+</nav>
+
+<!-- ─── NOT FOUND ─── -->
+<div id="state-not-found" hidden>
+  <div class="not-found-shell">
+    <div class="container">
+      <div class="not-found-inner">
+        <h1>Auto <span class="it">ei leitud.</span></h1>
+        <p>Seda sõidukit meie kollektsioonis ei ole või see on juba müüdud.</p>
+        <a href="autod.html" class="btn btn-primary">← Tagasi kollektsiooni</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── DETAIL ─── -->
+<div id="state-detail" hidden>
+
+  <!-- Hero -->
+  <header class="car-hero">
+    <div class="car-hero-bg"></div>
+    <div class="car-hero-grain"></div>
+    <div class="container">
+      <a href="autod.html" class="car-back">
+        <span class="car-back-arrow"></span>
+        Tagasi kollektsiooni
+      </a>
+      <div class="car-hero-grid">
+        <div class="car-hero-img-wrap">
+          <img id="d-img" class="car-hero-img" src="" alt=""/>
+        </div>
+        <div class="car-hero-info">
+          <span id="d-tag" class="car-hero-tag"></span>
+          <div id="d-price" class="car-hero-price"></div>
+          <h1 id="d-name" class="car-hero-name"></h1>
+          <div class="car-rule"></div>
+          <p id="d-tagline" class="car-hero-tagline"></p>
+          <div id="d-hero-specs" class="hero-specs-grid"></div>
+          <a id="d-cta" class="btn btn-primary car-hero-cta" href="#">
+            Küsi pakkumist <span class="arrow-r"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Body -->
+  <main class="car-detail-body">
+    <div class="container">
+      <div class="car-body-grid">
+
+        <div class="car-main-col">
+          <div class="car-section">
+            <div class="section-eyebrow">
+              <span class="line"></span>
+              <span>Kirjeldus</span>
+            </div>
+            <h2 class="car-section-heading">Mis teeb sellest <span class="it">erilise?</span></h2>
+            <div id="d-desc" class="car-desc-full"></div>
+          </div>
+
+          <div class="car-section">
+            <div class="section-eyebrow">
+              <span class="line"></span>
+              <span>Tehnilised andmed</span>
+            </div>
+            <h2 class="car-section-heading">Spetsifikatsioon.</h2>
+            <dl id="d-specs" class="specs-dl"></dl>
+          </div>
+        </div>
+
+        <div class="car-sidebar">
+          <div class="car-sidebar-card">
+            <div id="s-price" class="sidebar-price"></div>
+            <div id="s-name" class="sidebar-car-name"></div>
+            <div class="sidebar-divider"></div>
+            <ul id="s-specs" class="sidebar-specs-list"></ul>
+            <div class="sidebar-divider"></div>
+            <form id="inquiry-form" class="inquiry-form">
+              <div class="field">
+                <label class="field-label">Sinu nimi</label>
+                <input type="text" name="name" placeholder="Nimi" required/>
+              </div>
+              <div class="field">
+                <label class="field-label">E-post</label>
+                <input type="email" name="email" placeholder="sinu@email.ee" required/>
+              </div>
+              <div class="field">
+                <label class="field-label">Sõnum <span class="field-hint">(valikuline)</span></label>
+                <input type="text" name="message" placeholder="Küsimused, soovid..."/>
+              </div>
+              <button type="submit" class="btn btn-primary inquiry-submit">
+                Saada päring <span class="arrow-r"></span>
+              </button>
+              <div id="inquiry-success" class="inquiry-feedback is-success" hidden>
+                Päring saadetud! Võtame Sinuga peagi ühendust.
+              </div>
+              <div id="inquiry-error" class="inquiry-feedback is-error" hidden></div>
+            </form>
+            <p class="sidebar-note">Vastame tavaliselt 1–2 tööpäeva jooksul.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Related -->
+  <section class="car-related">
+    <div class="container">
+      <div class="section-eyebrow">
+        <span class="line"></span>
+        <span>Kollektsioon</span>
+      </div>
+      <h2 class="related-title">Veel <span class="it">huvitavat.</span></h2>
+      <div class="cars-grid" id="related-grid"></div>
+      <div class="related-foot">
+        <a href="autod.html" class="btn btn-outline-tan">
+          Vaata kogu kollektsiooni <span class="arrow-r"></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-col foot-brand">
+        <div class="foot-brand-row">
+          <img class="brand-logo" src="assets/logo.png" srcset="assets/logo.png 1x, assets/logo@2x.png 2x" alt="" width="36" height="36"/>
+          <span class="word">Drivers Club</span>
+        </div>
+        <p>Klassikaliste autode klubi Eestis. Driven by Passion. United by Legacy.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Klubi</h4>
+        <a href="index.html#about">Klubist</a>
+        <a href="index.html#cruises">Sõiduhooaeg</a>
+        <a href="index.html#consult">Konsultatsioon</a>
+        <a href="autod.html">Müügis olevad autod</a>
+      </div>
+      <div class="foot-col">
+        <h4>Kogukond</h4>
+        <a href="https://www.facebook.com/people/Drivers-Club/61575109125587/" target="_blank" rel="noreferrer noopener">Facebook</a>
+        <a href="https://www.youtube.com/@DriversClub_est" target="_blank" rel="noreferrer noopener">YouTube</a>
+      </div>
+      <div class="foot-col">
+        <h4>Kontakt</h4>
+        <a href="mailto:contact@driversclub.ee">contact@driversclub.ee</a>
+        <p>Tallinn, Eesti</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Drivers Club</span>
+      <span>Driven by Passion · United by Legacy</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const API = document.querySelector('meta[name="dc-api-base"]')?.content || '';
+
+  const CARS = {
+    'aston-martin-db9': {
+      name: 'Aston Martin DB9',
+      subtitle: 'Volante · 2008',
+      tag: 'Grand Tourer',
+      price: 'Küsi hinda',
+      image: 'assets/car-db9.png',
+      photoStyle: true,
+      tagline: 'Käsitsivalmistatud V12 grand tourer Gaydon\'i töökodadest — DB9 Volante on auto sellisena, nagu see peaks olema.',
+      description: [
+        'Aston Martin DB9 Volante (2008) on üks kaunimaid avatud katusega grand tourereid, mida Inglismaa on kunagi tootnud. AM04 V12 mootor mahuga 5935 cm³ toodab 350 kW (u. 456 hj) ning ühendab jõu sujuvusega läbi ZF-põhise automaatkäigukasti. Valge lahtine kere, tagavedu, esmane registreerimine 06.11.2008.',
+        'DB9 on grand tourer sõna otseses mõttes — iga detail on kavandatud teekonda nautimiseks, mitte ainult sihtkohta jõudmiseks. Volante avatav katus, käsitsivalmistatud interjöör ja Aston Martini eriomane V12 heli moodustavad kogemuse, mida ei ole võimalik mõne teise autoga dubleerida. Registreeritud Eestis alates 01.09.2025, päritoluriik USA.',
+      ],
+      specs: [
+        { label: 'Mootor',                  value: 'AM04 V12, 5935 cm³' },
+        { label: 'Võimsus',                 value: '350 kW (u. 456 hj)' },
+        { label: 'Käigukast',               value: 'Automaat' },
+        { label: 'Veoskeem',                value: 'Tagavedu' },
+        { label: 'Kere tüüp',               value: 'Lahtine (Volante)' },
+        { label: 'Värvus',                  value: 'Valge' },
+        { label: 'Kütus',                   value: 'Mootoribensiin' },
+        { label: 'Esmane registreerimine',  value: '06.11.2008' },
+        { label: 'Eestis registreeritud',   value: '01.09.2025' },
+        { label: 'Päritoluriik',            value: 'Ameerika Ühendriigid' },
+        { label: 'VIN',                     value: 'SCFAD02A98GB09790' },
+      ],
+      heroSpecs: [
+        { label: 'Mootor',    value: 'V12 5.9L' },
+        { label: 'Võimsus',   value: '350 kW' },
+        { label: 'Käigukast', value: 'Automaat' },
+        { label: 'Vedu',      value: 'Tagavedu' },
+      ],
+    },
+    'bmw-m6': {
+      name: 'BMW M6',
+      subtitle: 'Convertible · 2006',
+      tag: 'Convertible',
+      price: '24 000€',
+      image: 'assets/car-bmw.png',
+      tagline: 'Aegade kiireim soft-top BMW — V10 mootor, SMG-käigukast ja 4,8 sekundit sajani.',
+      description: [
+        'BMW M6 Convertible (E64) debüteeris aastal 2006 kui kõige võimsam avatud katusega auto, mida BMW on kunagi tootnud. Selle süda on käsitsi ehitatud S85 V10 mootor mahuga 5,0 liitrit, mis toodab 507 hobujõudu ning kõlab nagu midagi otse F1 rajalt. Vabalthingava V10 iseloom ja looduslähedane dünaamika teevad sellest auto, millega on raske igavleda.',
+        'SMG III käigukast (7-käiguline Sequential Manual Gearbox) võimaldab nii automaatset kui ka täismanualset režiimi — käiguvahetus toimub millisekundite jooksul. E64 kabrioleti pehme katus avaneb elektrooniliselt alla 30 sekundiga ning annab sellele GT-autole teise dimensiooni, mida kupee lihtsalt ei suuda pakkuda.',
+      ],
+      specs: [
+        { label: 'Mootor',       value: 'BMW S85 V10, 5.0L' },
+        { label: 'Võimsus',      value: '507 hj (373 kW) / 7750 p/min' },
+        { label: 'Pöördemoment', value: '520 Nm / 6100 p/min' },
+        { label: 'Käigukast',    value: 'SMG III 7-käiguline' },
+        { label: '0–100 km/h',   value: '4,8 sekundit' },
+        { label: 'Tüüp',         value: 'Kabriolett (E64)' },
+        { label: 'Mudeli aasta', value: '2006' },
+        { label: 'Päritolu',     value: 'Saksamaa' },
+      ],
+      heroSpecs: [
+        { label: 'Mootor',    value: 'V10 5.0L' },
+        { label: 'Võimsus',   value: '507 hj' },
+        { label: 'Käigukast', value: 'SMG III' },
+        { label: '0–100',     value: '4,8 sek' },
+      ],
+    },
+    'jaguar-xk': {
+      name: 'Jaguar XK',
+      subtitle: 'Grand Tourer · 2007',
+      tag: 'Grand Tourer',
+      price: '17 900€',
+      image: 'assets/car-jaguar.png',
+      tagline: 'Briti elegants ja V8 jõud — kaheukseline 2+2 grand tourer oma parimas kujus.',
+      description: [
+        'Jaguar XK Convertible 4.2 (X150, 2007) on üks stiilsemaid grand tourereid, mida Inglismaa on kunagi tootnud. Kaheukseline 2+2-kohaline kabriolett, mida toodeti aastatel 1996–2014 nii kupeena kui ka avatud katusega versioonina. Teine generatsioon (X150) sai alguse 2005. aastal ning läbis aastaks 2007 täieliku disainiuuenduse — tulemus kõneleb enda eest.',
+        'AJ-V8 mootor mahuga 4,2 liitrit annab sujuva ja julge vedamise, mis sobib võrdselt hästi nii kiirteele kui ka keerulistele maakonnateedele. ZF 6-käiguline automaat on selle auto tüübi jaoks ideaalne valik — seob luksuse tunde sportliku reageerimisvõimega. Tegu on autoga, mida inimesed peatuvad tänaval vaatama.',
+      ],
+      specs: [
+        { label: 'Mootor',       value: 'Jaguar AJ-V8, 4.2L' },
+        { label: 'Võimsus',      value: '294 hj (220 kW)' },
+        { label: 'Käigukast',    value: 'ZF 6-käiguline automaat' },
+        { label: 'Istekohti',    value: '2+2' },
+        { label: 'Tüüp',         value: 'Kabriolett' },
+        { label: 'Generatsioon', value: 'X150 (2005–2014)' },
+        { label: 'Mudeli aasta', value: '2007' },
+        { label: 'Päritolu',     value: 'Ühendkuningriik' },
+      ],
+      heroSpecs: [
+        { label: 'Mootor',    value: 'V8 4.2L' },
+        { label: 'Võimsus',   value: '294 hj' },
+        { label: 'Käigukast', value: 'ZF Automaat' },
+        { label: 'Kohti',     value: '2+2' },
+      ],
+    },
+    'maserati-spyder': {
+      name: 'Maserati Spyder',
+      subtitle: 'Italian Sport · Cabrio',
+      tag: 'Italian Sport',
+      price: '26 000€',
+      image: 'assets/car-maserati.png',
+      tagline: 'Ferrari süda, Maserati hing — puhtavereline itaalia roadster.',
+      description: [
+        'Maserati Spyder on üks kirglikumaid autosid, mida Itaalia on kunagi tootnud. Ferrari päritolu 4.2L V8 mootor annab sellele roadsterile iseloomu, mida ei saa raha eest osta — see tuleb lihtsalt autosse istudes. Spyder mudeli lühem teljevahe tähendab teravamat juhtimist, ning avatav katus lisab elamusele veel ühe mõõtme.',
+        'Cambiocorsa käigukast on poolautomaatne lahendus, mis sarnaneb Ferrari F1-kasti põhimõttele — käigud vahetatakse roolil asuvate lülititega. Sportlik, mürarikas ja kompromisstundetu. See on auto, mis nõuab pühendumist, aga annab selle eest vastutasuks kogemuse, mida mitte ükski kaasaegne auto ei suuda täielikult korrata.',
+      ],
+      specs: [
+        { label: 'Mootor',      value: 'Ferrari V8, 4.2L' },
+        { label: 'Käigukast',   value: 'Cambiocorsa / 6-k manuaal' },
+        { label: '0–100 km/h',  value: 'u. 5,1 sekundit' },
+        { label: 'Tüüp',        value: '2-kohaline roadster' },
+        { label: 'Šassii',      value: 'Lühem teljevahe (Spyder)' },
+        { label: 'Päritolu',    value: 'Itaalia' },
+      ],
+      heroSpecs: [
+        { label: 'Mootor',    value: 'V8 Ferrari' },
+        { label: 'Käigukast', value: 'Cambiocorsa' },
+        { label: 'Tüüp',      value: 'Roadster' },
+        { label: '0–100',     value: 'u. 5,1 sek' },
+      ],
+    },
+    'bentley-arnage': {
+      name: 'Bentley Arnage',
+      subtitle: 'British Luxury · Limuusin',
+      tag: 'British Luxury',
+      price: '28 000€',
+      image: 'assets/car-bentley.png',
+      tagline: 'Briti eksklusiivsus kompromissvabalt — Arnage on Crewe parimate käte töö.',
+      description: [
+        'Bentley Arnage on üks väheseid autosid maailmas, kus iga detail tunneb end nagu käsitsivalmistatud — sest ta ongi. Crewe tehases toodetud Arnage on varustatud BMW ja Cosworths koostöös loodud V8 mootoriga, mis on praktikas kuluefektiivsem kui hilisemad Twin-Turbo versioonid.',
+        'ZF käigukast, naha ja puiduga kaetud interjöör ning auto üldine proportsioon annavad tunnistust sellest, et 1990ndate luksusauto kontseptsioon oli midagi enamat kui transportvahend. Arnage on eluviis. Tallinn–Riia sõit muutub sellega vabatahtlikuks.',
+      ],
+      specs: [
+        { label: 'Mootor',     value: 'BMW/Cosworth V8' },
+        { label: 'Käigukast',  value: 'ZF automaat' },
+        { label: 'Tüüp',       value: 'Täislimuusin' },
+        { label: 'Interjöör',  value: 'Nahk ja puit, käsitsivalmistatud' },
+        { label: 'Tootmine',   value: 'Crewe, Inglismaa' },
+        { label: 'Päritolu',   value: 'Ühendkuningriik' },
+      ],
+      heroSpecs: [
+        { label: 'Mootor',    value: 'V8 BMW/Cosworth' },
+        { label: 'Käigukast', value: 'ZF Automaat' },
+        { label: 'Tüüp',      value: 'Limuusin' },
+        { label: 'Tootmine',  value: 'Crewe, UK' },
+      ],
+    },
+    'opel-omega': {
+      name: 'Opel Omega 3000',
+      subtitle: '80s Icon · Sedaan',
+      tag: '80s Icon',
+      price: '8 000€',
+      image: 'assets/car-opel.png',
+      tagline: 'Euroopa kiireim sportssedaan oma ajal — 3.0 24V on legend põhjusega.',
+      description: [
+        'Opel Omega 3000 on üks suurim legend, mis Euroopa autotööstusest 80ndate lõpus välja tuli. Legendaarne 3.0-liitrine 24-klapine mootor kombineerituna aerodünaamilise kere ja sportliku veermikuga muutis Omega 3000 tõeliseks BMW 5-seeria ja Mercedes-Benz E-klassi konkurendiks — ning võitis tihti ka võrdlusteste.',
+        'Hästi säilinud Omega 3000 on täna haruldus — enamik on roostes, rikutud või lihtsalt kadunud. See eksemplar on investeering Euroopa autotööstuse ajalukku. Kasvava kollektsionääriväärtusega auto, mis pole veel saavutanud sellele kuuluvat hinda.',
+      ],
+      specs: [
+        { label: 'Mootor',   value: '3.0L 24V DOHC' },
+        { label: 'Tüüp',     value: 'Sportlik sedaan' },
+        { label: 'Käigukast', value: 'Manuaal' },
+        { label: 'Ajastu',   value: '80ndate–90ndate Euroopa ikoon' },
+        { label: 'Seisund',  value: 'Hästi säilinud' },
+        { label: 'Päritolu', value: 'Saksamaa' },
+      ],
+      heroSpecs: [
+        { label: 'Mootor',   value: '3.0 24V' },
+        { label: 'Tüüp',     value: 'Sedaan' },
+        { label: 'Käigukast', value: 'Manuaal' },
+        { label: 'Ajastu',   value: '80ndate ikoon' },
+      ],
+    },
+    'pontiac-fiero': {
+      name: 'Pontiac Fiero',
+      subtitle: 'American Cult · Mid-engine',
+      tag: 'American Cult',
+      price: '7 500€',
+      image: 'assets/car-pontiac.png',
+      tagline: 'Esimene seeriana toodetud keskmootoriga ameerika auto — kultusstaatus garanteeritud.',
+      description: [
+        '1983–1988 aastatel toodetud Pontiac Fiero on USA autotööstuse üks julgemaid eksperimente. Esimene seeriaautona USA ajaloos, millel mootor asus keskel (mid-engine), murdis Fiero tollase ameerika auto paradigma — see polnud suur, polnud V8-ga, aga oli sportilik. Saadaval olid nii R4 kui ka V6 mootorid, kokku toodeti 370 168 tükki.',
+        'Täna on Fiero kultusauto, millel on globaalne fännibaas ning aktiivne restaureerimiskogukond. Hästi säilinud Fiero omamine tähendab osa ameerika automobiiliajaloo kapslist — seda ajalugu enam ei korrata.',
+      ],
+      specs: [
+        { label: 'Mootor',          value: 'Pontiac R4 või V6' },
+        { label: 'Mootoripositsioon', value: 'Keskmootor (mid-engine)' },
+        { label: 'Tootmisaastad',   value: '1983–1988' },
+        { label: 'Toodetud kokku',  value: '370 168 tükki' },
+        { label: 'Erikuju',         value: 'Esimene USA mid-engine seeriauto' },
+        { label: 'Päritolu',        value: 'USA' },
+      ],
+      heroSpecs: [
+        { label: 'Mootor',  value: 'Mid-engine' },
+        { label: 'Valik',   value: 'V6 / R4' },
+        { label: 'Toodetud', value: '370 168' },
+        { label: 'Aastad',  value: '1983–1988' },
+      ],
+    },
+  };
+
+  function esc(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  const id  = new URLSearchParams(location.search).get('id');
+  const car = CARS[id];
+
+  if (!car) {
+    document.getElementById('state-not-found').hidden = false;
+    return;
+  }
+
+  document.title = car.name + ' — Drivers Club';
+
+  // Hero
+  const img = document.getElementById('d-img');
+  img.src = car.image; img.alt = car.name;
+  if (car.photoStyle) img.classList.add('is-photo');
+  document.getElementById('d-tag').textContent    = car.tag;
+  document.getElementById('d-price').textContent  = car.price;
+  document.getElementById('d-name').textContent   = car.name;
+  document.getElementById('d-tagline').textContent = car.tagline;
+  document.getElementById('d-cta').href = 'mailto:contact@driversclub.ee?subject=' + encodeURIComponent('Päring: ' + car.name);
+
+  document.getElementById('d-hero-specs').innerHTML = car.heroSpecs.map(s =>
+    `<div class="hero-spec"><div class="hero-spec-lbl">${esc(s.label)}</div><div class="hero-spec-val">${esc(s.value)}</div></div>`
+  ).join('');
+
+  // Description
+  document.getElementById('d-desc').innerHTML = car.description.map(p => `<p>${esc(p)}</p>`).join('');
+
+  // Specs table
+  document.getElementById('d-specs').innerHTML = car.specs.map(s =>
+    `<div class="spec-pair"><dt>${esc(s.label)}</dt><dd>${esc(s.value)}</dd></div>`
+  ).join('');
+
+  // Sidebar
+  document.getElementById('s-price').textContent = car.price;
+  document.getElementById('s-name').textContent  = car.name + ' · ' + car.subtitle;
+  document.getElementById('s-specs').innerHTML   = car.heroSpecs.map(s =>
+    `<li class="sidebar-spec"><span class="sidebar-spec-lbl">${esc(s.label)}</span><span class="sidebar-spec-val">${esc(s.value)}</span></li>`
+  ).join('');
+
+  // Related (3 others)
+  const related = Object.entries(CARS).filter(([k]) => k !== id).slice(0, 3);
+  document.getElementById('related-grid').innerHTML = related.map(([cId, c]) =>
+    `<article class="car">
+      <div class="car-img">
+        <span class="car-tag">${esc(c.tag)}</span>
+        <img src="${esc(c.image)}" alt="${esc(c.name)}" loading="lazy"/>
+      </div>
+      <div class="car-body">
+        <div class="car-price">${esc(c.price)}</div>
+        <h3 class="car-name">${esc(c.name)}</h3>
+        <div class="car-rule"></div>
+        <p class="car-desc">${esc(c.tagline)}</p>
+        <div class="car-meta">${c.heroSpecs.map((s, i) => i === 0
+          ? `<span>${esc(s.value)}</span>`
+          : `<span class="dot"></span><span>${esc(s.value)}</span>`
+        ).join('')}</div>
+        <a class="car-cta" href="auto.html?id=${encodeURIComponent(cId)}">Uuri lähemalt</a>
+      </div>
+    </article>`
+  ).join('');
+
+  document.getElementById('state-detail').hidden = false;
+
+  // Inquiry form
+  document.getElementById('inquiry-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const btn       = this.querySelector('.inquiry-submit');
+    const successEl = document.getElementById('inquiry-success');
+    const errorEl   = document.getElementById('inquiry-error');
+    const data      = new FormData(this);
+
+    btn.disabled = true;
+    btn.textContent = 'Saadan…';
+    successEl.hidden = true;
+    errorEl.hidden = true;
+
+    try {
+      const res = await fetch(API + '/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:    data.get('name'),
+          email:   data.get('email'),
+          subject: 'Päring: ' + car.name,
+          message: (data.get('message') || 'Olen huvitatud sellest autost.') +
+                   '\n\n[Auto: ' + car.name + ' · ' + car.price + ']',
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || 'Viga saatmisel.');
+      successEl.hidden = false;
+      this.reset();
+    } catch (err) {
+      errorEl.textContent = err.message || 'Midagi läks valesti. Proovi uuesti.';
+      errorEl.hidden = false;
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = 'Saada päring <span class="arrow-r"></span>';
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
