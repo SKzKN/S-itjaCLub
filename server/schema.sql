@@ -43,3 +43,14 @@ CREATE TABLE IF NOT EXISTS cruise_registrations (
 
 CREATE INDEX IF NOT EXISTS reg_user_idx   ON cruise_registrations (user_id);
 CREATE INDEX IF NOT EXISTS reg_cruise_idx ON cruise_registrations (cruise_id);
+
+CREATE TABLE IF NOT EXISTS contact_submissions (
+  id         SERIAL PRIMARY KEY,
+  name       TEXT NOT NULL,
+  email      TEXT NOT NULL,
+  subject    TEXT,
+  message    TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS contact_created_idx ON contact_submissions (created_at DESC);

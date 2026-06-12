@@ -66,7 +66,8 @@
     update: (id, cruise)     => DC.api('/api/admin/cruises/' + encodeURIComponent(id), { method: 'PUT', body: JSON.stringify(cruise) }),
     remove: (id)             => DC.api('/api/admin/cruises/' + encodeURIComponent(id), { method: 'DELETE' }),
     participants: (id)       => DC.api('/api/admin/cruises/' + encodeURIComponent(id) + '/participants'),
-    users:        ()         => DC.api('/api/admin/users'),
+    users:              ()   => DC.api('/api/admin/users'),
+    contactSubmissions: ()   => DC.api('/api/admin/contact-submissions'),
   };
 
   // ── Page guards ────────────────────────────────────────

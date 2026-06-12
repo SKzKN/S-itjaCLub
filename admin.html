@@ -159,12 +159,43 @@
       <div id="admin-cruise-list" class="admin-cruise-list" hidden></div>
     </section>
 
-    <!-- ── Users ── -->
+    <!-- ── Contact submissions ── -->
     <section class="dash-section">
       <div class="section-head">
         <div>
           <div class="section-eyebrow">
             <span class="num">02</span>
+            <span class="line"></span>
+            <span>Päringud</span>
+          </div>
+          <h2 class="section-title">Kontakti <span class="it">päringud.</span></h2>
+        </div>
+        <p class="section-deck">Kõik kontaktivormist ja auto-päringu vormist saabunud sõnumid.</p>
+      </div>
+
+      <div id="admin-contacts-status" class="dash-status">Laen päringuid…</div>
+      <div id="admin-contacts-table-wrap" class="admin-table-wrap" hidden>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Kuupäev</th>
+              <th>Nimi</th>
+              <th>E-post</th>
+              <th>Teema</th>
+              <th>Sõnum</th>
+            </tr>
+          </thead>
+          <tbody id="admin-contacts-rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── Users ── -->
+    <section class="dash-section">
+      <div class="section-head">
+        <div>
+          <div class="section-eyebrow">
+            <span class="num">03</span>
             <span class="line"></span>
             <span>Kasutajad</span>
           </div>
@@ -451,7 +482,34 @@
     }
   });
 
-  // ── Users list ─────────────────────────────────────────────────
+  // ── Contact submissions ──────────────────────────────────────────
+  async function loadContacts() {
+    const status = document.getElementById('admin-contacts-status');
+    const wrap   = document.getElementById('admin-contacts-table-wrap');
+    const tbody  = document.getElementById('admin-contacts-rows');
+    try {
+      const { submissions } = await DC.admin.contactSubmissions();
+      if (!submissions.length) {
+        status.textContent = 'Päringuid pole veel saabunud.';
+        return;
+      }
+      tbody.innerHTML = submissions.map(s => (
+        '<tr>' +
+          '<td style="white-space:nowrap">' + escapeHtml(new Date(s.created_at).toLocaleDateString('et-EE')) + '</td>' +
+          '<td>' + escapeHtml(s.name) + '</td>' +
+          '<td><a href="mailto:' + escapeHtml(s.email) + '">' + escapeHtml(s.email) + '</a></td>' +
+          '<td>' + escapeHtml(s.subject || '—') + '</td>' +
+          '<td style="white-space:pre-wrap;max-width:380px">' + escapeHtml(s.message) + '</td>' +
+        '</tr>'
+      )).join('');
+      status.hidden = true;
+      wrap.hidden = false;
+    } catch (err) {
+      status.textContent = 'Päringuid ei saanud laadida: ' + (err.message || 'tundmatu viga');
+    }
+  }
+
+  / ── Users list ─────────────────────────────────────────────────
   async function loadUsers() {
     const status = document.getElementById('admin-users-status');
     const wrap   = document.getElementById('admin-users-table-wrap');
@@ -492,7 +550,7 @@
       window.location.assign('index.html');
     });
 
-    await Promise.all([loadCruises(), loadUsers()]);
+    await Promise.all([loadCruises(), loadContacts(), loadUsers()]);
   })();
 </script>
 

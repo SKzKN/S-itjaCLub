@@ -128,6 +128,14 @@ adminRouter.get('/cruises/:id/participants', async (req, res) => {
   res.json({ participants: rows });
 });
 
+// ── Contact submissions ────────────────────────────────────────────────
+adminRouter.get('/contact-submissions', async (_req, res) => {
+  const { rows } = await q(
+    'SELECT id, name, email, subject, message, created_at FROM contact_submissions ORDER BY created_at DESC'
+  );
+  res.json({ submissions: rows });
+});
+
 // ── Users list ─────────────────────────────────────────────────────────
 adminRouter.get('/users', async (_req, res) => {
   const { rows } = await q(

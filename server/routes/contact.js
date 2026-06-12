@@ -3,6 +3,7 @@ import { z } from 'zod';
 import rateLimit from 'express-rate-limit';
 import cors from 'cors';
 import { sendEmail } from '../lib/email.js';
+import { q } from '../db.js';
 
 export const contactRouter = Router();
 
@@ -24,8 +25,18 @@ contactRouter.post('/', openCors, limiter, async (req, res) => {
   const { name, email, subject, message } = parsed.data;
   const subjectLine = subject ? `Kontaktivorm: ${subject}` : `Kontaktivorm — ${name}`;
 
-  // Always log to Render console so no submission is lost
+  // Always log to Railway console so no submission is lost
   console.log('[contact] submission:', { name, email, subject: subjectLine, message });
+
+  // Persist to DB so submissions survive regardless of email delivery
+  try {
+    await q(
+      'INSERT INTO contact_submissions (name, email, subject, message) VALUES ($1, $2, $3, $4)',
+      [name, email, subjectLine, message]
+    );
+  } catch (dbErr) {
+    console.error('[contact] db insert failed:', dbErr?.message || dbErr);
+  }
 
   try {
     await sendEmail({
