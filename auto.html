@@ -87,6 +87,41 @@ body.car-page > footer { margin-top: auto; }
   border-radius: 0;
   filter: none;
 }
+.car-hero-img.is-sold { filter: grayscale(0.9) brightness(0.6); }
+.car-hero-img.is-photo.is-sold { filter: grayscale(0.9) brightness(0.6); }
+
+.car-hero-thumbs {
+  position: relative; z-index: 1;
+  display: flex; gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.car-hero-thumb {
+  width: 76px; height: 56px;
+  padding: 0; border: 1px solid var(--rule);
+  background: var(--green-deep);
+  cursor: pointer;
+  overflow: hidden;
+  opacity: 0.6;
+  transition: opacity .2s, border-color .2s;
+}
+.car-hero-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.car-hero-thumb:hover { opacity: 0.85; }
+.car-hero-thumb.is-active { opacity: 1; border-color: var(--tan); }
+
+.hero-sold-badge {
+  align-self: flex-start;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--green-deep);
+  background: var(--tan);
+  padding: 7px 13px;
+  margin-left: 10px;
+}
+.sold-notice {
+  font-size: 13px; line-height: 1.6; color: var(--fg-muted);
+  padding: 16px 0 0;
+  text-align: center;
+}
 
 .car-hero-info {
   padding: 0 0 72px 48px;
@@ -381,9 +416,10 @@ body.car-page > footer { margin-top: auto; }
       <div class="car-hero-grid">
         <div class="car-hero-img-wrap">
           <img id="d-img" class="car-hero-img" src="" alt=""/>
+          <div id="d-thumbs" class="car-hero-thumbs" hidden></div>
         </div>
         <div class="car-hero-info">
-          <span id="d-tag" class="car-hero-tag"></span>
+          <span id="d-tag" class="car-hero-tag"></span><span id="d-sold-badge" class="hero-sold-badge" hidden>Müüdud</span>
           <div id="d-price" class="car-hero-price"></div>
           <h1 id="d-name" class="car-hero-name"></h1>
           <div class="car-rule"></div>
@@ -450,7 +486,8 @@ body.car-page > footer { margin-top: auto; }
               </div>
               <div id="inquiry-error" class="inquiry-feedback is-error" hidden></div>
             </form>
-            <p class="sidebar-note">Vastame tavaliselt 1–2 tööpäeva jooksul.</p>
+            <p id="s-sold-notice" class="sold-notice" hidden>See sõiduk on müüdud. Kui otsid midagi sarnast, võta julgelt ühendust.</p>
+            <p id="s-note" class="sidebar-note">Vastame tavaliselt 1–2 tööpäeva jooksul.</p>
           </div>
         </div>
 
@@ -524,6 +561,7 @@ body.car-page > footer { margin-top: auto; }
       tag: 'Grand Tourer',
       price: '70 000 €',
       image: 'assets/car-db9.png',
+      images: ['assets/car-db9.png', 'assets/car-db9-2.jpg', 'assets/car-db9-3.jpg', 'assets/car-db9-4.jpg', 'assets/car-db9-5.jpg'],
       photoStyle: true,
       tagline: 'Käsitsivalmistatud V12 grand tourer Gaydon\'i töökodadest — DB9 Volante on auto sellisena, nagu see peaks olema.',
       description: [
@@ -559,8 +597,8 @@ body.car-page > footer { margin-top: auto; }
       image: 'assets/car-bmw.png',
       tagline: 'Aegade kiireim soft-top BMW — V10 mootor, SMG-käigukast ja 4,8 sekundit sajani.',
       description: [
-        'BMW M6 Convertible (E64) debüteeris aastal 2006 kui kõige võimsam avatud katusega auto, mida BMW on kunagi tootnud. Selle süda on käsitsi ehitatud S85 V10 mootor mahuga 5,0 liitrit, mis toodab 507 hobujõudu ning kõlab nagu midagi otse F1 rajalt. Vabalthingava V10 iseloom ja looduslähedane dünaamika teevad sellest auto, millega on raske igavleda.',
-        'SMG III käigukast (7-käiguline Sequential Manual Gearbox) võimaldab nii automaatset kui ka täismanualset režiimi — käiguvahetus toimub millisekundite jooksul. E64 kabrioleti pehme katus avaneb elektrooniliselt alla 30 sekundiga ning annab sellele GT-autole teise dimensiooni, mida kupee lihtsalt ei suuda pakkuda.',
+        'Vägagi kiire, kuid samas tänu neljale istekohale eeskujulikult praktiline BMW. Kabrio keretüüp duubeldab sõidunaudingut. V10 M-mootor tagab vajaliku iseloomu.',
+        'SMG-kast pole sobilik kõigile. V10 mootoriga luksuskabrio ei ole odav ülalpeetav.',
       ],
       specs: [
         { label: 'Mootor',       value: 'BMW S85 V10, 5.0L' },
@@ -579,6 +617,35 @@ body.car-page > footer { margin-top: auto; }
         { label: '0–100',     value: '4,8 sek' },
       ],
     },
+    'bmw-m535i': {
+      name: 'BMW M535i',
+      subtitle: '80s Icon · E28',
+      tag: '80s Icon',
+      price: 'Müüdud',
+      sold: true,
+      image: 'assets/car-m535i-1.jpg',
+      images: ['assets/car-m535i-1.jpg', 'assets/car-m535i-2.jpg', 'assets/car-m535i-3.jpg', 'assets/car-m535i-4.jpg'],
+      photoStyle: true,
+      tagline: 'Silmatorkav punane E28 M535i — hainina BMW, mille teeb ihaldusväärseks M-mudeliversioon.',
+      description: [
+        'Vana hea hainina BMW, mille muudab ihaldusväärseks M535i mudeliversioon. Kui M5 on juba väga rahakate entusiastide pärusmaa, siis M535i on kättesaadav ka laiemale publikule. Antud autole lisab väärtust silmatorkav punane välisvärv ja väga korralik seisukord.',
+        'Vana kooli hainina BMW-le tüüpilised sõiduomadused, mis ei too kõikidele loodetud naeratust näole.',
+      ],
+      specs: [
+        { label: 'Mootor',        value: 'BMW M30B34, 3.4L R6' },
+        { label: 'Võimsus',       value: '218 hj (160 kW)' },
+        { label: 'Värvus',        value: 'Punane' },
+        { label: 'Kere tüüp',     value: 'Sedaan (E28)' },
+        { label: 'Tootmisaastad', value: '1985–1988' },
+        { label: 'Päritolu',      value: 'Saksamaa' },
+      ],
+      heroSpecs: [
+        { label: 'Mootor',  value: 'R6 3.4L' },
+        { label: 'Võimsus', value: '218 hj' },
+        { label: 'Värvus',  value: 'Punane' },
+        { label: 'Kere',    value: 'E28 sedaan' },
+      ],
+    },
     'jaguar-xk': {
       name: 'Jaguar XK',
       subtitle: 'Grand Tourer · 2007',
@@ -587,8 +654,8 @@ body.car-page > footer { margin-top: auto; }
       image: 'assets/car-jaguar.png',
       tagline: 'Briti elegants ja V8 jõud — kaheukseline 2+2 grand tourer oma parimas kujus.',
       description: [
-        'Jaguar XK Convertible 4.2 (X150, 2007) on üks stiilsemaid grand tourereid, mida Inglismaa on kunagi tootnud. Kaheukseline 2+2-kohaline kabriolett, mida toodeti aastatel 1996–2014 nii kupeena kui ka avatud katusega versioonina. Teine generatsioon (X150) sai alguse 2005. aastal ning läbis aastaks 2007 täieliku disainiuuenduse — tulemus kõneleb enda eest.',
-        'AJ-V8 mootor mahuga 4,2 liitrit annab sujuva ja julge vedamise, mis sobib võrdselt hästi nii kiirteele kui ka keerulistele maakonnateedele. ZF 6-käiguline automaat on selle auto tüübi jaoks ideaalne valik — seob luksuse tunde sportliku reageerimisvõimega. Tegu on autoga, mida inimesed peatuvad tänaval vaatama.',
+        'Stiilne ja vägagi kasutatav luksuskabrio, mis oma tänapäevaste lahendustega jätab vähe soovida. V8 mootor liigutab autot jõudsalt, samas kütusekulu on vägagi mõistlik. Tagumised istmed lisavad praktilisust.',
+        'Ei pruugi sobida neile, kelle jaoks vana kooli aura oluline.',
       ],
       specs: [
         { label: 'Mootor',       value: 'Jaguar AJ-V8, 4.2L' },
@@ -605,6 +672,92 @@ body.car-page > footer { margin-top: auto; }
         { label: 'Võimsus',   value: '294 hj' },
         { label: 'Käigukast', value: 'ZF Automaat' },
         { label: 'Kohti',     value: '2+2' },
+      ],
+    },
+    'jaguar-s-type': {
+      name: 'Jaguar S-Type',
+      subtitle: 'British Luxury · V8 4.2',
+      tag: 'British Luxury',
+      price: 'Müüdud',
+      sold: true,
+      image: 'assets/car-stype-1.jpg',
+      images: ['assets/car-stype-1.jpg', 'assets/car-stype-2.jpg', 'assets/car-stype-3.jpg', 'assets/car-stype-4.jpg', 'assets/car-stype-5.jpg'],
+      photoStyle: true,
+      tagline: 'Punane metallik, hele nahksisu — mudelivärskendusjärgne S-Type V8 4.2 mõistliku hinnaga hobiautoks.',
+      description: [
+        'Väga ahvatlev värvikombinatsioon - punane metallik välisvärv, mida suurepäraselt toetab heledas toonides nahksisu. Auto varustatud mudelivärskenduse järgse 4.2 liitrise V8 mootoriga. Hea kandidaat neile, kes otsivad mõistliku hinnaga hobiautot. Sobib nii hobiautoks kui ka igapäevasteks sõitudeks suvel - ükskõik kumma variandi kasuks otsustada, stiilne saabumine on garanteeritud.',
+        'Esineb antud mudelile tüüpilist korrosiooni tagakoobastel ja küljekarpidel. Tähelepanu vajab tagasild.',
+      ],
+      specs: [
+        { label: 'Mootor',   value: 'Jaguar AJ-V8, 4.2L' },
+        { label: 'Käigukast', value: 'Automaat' },
+        { label: 'Värvus',   value: 'Punane metallik' },
+        { label: 'Salong',   value: 'Hele nahksisu' },
+        { label: 'Tüüp',     value: 'Sedaan (mudelivärskendus)' },
+        { label: 'Päritolu', value: 'Ühendkuningriik' },
+      ],
+      heroSpecs: [
+        { label: 'Mootor',    value: 'V8 4.2L' },
+        { label: 'Käigukast', value: 'Automaat' },
+        { label: 'Värvus',    value: 'Punane metallik' },
+        { label: 'Tüüp',      value: 'Sedaan' },
+      ],
+    },
+    'daimler-double-six': {
+      name: 'Daimler Double Six',
+      subtitle: 'British Luxury · V12',
+      tag: 'British Luxury',
+      price: 'Hind küsimisel',
+      image: 'assets/car-daimler-1.jpg',
+      images: ['assets/car-daimler-1.jpg', 'assets/car-daimler-2.jpg', 'assets/car-daimler-3.jpg', 'assets/car-daimler-4.jpg', 'assets/car-daimler-5.jpg'],
+      photoStyle: true,
+      tagline: '1993. aastast Daimleri lipulaev — XJ40 baasil V12 luksussedaan, mis pakub jõudu ja siidist sõitu.',
+      description: [
+        'Kui XJ40 tootmine 1986. aastal algas, teadis Jaguar, et nad peavad turule tooma ka V12 mootoriga versiooni. Selleks tehti kuus aastat kestnud kogu esiosa hõlmav ümberehitus, mahutamaks V12 mootor XJ40 mootoriruumi. 1993. aastal tuli lõpuks müügile XJ40 koos uue V12 mootoriga (arenduskood XJ81). Toodeti kahte mudelit: Jaguar XJ12 ja luksuslikum Daimler Double Six. Uus V12 mootor oli suurendatud kuueliitriliseks ning varustatud uue neljakäigulise automaatkäigukastiga.',
+        'Stiilne ja rikkalikult varustatud vana kooli briti luksusauto, mis tänu neljakäigulisele käigukastile ja 6.0 V12 mootorile pakub üsna jõulisi kiirusomadusi ja on mõnusalt kasutatav ka tänapäeval. Tegu on Daimleri marginime all toodetud luksuslikuma versiooniga, mis suudab oma siidiste sõiduomadustega võluda.',
+        'Sellise Daimleri omamisel peab eelarve olema tavapärasest suurem, sest nii jooksvad kulud kui ka hooldus ja remont on briti maahärra seisusele kohased. Antud eksemplari on küll viimase aasta jooksul palju investeeritud, kuid mõningast tähelepanu antud Daimler veel vajab, et saaks täies hiilguses särada.',
+      ],
+      specs: [
+        { label: 'Mootor',    value: 'Jaguar V12, 6.0L' },
+        { label: 'Käigukast', value: '4-käiguline automaat' },
+        { label: 'Kere tüüp', value: 'Sedaan (XJ40/XJ81)' },
+        { label: 'Mudel',     value: 'Daimler Double Six' },
+        { label: 'Turule',    value: '1993' },
+        { label: 'Päritolu',  value: 'Ühendkuningriik' },
+      ],
+      heroSpecs: [
+        { label: 'Mootor',    value: 'V12 6.0L' },
+        { label: 'Käigukast', value: '4-käiguline automaat' },
+        { label: 'Kere',      value: 'Sedaan' },
+        { label: 'Päritolu',  value: 'Ühendkuningriik' },
+      ],
+    },
+    'fiat-130': {
+      name: 'Fiat 130',
+      subtitle: 'Italian Sport · Coupé 3200',
+      tag: 'Italian Sport',
+      price: 'Hind küsimisel',
+      image: 'assets/car-fiat130-1.jpg',
+      images: ['assets/car-fiat130-1.jpg', 'assets/car-fiat130-2.jpg', 'assets/car-fiat130-3.jpg', 'assets/car-fiat130-4.jpg'],
+      photoStyle: true,
+      tagline: 'Pininfarina joonistatud Itaalia 70ndate luksuskupee — karburaatoriga V6 ja automaatkast.',
+      description: [
+        'Ülimalt elegantne ja suurepärane näide 70ndate aastate luksusest. Iga detail selle auto juures tundub erilisena ja sõit on omaette sündmus. Must reg nr tagab teadmise, et auto seisukord on väärikas.',
+        'Itaalia 70ndate luksuskupee, millel karburaatoriga V6 mootor koostöös automaatkastiga - need on iseärasused, mis toovad esile kire, kuid aeg-ajalt ka kapriisid.',
+      ],
+      specs: [
+        { label: 'Mootor',        value: 'Fiat V6 3.2L (karburaator)' },
+        { label: 'Käigukast',     value: 'Automaat' },
+        { label: 'Kere tüüp',     value: 'Coupé (Pininfarina)' },
+        { label: 'Värvus',        value: 'Hõbedane metallik' },
+        { label: 'Tootmisaastad', value: '1971–1977' },
+        { label: 'Päritolu',      value: 'Itaalia' },
+      ],
+      heroSpecs: [
+        { label: 'Mootor',    value: 'V6 3.2L' },
+        { label: 'Käigukast', value: 'Automaat' },
+        { label: 'Kere',      value: 'Coupé' },
+        { label: 'Päritolu',  value: 'Itaalia' },
       ],
     },
     'maserati-spyder': {
@@ -664,6 +817,7 @@ body.car-page > footer { margin-top: auto; }
       subtitle: '80s Icon · Sedaan',
       tag: '80s Icon',
       price: '8 000€',
+      sold: true,
       image: 'assets/car-opel.png',
       tagline: 'Euroopa kiireim sportssedaan oma ajal — 3.0 24V on legend põhjusega.',
       description: [
@@ -690,11 +844,12 @@ body.car-page > footer { margin-top: auto; }
       subtitle: 'American Cult · Mid-engine',
       tag: 'American Cult',
       price: '7 500€',
+      sold: true,
       image: 'assets/car-pontiac.png',
       tagline: 'Esimene seeriana toodetud keskmootoriga ameerika auto — kultusstaatus garanteeritud.',
       description: [
-        '1983–1988 aastatel toodetud Pontiac Fiero on USA autotööstuse üks julgemaid eksperimente. Esimene seeriaautona USA ajaloos, millel mootor asus keskel (mid-engine), murdis Fiero tollase ameerika auto paradigma — see polnud suur, polnud V8-ga, aga oli sportilik. Saadaval olid nii R4 kui ka V6 mootorid, kokku toodeti 370 168 tükki.',
-        'Täna on Fiero kultusauto, millel on globaalne fännibaas ning aktiivne restaureerimiskogukond. Hästi säilinud Fiero omamine tähendab osa ameerika automobiiliajaloo kapslist — seda ajalugu enam ei korrata.',
+        'Klapptuled, keskmootor, tagavedu, 80ndad - omadused, mis defineerivad autounistusi. Antud auto 2.5 R4 mootor on sõbralik omaniku rahakoti vastu, samas pakub koostöös manuaalkastiga piisaval määral temperamenti, et sõit oleks meeleolukas. Seda toetab ka Fiero kerge kaal läbi heade sõiduomaduste.',
+        'Võttes arvesse antud auto viisakat seisukorda ja vahvat olekut, siis siinkohal ei oskagi mida välja tuua.',
       ],
       specs: [
         { label: 'Mootor',          value: 'Pontiac R4 või V6' },
@@ -737,6 +892,34 @@ body.car-page > footer { margin-top: auto; }
   document.getElementById('d-tagline').textContent = car.tagline;
   document.getElementById('d-cta').href = 'mailto:contact@driversclub.ee?subject=' + encodeURIComponent('Päring: ' + car.name);
 
+  if (car.sold) {
+    img.classList.add('is-sold');
+    document.getElementById('d-sold-badge').hidden = false;
+    const cta = document.getElementById('d-cta');
+    cta.textContent = 'Müüdud';
+    cta.href = 'autod.html';
+  }
+
+  // Thumbnail gallery
+  const thumbs = document.getElementById('d-thumbs');
+  if (car.images && car.images.length > 1) {
+    thumbs.hidden = false;
+    thumbs.innerHTML = car.images.map((src, i) =>
+      `<button type="button" class="car-hero-thumb${i === 0 ? ' is-active' : ''}" data-src="${esc(src)}" aria-label="${esc(car.name)} pilt ${i + 1}">
+        <img src="${esc(src)}" alt="" loading="lazy"/>
+      </button>`
+    ).join('');
+    thumbs.querySelectorAll('.car-hero-thumb').forEach(btn => {
+      btn.addEventListener('click', () => {
+        img.src = btn.dataset.src;
+        thumbs.querySelectorAll('.car-hero-thumb').forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+      });
+    });
+  } else {
+    thumbs.hidden = true;
+  }
+
   document.getElementById('d-hero-specs').innerHTML = car.heroSpecs.map(s =>
     `<div class="hero-spec"><div class="hero-spec-lbl">${esc(s.label)}</div><div class="hero-spec-val">${esc(s.value)}</div></div>`
   ).join('');
@@ -756,12 +939,19 @@ body.car-page > footer { margin-top: auto; }
     `<li class="sidebar-spec"><span class="sidebar-spec-lbl">${esc(s.label)}</span><span class="sidebar-spec-val">${esc(s.value)}</span></li>`
   ).join('');
 
+  if (car.sold) {
+    document.getElementById('inquiry-form').style.display = 'none';
+    document.getElementById('s-note').hidden = true;
+    document.getElementById('s-sold-notice').hidden = false;
+  }
+
   // Related (3 others)
   const related = Object.entries(CARS).filter(([k]) => k !== id).slice(0, 3);
   document.getElementById('related-grid').innerHTML = related.map(([cId, c]) =>
-    `<article class="car">
+    `<article class="car${c.sold ? ' is-sold' : ''}">
       <div class="car-img">
         <span class="car-tag">${esc(c.tag)}</span>
+        ${c.sold ? '<span class="car-sold-badge">Müüdud</span>' : ''}
         <img src="${esc(c.image)}" alt="${esc(c.name)}" loading="lazy"/>
       </div>
       <div class="car-body">

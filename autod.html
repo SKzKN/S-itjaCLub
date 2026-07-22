@@ -283,8 +283,8 @@ body.cars-page > main { flex: 1; }
     </div>
     <div class="cars-hero-grid">
       <h1 class="cars-hero-title">
-        Kureeritud
-        <span class="it">kollektsioon.</span>
+        Autod
+        <span class="it">müügis.</span>
       </h1>
       <div class="cars-hero-side">
         <p class="cars-hero-desc">
@@ -292,8 +292,8 @@ body.cars-page > main { flex: 1; }
         </p>
         <div class="cars-hero-stats">
           <div class="cars-hero-stat">
-            <div class="num" id="stat-total">7</div>
-            <div class="lbl">Autot müügil</div>
+            <div class="num" id="stat-total">8</div>
+            <div class="lbl">Autot müügis</div>
           </div>
           <div class="cars-hero-stat">
             <div class="num">6</div>
@@ -314,7 +314,7 @@ body.cars-page > main { flex: 1; }
   <div class="container">
     <div class="cars-filter-scroll">
       <button class="filter-btn is-active" data-filter="all" role="tab" aria-selected="true">
-        Kõik <span class="filter-count">7</span>
+        Kõik <span class="filter-count">13</span>
       </button>
       <button class="filter-btn" data-filter="convertible" role="tab" aria-selected="false">
         Kabriolett <span class="filter-count">1</span>
@@ -323,13 +323,13 @@ body.cars-page > main { flex: 1; }
         Grand Tourer <span class="filter-count">2</span>
       </button>
       <button class="filter-btn" data-filter="italian-sport" role="tab" aria-selected="false">
-        Itaalia Sport <span class="filter-count">1</span>
+        Itaalia Sport <span class="filter-count">2</span>
       </button>
       <button class="filter-btn" data-filter="british-luxury" role="tab" aria-selected="false">
-        Briti Luksus <span class="filter-count">1</span>
+        Briti Luksus <span class="filter-count">4</span>
       </button>
       <button class="filter-btn" data-filter="80s-icon" role="tab" aria-selected="false">
-        80ndate Ikoon <span class="filter-count">1</span>
+        80ndate Ikoon <span class="filter-count">3</span>
       </button>
       <button class="filter-btn" data-filter="american-cult" role="tab" aria-selected="false">
         Ameerika Kultus <span class="filter-count">1</span>
@@ -343,7 +343,7 @@ body.cars-page > main { flex: 1; }
   <div class="container">
 
     <div class="listing-toolbar">
-      <p class="listing-count">Näitan <strong id="visible-count">7</strong> autot</p>
+      <p class="listing-count">Näitan <strong id="visible-count">13</strong> autot</p>
       <a href="kontakt.html" class="btn btn-outline-tan" style="padding: 11px 20px; font-size: 10.5px;">
         Küsi konsultatsiooni <span class="arrow-r"></span>
       </a>
@@ -381,7 +381,7 @@ body.cars-page > main { flex: 1; }
           <div class="car-price">24 000€</div>
           <h2 class="car-name">BMW M6</h2>
           <div class="car-rule"></div>
-          <p class="car-desc">BMW M6 Convertible – aegade kiireim "soft-top" BMW, mis debüteeris aastal 2006. Auhinnatud 5-liitrise vabalthingava V10 jõud viiakse läbi F1 tehnoloogiaid kasutava SMG-käigukasti tagasilda ning 4,8 sekundiline sõit sajani saab alata.</p>
+          <p class="car-desc">Vägagi kiire, kuid samas tänu neljale istekohale eeskujulikult praktiline BMW. Kabrio keretüüp duubeldab sõidunaudingut. V10 M-mootor tagab vajaliku iseloomu.</p>
           <div class="car-meta">
             <span>V10 • 507 hj</span><span class="dot"></span>
             <span>SMG</span><span class="dot"></span>
@@ -401,7 +401,7 @@ body.cars-page > main { flex: 1; }
           <div class="car-price">17 900€</div>
           <h2 class="car-name">Jaguar XK</h2>
           <div class="car-rule"></div>
-          <p class="car-desc">Jaguar XK Convertible 4.2 2007 – kaheukseline 2+2 kohaline grand tourer, mida toodeti kahe põlvkonna aastatel 1996–2014 nii kupeena kui ka kabrioletina. Teine generatsioon sai alguse 2005 ning läbis aastaks 2007 täieliku disainimuudatuse.</p>
+          <p class="car-desc">Stiilne ja vägagi kasutatav luksuskabrio, mis oma tänapäevaste lahendustega jätab vähe soovida. V8 mootor liigutab autot jõudsalt, samas kütusekulu on vägagi mõistlik. Tagumised istmed lisavad praktilisust.</p>
           <div class="car-meta">
             <span>V8 4.2L</span><span class="dot"></span>
             <span>Kabriolett</span><span class="dot"></span>
@@ -452,9 +452,10 @@ body.cars-page > main { flex: 1; }
       </article>
 
       <!-- Opel Omega 3000 -->
-      <article class="car" data-category="80s-icon">
+      <article class="car is-sold" data-category="80s-icon">
         <div class="car-img">
           <span class="car-tag">80s Icon</span>
+          <span class="car-sold-badge">Müüdud</span>
           <img src="assets/car-opel.png" alt="Opel Omega 3000" loading="lazy"/>
         </div>
         <div class="car-body">
@@ -472,22 +473,133 @@ body.cars-page > main { flex: 1; }
       </article>
 
       <!-- Pontiac Fiero -->
-      <article class="car" data-category="american-cult">
+      <article class="car is-sold" data-category="american-cult">
         <div class="car-img">
           <span class="car-tag">American Cult</span>
+          <span class="car-sold-badge">Müüdud</span>
           <img src="assets/car-pontiac.png" alt="Pontiac Fiero" loading="lazy"/>
         </div>
         <div class="car-body">
           <div class="car-price">7 500€</div>
           <h2 class="car-name">Pontiac Fiero</h2>
           <div class="car-rule"></div>
-          <p class="car-desc">1983–1988 toodetud Pontiac Fiero on üks huvitavamaid USA autötööstuse poolt valmistatud autosid. Tegu on esimese keskmootoriga seeriaautoga USA ajaloos. Saada olid R4 ja V6 mootorid, kokku toodeti Fierosi 370 168 tükki.</p>
+          <p class="car-desc">1983–1988 toodetud Pontiac Fiero on üks huvitavamaid USA autotööstuse poolt valmistatud autosid. Tegu on esimese keskmootoriga seeriaautoga USA ajaloos. Saada olid R4 ja V6 mootorid, kokku toodeti Fierosi 370 168 tükki.</p>
           <div class="car-meta">
             <span>Mid-engine</span><span class="dot"></span>
             <span>USA</span><span class="dot"></span>
             <span>V6 / R4</span>
           </div>
           <a class="car-cta" href="auto.html?id=pontiac-fiero">Uuri lähemalt</a>
+        </div>
+      </article>
+
+      <!-- Jaguar S-Type -->
+      <article class="car is-sold" data-category="british-luxury">
+        <div class="car-img">
+          <span class="car-tag">British Luxury</span>
+          <span class="car-sold-badge">Müüdud</span>
+          <img src="assets/car-stype-1.jpg" alt="Jaguar S-Type" loading="lazy" style="object-fit:cover;width:100%;height:100%"/>
+        </div>
+        <div class="car-body">
+          <div class="car-price">Müüdud</div>
+          <h2 class="car-name">Jaguar S-Type</h2>
+          <div class="car-rule"></div>
+          <p class="car-desc">Väga ahvatlev värvikombinatsioon - punane metallik välisvärv, mida suurepäraselt toetab heledas toonides nahksisu. Auto varustatud mudelivärskenduse järgse 4.2 liitrise V8 mootoriga. Hea kandidaat neile, kes otsivad mõistliku hinnaga hobiautot.</p>
+          <div class="car-meta">
+            <span>V8 4.2L</span><span class="dot"></span>
+            <span>Automaat</span><span class="dot"></span>
+            <span>Punane metallik</span>
+          </div>
+          <a class="car-cta" href="auto.html?id=jaguar-s-type">Uuri lähemalt</a>
+        </div>
+      </article>
+
+      <!-- BMW M535i -->
+      <article class="car is-sold" data-category="80s-icon">
+        <div class="car-img">
+          <span class="car-tag">80s Icon</span>
+          <span class="car-sold-badge">Müüdud</span>
+          <img src="assets/car-m535i-1.jpg" alt="BMW M535i" loading="lazy" style="object-fit:cover;width:100%;height:100%"/>
+        </div>
+        <div class="car-body">
+          <div class="car-price">Müüdud</div>
+          <h2 class="car-name">BMW M535i</h2>
+          <div class="car-rule"></div>
+          <p class="car-desc">Vana hea hainina BMW, mille muudab ihaldusväärseks M535i mudeliversioon. Kui M5 on juba väga rahakate entusiastide pärusmaa, siis M535i on kättesaadav ka laiemale publikule. Antud autole lisab väärtust silmatorkav punane välisvärv ja väga korralik seisukord.</p>
+          <div class="car-meta">
+            <span>R6 3.4L</span><span class="dot"></span>
+            <span>218 hj</span><span class="dot"></span>
+            <span>E28</span>
+          </div>
+          <a class="car-cta" href="auto.html?id=bmw-m535i">Uuri lähemalt</a>
+        </div>
+      </article>
+
+      <!-- Mercedes-Benz 230.4 -->
+      <article class="car is-sold" data-category="80s-icon">
+        <div class="car-img car-img-placeholder">
+          <span class="car-tag">80s Icon</span>
+          <span class="car-sold-badge">Müüdud</span>
+          <div class="car-img-placeholder-text">Pilt lisandub varsti</div>
+        </div>
+        <div class="car-body">
+          <h2 class="car-name">Mercedes-Benz 230.4</h2>
+          <div class="car-rule"></div>
+          <p class="car-desc">Pildid ja täpsem kirjeldus lisandumas peagi.</p>
+        </div>
+      </article>
+
+      <!-- Fiat 130 -->
+      <article class="car" data-category="italian-sport">
+        <div class="car-img">
+          <span class="car-tag">Italian Sport</span>
+          <img src="assets/car-fiat130-1.jpg" alt="Fiat 130" loading="lazy" style="object-fit:cover;width:100%;height:100%"/>
+        </div>
+        <div class="car-body">
+          <div class="car-price">Hind küsimisel</div>
+          <h2 class="car-name">Fiat 130</h2>
+          <div class="car-rule"></div>
+          <p class="car-desc">Ülimalt elegantne ja suurepärane näide 70ndate aastate luksusest. Iga detail selle auto juures tundub erilisena ja sõit on omaette sündmus. Must reg nr tagab teadmise, et auto seisukord on väärikas.</p>
+          <div class="car-meta">
+            <span>V6 3.2L</span><span class="dot"></span>
+            <span>Automaat</span><span class="dot"></span>
+            <span>Coupé</span>
+          </div>
+          <a class="car-cta" href="auto.html?id=fiat-130">Uuri lähemalt</a>
+        </div>
+      </article>
+
+      <!-- Daimler Double Six -->
+      <article class="car" data-category="british-luxury">
+        <div class="car-img">
+          <span class="car-tag">British Luxury</span>
+          <img src="assets/car-daimler-1.jpg" alt="Daimler Double Six" loading="lazy" style="object-fit:cover;width:100%;height:100%"/>
+        </div>
+        <div class="car-body">
+          <div class="car-price">Hind küsimisel</div>
+          <h2 class="car-name">Daimler Double Six</h2>
+          <div class="car-rule"></div>
+          <p class="car-desc">1993. aastal debüteerinud Daimler Double Six on Jaguar XJ40 luksuslikum V12-versioon – 6.0-liitrine kaheteistkümnesilindriline mootor koos neljakäigulise automaatkastiga tagab jõulise, kuid siidise sõidu. Vana kooli briti luksus, mis väärib endale kohast eelarvet ja veidi tähelepanu.</p>
+          <div class="car-meta">
+            <span>V12 6.0L</span><span class="dot"></span>
+            <span>Automaat</span><span class="dot"></span>
+            <span>XJ40</span>
+          </div>
+          <a class="car-cta" href="auto.html?id=daimler-double-six">Uuri lähemalt</a>
+        </div>
+      </article>
+
+      <!-- Jaguar XJ Series III -->
+      <article class="car" data-category="british-luxury">
+        <div class="car-img car-img-placeholder">
+          <span class="car-tag">British Luxury</span>
+          <div class="car-img-placeholder-text">Pilt lisandub varsti</div>
+        </div>
+        <div class="car-body">
+          <h2 class="car-name">Jaguar XJ Series III</h2>
+          <div class="car-rule"></div>
+          <p class="car-desc">Üks kaunima välimusega sedaane ajaloos – Series III (tootmises kuni 1992) kehastab britilikku luksust naha ja puiduga vääristatud salongis ning tunnustatud vedrustuses. Vana kooli Jaguarina hindab ta omaniku hoolt, tasudes selle eest meeleoluka sõiduelamusega.</p>
+          <a class="car-cta" href="mailto:contact@driversclub.ee?subject=P%C3%A4ring%3A%20Jaguar%20XJ%20Series%20III">Küsi lähemalt</a>
         </div>
       </article>
 

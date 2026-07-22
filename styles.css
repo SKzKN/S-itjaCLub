@@ -396,6 +396,26 @@ section{ padding: var(--section-pad) 0; position: relative; }
 }
 .car-cta:hover{ background: var(--tan); color: var(--green-deep); }
 
+.car-sold-badge{
+  position: absolute; top: 16px; right: 16px; z-index: 3;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--green-deep);
+  background: var(--tan);
+  padding: 7px 12px;
+}
+.car.is-sold .car-img img{ filter: grayscale(0.9) brightness(0.55); }
+.car.is-sold .car-img::before{
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background: rgba(10,14,11,0.4);
+}
+.car.is-sold .car-price{ opacity: 0.55; }
+
+.car-img-placeholder{ background: linear-gradient(155deg, var(--green-deep), var(--green)); }
+.car-img-placeholder-text{
+  font-size: 10.5px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--fg-muted); text-align: center; padding: 0 24px;
+}
+
 .cars-foot{
   margin-top: 64px;
   display: flex; justify-content: center;
