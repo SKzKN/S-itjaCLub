@@ -257,6 +257,39 @@ body.car-page > footer { margin-top: auto; }
   font-size: 15.5px; line-height: 1.8; color: var(--fg-muted); margin: 0;
 }
 
+/* Pros / cons */
+.pros-cons-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+.pros-cons-col { display: flex; flex-direction: column; gap: 14px; }
+.pros-cons-title {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase;
+  margin: 0;
+}
+.pros-cons-title.is-plus { color: var(--tan); }
+.pros-cons-title.is-minus { color: #ECA796; }
+.pros-cons-list {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.pros-cons-list li {
+  font-size: 14.5px; line-height: 1.7; color: var(--fg-muted);
+  padding-left: 24px; position: relative;
+}
+.pros-cons-list.is-plus li::before {
+  content: '+'; position: absolute; left: 0; top: -1px;
+  color: var(--tan); font-weight: 700; font-size: 16px;
+}
+.pros-cons-list.is-minus li::before {
+  content: '–'; position: absolute; left: 2px; top: -1px;
+  color: #ECA796; font-weight: 700; font-size: 16px;
+}
+@media (max-width: 720px) {
+  .pros-cons-grid { grid-template-columns: 1fr; gap: 24px; }
+}
+
 /* Specs table */
 .specs-dl {
   display: grid;
@@ -496,6 +529,24 @@ body.car-page > footer { margin-top: auto; }
             <div id="d-desc" class="car-desc-full"></div>
           </div>
 
+          <div class="car-section" id="d-pros-cons-section" hidden>
+            <div class="section-eyebrow">
+              <span class="line"></span>
+              <span>Ülevaade</span>
+            </div>
+            <h2 class="car-section-heading">Plussid <span class="it">ja miinused.</span></h2>
+            <div class="pros-cons-grid">
+              <div class="pros-cons-col">
+                <h3 class="pros-cons-title is-plus">Plussid</h3>
+                <ul id="d-pros" class="pros-cons-list is-plus"></ul>
+              </div>
+              <div class="pros-cons-col">
+                <h3 class="pros-cons-title is-minus">Miinused</h3>
+                <ul id="d-cons" class="pros-cons-list is-minus"></ul>
+              </div>
+            </div>
+          </div>
+
           <div class="car-section">
             <div class="section-eyebrow">
               <span class="line"></span>
@@ -625,6 +676,15 @@ body.car-page > footer { margin-top: auto; }
         'Aston Martin DB9 Volante (2008) on üks kaunimaid avatud katusega grand tourereid, mida Inglismaa on kunagi tootnud. AM04 V12 mootor mahuga 5935 cm³ toodab 350 kW (u. 456 hj) ning ühendab jõu sujuvusega läbi ZF-põhise automaatkäigukasti. Valge lahtine kere, tagavedu, esmane registreerimine 06.11.2008.',
         'DB9 on grand tourer sõna otseses mõttes — iga detail on kavandatud teekonda nautimiseks, mitte ainult sihtkohta jõudmiseks. Volante avatav katus, käsitsivalmistatud interjöör ja Aston Martini eriomane V12 heli moodustavad kogemuse, mida ei ole võimalik mõne teise autoga dubleerida. Registreeritud Eestis alates 01.09.2025, päritoluriik USA.',
       ],
+      pros: [
+        'DB9 on väga oluline mudel Aston Martini ajaloos, jätkas DB7-ga alguse saanud edulugu ja tehes siinkohal topelt hea tulemuse.',
+        'DB9 on GT-auto super näide - võimas ja kiire, eksklusiivse interjööriga, mugav ka pikkade vahemaade läbimiseks, lisaks võimeline pakkuma hulga positiivset sõiduemotsiooni.',
+        'DB9 on auto, mida arvestatakse maailma kaunimate sekka, V12 mootor on midagi, mida tuleb kogeda.',
+        'Antud DB9 Volante kogub lisapunkte juurde tänu avatavale katusele, mis teeb sõidu veelgi nauditavamaks.',
+      ],
+      cons: [
+        'Kuigi hoolitsev omanik ja mõistlik majandamine hoiab olukorra kontrolli all, siis Aston Martini omamine pole kunagi odav lõbu olnud.',
+      ],
       specs: [
         { label: 'Mootor',                  value: 'AM04 V12, 5935 cm³' },
         { label: 'Võimsus',                 value: '350 kW (u. 456 hj)' },
@@ -722,6 +782,14 @@ body.car-page > footer { margin-top: auto; }
       description: [
         'Mercedes-Benz S500 4MATIC (W220) on saksa autotööstuse lipulaev, mis ühendab 5.0-liitrise V8 mootori 225 kW võimsusega ja 4MATIC nelikveosüsteemi haardega. Esmalt registreeritud 09/2003, auto on läbinud 194 000 km ning omab hooldusraamatut.',
         'Helehall metallik värv ja täisvarustus annavad tunnistust W220 põlvkonna S-klassi ajatust luksusest — puidust rooliratas, nahksalong ja tagaistmete meelelahutus teevad sellest sõidu, mis on nauditav nii juhile kui kaassõitjatele.',
+      ],
+      pros: [
+        'W220 põlvkonna S-klass oli mudel, mis viis Mercedes-Benz margi uude aastatuhandesse ja sellega kaasnenud uuenduste laine on tunda ka tänapäevastel mudelitel.',
+        'Antud S-klassi näol on tegu facelift mudeliga, mida on hästi hoitud ja mis varustatud 4Matic nelikveoga. Tegu pika teljavahega mudeliga, millel kogupikkust 5163 mm. Varustus on väga rikkalik, sh tagumisel el.istmed.',
+        'Sõit S-klassiga on väga mugav, vaikne ja sujuv - täpselt selline nagu üks õige luksusauto olema peab.',
+      ],
+      cons: [
+        'W220 puhul tuleb hoida kere seisukorral silma peal, et roosteuss liiga ei teeks. Antud S 500 L on küll üldpildis siinkohal viisakas, kuid mõningad roosteilmingid võib silmata.',
       ],
       specs: [
         { label: 'Mootor',                 value: 'V8, 5.0L' },
@@ -1165,6 +1233,13 @@ body.car-page > footer { margin-top: auto; }
 
   // Description
   document.getElementById('d-desc').innerHTML = car.description.map(p => `<p>${esc(p)}</p>`).join('');
+
+  // Pros / cons
+  if ((car.pros && car.pros.length) || (car.cons && car.cons.length)) {
+    document.getElementById('d-pros-cons-section').hidden = false;
+    document.getElementById('d-pros').innerHTML = (car.pros || []).map(p => `<li>${esc(p)}</li>`).join('');
+    document.getElementById('d-cons').innerHTML = (car.cons || []).map(c => `<li>${esc(c)}</li>`).join('');
+  }
 
   // Specs table
   document.getElementById('d-specs').innerHTML = car.specs.map(s =>
