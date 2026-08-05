@@ -2,55 +2,57 @@
 
 Seisuga see fail kajastab `assets/cars-data.js` sisu. Ei ühtegi kirjeldust ei ole
 siia juurde genereeritud — kõik allolev on olemasolev omaniku tekst või selle
-puudumise märge. Kui `special` / `caution` on tühjad, jäetakse vastav sektsioon
-auto.html detaillehel peidetuks (vt `d-special-section` / `d-caution-section`),
-ei kuvata AI-täidetud asendustekstina.
+puudumise märge.
+
+**2026-08-05 muudatus (suurem):** omanik otsustas, et kuulutustes kasutatakse
+**AINULT** `special` ("Mis teeb sellest erilise") ja `caution` ("Mida tasub
+antud auto ostmisel silmas pidada") teksti — kõik varasem sisu (vana
+"Kirjeldus" plokk / `description`, hero alapealkiri / `tagline`, ja kõik AI
+poolt varem lisatud tekst) on eemaldatud, nii andmestikust kui renderdusest.
+Esilehe ja täisnimekirja kaardi eelvaade on nüüd **`special[0]` esimene lause**
+(vt `assets/cars-shared.js`, `cardPreviewText()`), mitte enam eraldi
+lühikirjeldus.
+
+Samas sõnumis sai enamik autosid täieliku `special` + `caution` teksti otse
+omanikult — vt tabel allpool.
 
 ## Staatus tabel
 
-| Auto | `special` ("Mis teeb sellest erilise") | `caution` ("Mida tasub ... silmas pidada") | Märkus |
+| Auto | `special` | `caution` | Märkus |
 |---|---|---|---|
-| Aston Martin DB9 | ✅ olemas | ✅ olemas | — |
-| BMW M6 | ❌ puudub | ❌ puudub | vajab omaniku teksti |
-| Mercedes-Benz 560 SL | ❌ puudub | ❌ puudub | vajab omaniku teksti |
-| Mercedes-Benz S500 4MATIC | ✅ olemas | ✅ olemas | — |
-| Jaguar XK | ❌ puudub | ❌ puudub | vajab omaniku teksti |
-| Jaguar S-Type (müüdud) | ❌ puudub | ❌ puudub | vajab omaniku teksti |
-| Daimler Double Six | ❌ puudub | ❌ puudub | vajab omaniku teksti |
-| Fiat 130 | ❌ puudub | ❌ puudub | vajab omaniku teksti |
-| Maserati Spyder (müüdud) | ❌ puudub | ❌ puudub | vajab omaniku teksti |
-| **Bentley Arnage** | ❌ puudub | ❌ puudub | **PRIORITEET — vt allpool, olemasolev `description` on omaniku hinnangul täiesti vale** |
-| Jaguar XJ Series III | ✅ olemas | ✅ olemas | uuendatud — omanik saatis uue kirjelduse + plokid otse |
-| Opel Omega 3000 (müüdud) | ❌ puudub | ❌ puudub | vajab omaniku teksti |
-| Mercedes-Benz 230.4 (müüdud) | ❌ puudub | ❌ puudub | vajab omaniku teksti |
-| Pontiac Fiero (müüdud) | ❌ puudub | ❌ puudub | vajab omaniku teksti |
-| BMW M535i (müüdud) | ❌ puudub | ❌ puudub | vajab omaniku teksti |
-| Jaguar XJ-S V12 | ❌ puudub | ✅ olemas | uus kuulutus — omanik andis kirjelduse + "mida silmas pidada" teksti, "Mis teeb erilise" pole veel antud |
+| Aston Martin DB9 | ✅ | ✅ | uuendatud 2026-08-05 (esimene lause eemaldatud) |
+| BMW M6 | ✅ | ✅ | uuendatud 2026-08-05 |
+| Mercedes-Benz 560 SL | ✅ | ✅ | uuendatud 2026-08-05 (uus tekst, asendas pika ajaloolise kirjelduse) |
+| Mercedes-Benz S500 4MATIC | ✅ | ✅ | kinnitatud muutumatuna 2026-08-05 |
+| Jaguar XK | ✅ | ✅ | uuendatud 2026-08-05 |
+| Jaguar S-Type (müüdud) | ✅ | ✅ | uuendatud 2026-08-05 |
+| Daimler Double Six | ✅ | ✅ | uuendatud 2026-08-05 |
+| Fiat 130 | ✅ | ✅ | uuendatud 2026-08-05 |
+| Maserati Spyder (müüdud) | ✅ | ✅ | uuendatud 2026-08-05 |
+| Bentley Arnage | ✅ | ✅ | **lahendatud** — omanik saatis 2026-08-05 õige teksti, vana vale `description` pole enam kusagil kasutuses |
+| Jaguar XJ Series III | ✅ | ✅ | uuendatud 2026-08-05 (caution sai lisalause, special parandatud käändeviga "kaunile") |
+| Opel Omega 3000 (müüdud) | ✅ | ✅ | uuendatud 2026-08-05 |
+| Mercedes-Benz 230.4 (müüdud) | ✅ | ✅ | uuendatud 2026-08-05 |
+| Pontiac Fiero (müüdud) | ✅ | ✅ | uuendatud 2026-08-05 |
+| BMW M535i (müüdud) | ✅ | ✅ | uuendatud 2026-08-05 |
+| Jaguar XJ-S V12 (valge) | ✅ | ✅ | uuendatud 2026-08-05 (vana `description` tõsteti `special`-isse) |
 
-**11 / 16 autol puudub `special` tekst, 12 / 16 puudub `caution` tekst.**
-DB9, S500 4MATIC ja Jaguar XJ Series III on ainsad, kel mõlemad plokid täidetud.
+**16/16 praegu andmestikus oleval autol on mõlemad plokid täidetud.**
 
-## Prioriteet: Bentley Arnage
+## Pooleli: Jaguar XJ-S V12 (roheline / British Racing Green)
 
-Omanik märkis, et Bentley Arnage praegune `description` (Kirjeldus-plokk) on
-**täiesti vale** — sisu tuleb üle kirjutada, mitte ainult `special`/`caution`
-juurde lisada. Praegune tekst (`assets/cars-data.js`, `bentley-arnage.description`):
+Omanik saatis 2026-08-05 täieliku `special`/`caution` teksti teisele XJ-S V12-le
+(roheline, valge BRG värv, valge nahkinterjöör asemel):
 
-> "Bentley Arnage on üks väheseid autosid maailmas, kus iga detail tunneb end
-> nagu käsitsivalmistatud — sest ta ongi. Crewe tehases toodetud Arnage on
-> varustatud BMW ja Cosworths koostöös loodud V8 mootoriga [...]"
+> **+** Stiilne V12 mootoriga Briti GT-auto koos vääriliste sõiduomadustega.
+> British Racing Green ja valge nahkinterjöör loovad suurepärase koosluse. V12
+> mootor ja mugav vedrustus on meeldivaks kaaslaseks igal road tripil.
+>
+> **−** V12 mootoriga kaasnevad alati keskmisest suuremad kulud. Seisukorda
+> iseloomustab hästi "sõidan, naudin, kasutan" stiil ja sobib hästi omanikule,
+> kes on valmis autosse hoolt ja armastust investeerima.
 
-See tekst on jäetud muutmata (vastavalt juhisele "Ära genereeri ise ühtegi
-kirjeldust juurde"), kuid on siia märgitud puuduolevaks/valeks — vajab
-omanikult uut `description` + `special` + `caution` teksti. Kuni uus tekst
-saabub, ei tohiks Bentley Arnage't kasutada näidiseksemplarina teiste autode
-sisu stiili osas.
-
-## Järgmised sammud
-
-1. Küsi omanikult kirjalik sisu (description / special / caution) iga autot
-   kohta, mis on ülal märgitud puuduvaks — alusta Bentley Arnage'ist.
-2. Kui tekst saabub, lisa see `assets/cars-data.js` vastava auto `special` /
-   `caution` väljale (vt Aston Martin DB9 ja S500 4MATIC struktuuri näiteks).
-3. Uuenda see fail (audit.md) pärast igat lisatud teksti — eemalda rida
-   nimekirjast või märgi ✅.
+**Ei ole veel lisatud `cars-data.js`-i**, kuna ei saadetud ühtegi fotot selle
+konkreetse (rohelise) auto kohta — sait ei saa kuvada kaarti/detaillehte ilma
+vähemalt ühe pildita. Niipea kui fotod saabuvad, lisa uus kirje (nt id
+`jaguar-xjs-v12-green`) samamoodi nagu valge XJ-S V12 lisati.

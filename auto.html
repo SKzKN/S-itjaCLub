@@ -197,11 +197,6 @@ body.car-page > footer { margin-top: auto; }
   line-height: 1.0; letter-spacing: -0.04em;
   margin: -4px 0 0; color: var(--cream);
 }
-.car-hero-tagline {
-  font-size: 14px; line-height: 1.7;
-  color: var(--fg-muted);
-  margin: 0; max-width: 340px;
-}
 
 .hero-specs-grid {
   display: grid;
@@ -483,7 +478,6 @@ body.car-page > footer { margin-top: auto; }
           <div id="d-price" class="car-hero-price"></div>
           <h1 id="d-name" class="car-hero-name"></h1>
           <div class="car-rule"></div>
-          <p id="d-tagline" class="car-hero-tagline"></p>
           <div id="d-hero-specs" class="hero-specs-grid"></div>
           <a id="d-cta" class="btn btn-primary car-hero-cta" href="#">
             Küsi pakkumist <span class="arrow-r"></span>
@@ -499,15 +493,6 @@ body.car-page > footer { margin-top: auto; }
       <div class="car-body-grid">
 
         <div class="car-main-col">
-          <div class="car-section">
-            <div class="section-eyebrow">
-              <span class="line"></span>
-              <span>Kirjeldus</span>
-            </div>
-            <h2 class="car-section-heading">Sõiduki <span class="it">kirjeldus.</span></h2>
-            <div id="d-desc" class="car-desc-full"></div>
-          </div>
-
           <div class="car-section" id="d-special-section" hidden>
             <div class="section-eyebrow">
               <span class="line"></span>
@@ -666,7 +651,6 @@ body.car-page > footer { margin-top: auto; }
   document.getElementById('d-tag').textContent    = car.tag;
   document.getElementById('d-price').textContent  = car.price;
   document.getElementById('d-name').textContent   = car.name;
-  document.getElementById('d-tagline').textContent = car.tagline;
   document.getElementById('d-cta').href = 'mailto:contact@driversclub.ee?subject=' + encodeURIComponent('Päring: ' + car.name);
 
   if (car.sold) {
@@ -748,9 +732,6 @@ body.car-page > footer { margin-top: auto; }
   document.getElementById('d-hero-specs').innerHTML = car.heroSpecs.map(s =>
     `<div class="hero-spec"><div class="hero-spec-lbl">${esc(s.label)}</div><div class="hero-spec-val">${esc(s.value)}</div></div>`
   ).join('');
-
-  // Description
-  document.getElementById('d-desc').innerHTML = car.description.map(p => `<p>${esc(p)}</p>`).join('');
 
   // Mis teeb sellest erilise
   if (car.special && car.special.length) {

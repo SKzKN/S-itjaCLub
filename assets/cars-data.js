@@ -16,6 +16,13 @@
  *           scripts/validate-car-photos.js to flag missing coverage. Vocabulary:
  *           'front-3q', 'front', 'side', 'rear-3q', 'rear', 'interior',
  *           'interior-front', 'interior-rear', 'engine', 'detail'.
+ * - special / caution: the ONLY narrative copy shown anywhere for a car (owner's
+ *           "Mis teeb sellest erilise" / "Mida tasub antud auto ostmisel silmas
+ *           pidada" text). Card previews (cardPreviewText() in cars-shared.js)
+ *           are the first sentence of special[0] — there is no separate
+ *           "description" or "tagline" field anymore; the owner deliberately
+ *           dropped those (2026-08-05) since they only ever existed for a
+ *           handful of cars and looked inconsistent site-wide.
  */
 window.CARS = {
   'aston-martin-db9': {
@@ -30,14 +37,8 @@ window.CARS = {
     images: ['assets/car-db9-2.jpg', 'assets/car-db9-4.jpg', 'assets/car-db9-5.jpg', 'assets/car-db9-3.jpg', 'assets/car-db9.png'],
     imageViews: ['front-3q', 'side', 'rear-3q', 'front-3q', 'front-3q'],
     photoStyle: true,
-    tagline: 'Käsitsivalmistatud V12 grand tourer Gaydon\'i töökodadest — DB9 Volante on auto sellisena, nagu see peaks olema.',
-    description: [
-      'Aston Martin DB9 Volante (2008) on üks kaunimaid avatud katusega grand tourereid, mida Inglismaa on kunagi tootnud. AM04 V12 mootor mahuga 5935 cm³ toodab 350 kW (u. 456 hj) ning ühendab jõu sujuvusega läbi ZF-põhise automaatkäigukasti. Valge lahtine kere, tagavedu, esmane registreerimine 06.11.2008.',
-      'DB9 on grand tourer sõna otseses mõttes — iga detail on kavandatud teekonda nautimiseks, mitte ainult sihtkohta jõudmiseks. Volante avatav katus, käsitsivalmistatud interjöör ja Aston Martini eriomane V12 heli moodustavad kogemuse, mida ei ole võimalik mõne teise autoga dubleerida. Registreeritud Eestis alates 01.09.2025, päritoluriik USA.',
-    ],
     special: [
-      'DB9 on väga oluline mudel Aston Martini ajaloos, jätkas DB7-ga alguse saanud edulugu ja tehes siinkohal topelt hea tulemuse.',
-      'DB9 on GT-auto super näide - võimas ja kiire, eksklusiivse interjööriga, mugav ka pikkade vahemaade läbimiseks, lisaks võimeline pakkuma hulga positiivset sõiduemotsiooni.',
+      'DB9 on GT-auto super näide - võimas, kiire, eksklusiivse interjööriga, mugav ka pikkade vahemaade läbimiseks, lisaks võimeline pakkuma hulga positiivset sõiduemotsiooni.',
       'DB9 on auto, mida arvestatakse maailma kaunimate sekka, V12 mootor on midagi, mida tuleb kogeda.',
       'Antud DB9 Volante kogub lisapunkte juurde tänu avatavale katusele, mis teeb sõidu veelgi nauditavamaks.',
     ],
@@ -77,9 +78,10 @@ window.CARS = {
     images: ['assets/m6-2.webp', 'assets/m6-3.webp', 'assets/m6-5.webp', 'assets/m6-1.webp', 'assets/m6-4.webp'],
     imageViews: ['front-3q', 'rear-3q', 'interior', 'front', 'rear'],
     photoStyle: true,
-    tagline: 'Aegade kiireim soft-top BMW — V10 mootor, SMG-käigukast ja 4,8 sekundit sajani.',
-    description: [
+    special: [
       'Vägagi kiire, kuid samas tänu neljale istekohale eeskujulikult praktiline BMW. Kabrio keretüüp duubeldab sõidunaudingut. V10 M-mootor tagab vajaliku iseloomu.',
+    ],
+    caution: [
       'SMG-kast pole sobilik kõigile. V10 mootoriga luksuskabrio ei ole odavalt ülalpeetav.',
     ],
     specs: [
@@ -110,11 +112,11 @@ window.CARS = {
     images: ['assets/sl-1.webp', 'assets/sl-2.webp', 'assets/sl-3.webp', 'assets/sl-4.webp'],
     imageViews: ['front-3q', 'rear-3q', 'interior', 'interior'],
     photoStyle: true,
-    tagline: 'R107 seeria võimsaim ja viimane versioon — 5,6-liitrine V8, eemaldatav kõvakatus ja peidetud pehmekatus.',
-    description: [
-      'Mercedes-Benz R107 on 2-kohaline saksa sportauto, mida toodeti aastatel 1971–1989, olles pikaaegse tootmisajaga G-klassi kõrval teisel kohal. Standardvarustusse kuulus pehmekatus, eemaldatav kõvakatus oli saadaval lisavarustusena. Jõuallikate valik algas 2,8-liitrisest reaskuuesest ning küündis 5,6-liitrise V8 mootorini.',
-      '560 SL jäi R107 seeria viimaseks versiooniks, debüteerides 1985. aasta septembris, mil R107 oli just 1986. aastaks mudeliuuendust läbimas.',
-      'See 1988. aasta SL, tühimassiga 1618 kg, teeb automaatse käiguvahetuse toel nullist sada 7,8 sekundiga, mõõtes kilomeetreid ka 240 kilomeetrise tunnikiiruse juures. Oma rolli mängib siin 169 kW V8 mootor. Meie Mercedesel on lisavarustusse kuuluv kõvakatus, mille võib kena ilma korral riiulisse jätta. Tagaossa on päikeseliste päevade puhuks peidetud kokkuklapitav pehmekatus. Auto on väliselt autentne, salongi puitdekoor on Eestis läbinud meisterliku taastamistöö, istmed on väärikas seisukorras, mõlemad katused töötavad nii, nagu peab. Istmete tagune panipaik ning suur pagasiruum moodustavad kabrioleti kohta kaunikesti muljetavaldava veoruumi. 560 SL on tõeliselt ilus, hooldatud ja hoitud kabriolett, mis pakub kiiret ning luksuslikku sõidukogemust inimesele, kes teab ja oskab temast lugu pidada.',
+    special: [
+      'Eeskujulik vana kooli Mercedes, mis on loodud kestma, kvaliteet igas detailis. Tippmudeli V8 mootor mõnusalt muhe ja vägagi jõuline. Auto seisukord väga korralik ja EU-välimus lisab atraktiivsust.',
+    ],
+    caution: [
+      'Sõiduomadused kohati positiivselt koomilised.',
     ],
     specs: [
       { label: 'Mootor',       value: 'V8, 5,6L' },
@@ -147,14 +149,9 @@ window.CARS = {
     images: ['assets/w220-1.jpg', 'assets/w220-2.jpg', 'assets/w220-3.jpg', 'assets/w220-4.jpg'],
     imageViews: ['front-3q', 'rear-3q', 'interior-front', 'interior-rear'],
     photoStyle: true,
-    tagline: 'Nelikveoline V8 lipulaev — S500 4MATIC ühendab võimsuse, täisvarustuse ja hooldusraamatuga tõestatud ajaloo.',
-    description: [
-      'Mercedes-Benz S500 4MATIC (W220) on saksa autotööstuse lipulaev, mis ühendab 5.0-liitrise V8 mootori 225 kW võimsusega ja 4MATIC nelikveosüsteemi haardega. Esmalt registreeritud 09/2003, auto on läbinud 194 000 km ning omab hooldusraamatut.',
-      'Helehall metallik värv ja täisvarustus annavad tunnistust W220 põlvkonna S-klassi ajatust luksusest — puidust rooliratas, nahksalong ja tagaistmete meelelahutus teevad sellest sõidu, mis on nauditav nii juhile kui kaassõitjatele.',
-    ],
     special: [
       'W220 põlvkonna S-klass oli mudel, mis viis Mercedes-Benz margi uude aastatuhandesse ja sellega kaasnenud uuenduste laine on tunda ka tänapäevastel mudelitel.',
-      'Antud S-klassi näol on tegu facelift mudeliga, mida on hästi hoitud ja mis varustatud 4Matic nelikveoga. Tegu pika teljavahega mudeliga, millel kogupikkust 5163 mm. Varustus on väga rikkalik, sh tagumised el. istmed.',
+      'Antud S-klassi näol on tegu facelift mudeliga, mida on hästi hoitud ja mis on varustatud 4Matic nelikveoga. Tegu pika teljavahega mudeliga, millel kogupikkust 5163 mm. Varustus on väga rikkalik, sh tagumised el. istmed.',
       'Sõit S-klassiga on väga mugav, vaikne ja sujuv - täpselt selline nagu üks õige luksusauto olema peab.',
     ],
     caution: [
@@ -191,9 +188,10 @@ window.CARS = {
     images: ['assets/xk-1.webp', 'assets/xk-2.webp', 'assets/xk-3.webp', 'assets/xk-4.webp'],
     imageViews: ['front-3q', 'rear-3q', 'interior', 'interior-front'],
     photoStyle: true,
-    tagline: 'Briti elegants ja V8 jõud — kaheukseline 2+2 grand tourer oma parimas kujus.',
-    description: [
+    special: [
       'Stiilne ja vägagi kasutatav luksuskabrio, mis oma tänapäevaste lahendustega jätab vähe soovida. V8 mootor liigutab autot jõudsalt, samas kütusekulu on vägagi mõistlik. Tagumised istmed lisavad praktilisust.',
+    ],
+    caution: [
       'Ei pruugi sobida neile, kelle jaoks vana kooli aura on oluline.',
     ],
     specs: [
@@ -225,9 +223,10 @@ window.CARS = {
     images: ['assets/car-stype-1.jpg', 'assets/car-stype-3.jpg', 'assets/car-stype-6.jpg', 'assets/car-stype-2.jpg', 'assets/car-stype-5.jpg', 'assets/car-stype-4.jpg'],
     imageViews: ['front-3q', 'rear-3q', 'interior', 'front-3q', 'rear-3q', 'rear'],
     photoStyle: true,
-    tagline: 'Punane metallik, hele nahksisu — mudelivärskendusjärgne S-Type V8 4.2 mõistliku hinnaga hobiautoks.',
-    description: [
-      'Väga ahvatlev värvikombinatsioon - punane metallik välisvärv, mida suurepäraselt toetab heledas toonides nahksisu. Auto varustatud mudelivärskenduse järgse 4.2 liitrise V8 mootoriga. Hea kandidaat neile, kes otsivad mõistliku hinnaga hobiautot. Sobib nii hobiautoks kui ka igapäevasteks sõitudeks suvel - ükskõik kumma variandi kasuks otsustada, stiilne saabumine on garanteeritud.',
+    special: [
+      'Väga ahvatlev värvikombinatsioon - punane metallik välisvärv, mida suurepäraselt toetab heledas toonides nahksisu. Auto on varustatud mudelivärskenduse järgse 4.2 liitrise V8 mootoriga. Hea kandidaat neile, kes otsivad mõistliku hinnaga hobiautot. Sobib nii hobiautoks kui ka igapäevasteks sõitudeks suvel - ükskõik kumma variandi kasuks otsustada, stiilne saabumine on garanteeritud.',
+    ],
+    caution: [
       'Esineb antud mudelile tüüpilist korrosiooni tagakoobastel ja küljekarpidel. Tähelepanu vajab tagasild.',
     ],
     specs: [
@@ -257,11 +256,11 @@ window.CARS = {
     images: ['assets/car-daimler-1.jpg', 'assets/car-daimler-4.jpg', 'assets/car-daimler-2.jpg', 'assets/car-daimler-5.jpg', 'assets/car-daimler-3.jpg'],
     imageViews: ['front-3q', 'rear-3q', 'front-3q', 'rear', 'front'],
     photoStyle: true,
-    tagline: '1993. aastast Daimleri lipulaev — XJ40 baasil V12 luksussedaan, mis pakub jõudu ja siidist sõitu.',
-    description: [
-      'Kui XJ40 tootmine 1986. aastal algas, teadis Jaguar, et nad peavad turule tooma ka V12 mootoriga versiooni. Selleks tehti kuus aastat kestnud kogu esiosa hõlmav ümberehitus, mahutamaks V12 mootor XJ40 mootoriruumi. 1993. aastal tuli lõpuks müügile XJ40 koos uue V12 mootoriga (arenduskood XJ81). Toodeti kahte mudelit: Jaguar XJ12 ja luksuslikum Daimler Double Six. Uus V12 mootor oli suurendatud kuueliitriliseks ning varustatud uue neljakäigulise automaatkäigukastiga.',
-      'Stiilne ja rikkalikult varustatud vana kooli briti luksusauto, mis tänu neljakäigulisele käigukastile ja 6.0 V12 mootorile pakub üsna jõulisi kiirusomadusi ja on mõnusalt kasutatav ka tänapäeval. Tegu on Daimleri marginime all toodetud luksuslikuma versiooniga, mis suudab oma siidiste sõiduomadustega võluda.',
-      'Sellise Daimleri omamisel peab eelarve olema tavapärasest suurem, sest nii jooksvad kulud kui ka hooldus ja remont on briti maahärra seisusele kohased. Antud eksemplari on küll viimase aasta jooksul palju investeeritud, kuid mõningast tähelepanu antud Daimler veel vajab, et saaks täies hiilguses särada.',
+    special: [
+      'Stiilne ja rikkalikult varustatud vana kooli Briti luksusauto, mis tänu neljakäigulisele käigukastile ja 6.0 V12 mootorile pakub üsna jõulisi kiirusomadusi ja on mõnusalt kasutatav ka tänapäeval. Tegu on Daimleri marginime all toodetud luksuslikuma versiooniga, mis suudab oma siidiste sõiduomadustega võluda.',
+    ],
+    caution: [
+      'Sellise Daimleri omamisel peab eelarve olema tavapärasest suurem, sest nii jooksvad kulud kui ka hooldus ja remont on Briti maahärra seisusele kohased. Antud eksemplari on küll viimaste aastate jooksul palju investeeritud, kuid mõningast tähelepanu antud Daimler veel vajab, et saaks täies hiilguses särada.',
     ],
     specs: [
       { label: 'Mootor',    value: 'Jaguar V12, 6.0L' },
@@ -290,10 +289,11 @@ window.CARS = {
     images: ['assets/car-fiat130-1.jpg', 'assets/car-fiat130-4.jpg', 'assets/car-fiat130-2.jpg', 'assets/car-fiat130-3.jpg'],
     imageViews: ['front-3q', 'rear-3q', 'front-3q', 'front'],
     photoStyle: true,
-    tagline: 'Pininfarina joonistatud Itaalia 70ndate luksuskupee — karburaatoriga V6 ja automaatkast.',
-    description: [
+    special: [
       'Ülimalt elegantne ja suurepärane näide 70ndate aastate luksusest. Iga detail selle auto juures tundub erilisena ja sõit on omaette sündmus. Must reg nr tagab teadmise, et auto seisukord on väärikas.',
-      'Itaalia 70ndate luksuskupee, millel karburaatoriga V6 mootor koostöös automaatkastiga - need on iseärasused, mis toovad esile kire, kuid aeg-ajalt ka kapriisid.',
+    ],
+    caution: [
+      'Itaalia 70ndate luksuskupee, millel on karburaatoriga V6 mootor koostöös automaatkastiga - need on iseärasused, mis toovad esile kire, kuid aeg-ajalt ka kapriisid.',
     ],
     specs: [
       { label: 'Mootor',        value: 'Fiat V6 3.2L (karburaator)' },
@@ -323,10 +323,12 @@ window.CARS = {
     images: ['assets/spyder-1.jpg', 'assets/spyder-2.jpg', 'assets/spyder-4.jpg', 'assets/spyder-3.jpg'],
     imageViews: ['front-3q', 'rear-3q', 'interior', 'detail'],
     photoStyle: true,
-    tagline: 'Ferrari süda, Maserati hing — puhtavereline itaalia roadster.',
-    description: [
-      'Maserati Spyder on üks kirglikumaid autosid, mida Itaalia on kunagi tootnud. Ferrari päritolu 4.2L V8 mootor annab sellele roadsterile iseloomu, mida ei saa raha eest osta — see tuleb lihtsalt autosse istudes. Spyder mudeli lühem teljevahe tähendab teravamat juhtimist, ning avatav katus lisab elamusele veel ühe mõõtme.',
-      'Cambiocorsa käigukast on poolautomaatne lahendus, mis sarnaneb Ferrari F1-kasti põhimõttele — käigud vahetatakse roolil asuvate lülititega. Sportlik, mürarikas ja kompromisstundetu. See on auto, mis nõuab pühendumist, aga annab selle eest vastutasuks kogemuse, mida mitte ükski kaasaegne auto ei suuda täielikult korrata.',
+    special: [
+      'Puhtavereline Itaalia sportauto, mis on sama kirglik nagu itaallanna, ja seda parimas tähenduses. Ferrari päritolu mootor ja Spyder mudeli lühem teljevahe loovad vägagi sportlikud sõiduomadused, millele lisab veelgi elamust avatav katus.',
+      'Viimase aasta jooksul on investeeritud autosse 7000 eurot, mis on märk hoolitsevast omanikust.',
+    ],
+    caution: [
+      'Sama kirglik nagu itaallanna, kes on aeg-ajalt valmis oma iseloomu näitama. Cambiocorsa käigukast vajab harjumist ja pole kõigi jaoks.',
     ],
     specs: [
       { label: 'Mootor',      value: 'Ferrari V8, 4.2L' },
@@ -355,10 +357,12 @@ window.CARS = {
     images: ['assets/bentley-1.jpg', 'assets/bentley-3.jpg', 'assets/bentley-4.jpg', 'assets/bentley-2.jpg'],
     imageViews: ['front-3q', 'rear-3q', 'interior', 'front-3q'],
     photoStyle: true,
-    tagline: 'Briti eksklusiivsus kompromissvabalt — Arnage on Crewe parimate käte töö.',
-    description: [
-      'Bentley Arnage on üks väheseid autosid maailmas, kus iga detail tunneb end nagu käsitsivalmistatud — sest ta ongi. Crewe tehases toodetud Arnage on varustatud BMW ja Cosworths koostöös loodud V8 mootoriga, mis on praktikas kuluefektiivsem kui hilisemad Twin-Turbo versioonid.',
-      'ZF käigukast, naha ja puiduga kaetud interjöör ning auto üldine proportsioon annavad tunnistust sellest, et 1990ndate luksusauto kontseptsioon oli midagi enamat kui transportvahend. Arnage on eluviis. Tallinn–Riia sõit muutub sellega vabatahtlikuks.',
+    special: [
+      'Ülimalt stiilne ja luksuslik Briti eksklusiivauto. Antud Arnage on varustatud BMW ja Cosworth poolt koostöös loodud V8 mootoriga, mis on kasutamisel tänapäevasem ja kuluefektiivsem, lisaks autol ka ZF-käigukast.',
+      'Nahka, puitu ja kõike muud head on ohtralt, sõit sellise autoga on puhas nauding.',
+    ],
+    caution: [
+      'Bentley pole kunagi olnud auto, mida saaks majandada kindlaksmääratud eelarve alusel.',
     ],
     specs: [
       { label: 'Mootor',     value: 'BMW/Cosworth V8' },
@@ -386,16 +390,11 @@ window.CARS = {
     images: ['assets/xj3-1.jpg', 'assets/xj3-3.jpg', 'assets/xj3-4.jpg', 'assets/xj3-5.jpg', 'assets/xj3-6.jpg'],
     imageViews: ['front-3q', 'rear-3q', 'interior-front', 'interior-rear', 'engine'],
     photoStyle: true,
-    tagline: 'Üks kaunima välimusega sedaane ajaloos — britilikku luksust naha ja puiduga vääristatud salongis.',
-    description: [
-      'Jaguar XJ Series I, II ja III kuuluvad kuulsaimate disainiga autode hulka ja on paljude silmis kaunima välimusega sedaan ajaloos.',
-      'Antud disainijoon sai alguse 1968. aastal Series I mudeliga ja pärast teist mudeliuuendust kandis nime Series III. Series III mudeli tootmine jätkus aastani 1992. Mootoriteks olid R6 (tootmine lõpetati 1986. aastal) ja V12.',
-    ],
     special: [
-      'Kui korraldada rahvaküsitlus teemal, mis on kolm kõige britilikumat asja, siis suure tõenäosusega oleks need vihmane ilm, kella viiene tee ja Jaguar XJ Series III. XJ Series III on äärmiselt stiilne ja britilik luksusauto, mille kauni välimusele sekundeerib maitsekas ja luksuslik naha ning puiduga vääristatud interjöör. Muidugi ei tasu unustada ka väga head vedrustust, mille üle tundsid omal ajal kadedust ka nimekamad konkurendid.',
+      'Kui korraldada rahvaküsitlus teemal, mis on kolm kõige britilikumat asja, siis suure tõenäosusega oleks need vihmane ilm, kella viiene tee ja Jaguar XJ Series III. XJ Series III on äärmiselt stiilne ja britilik luksusauto, mille kaunile välimusele sekundeerib maitsekas ja luksuslik naha ning puiduga vääristatud interjöör. Muidugi ei tasu unustada ka väga head vedrustust, mille üle tundsid omal ajal kadedust ka nimekamad konkurendid.',
     ],
     caution: [
-      'Vana Jaguar on vana Jaguar. Selline Jaguar on üsna nõudlik omaniku hoole ja armastuse osas. Kui auto seda saab, siis käitub hästi. Kui ei saa, siis näitab iseloomu.',
+      'Vana Jaguar on vana Jaguar. Selline Jaguar on üsna nõudlik omaniku hoole ja armastuse osas. Kui auto seda saab, siis käitub hästi. Kui ei saa, siis näitab iseloomu. Kuigi antud eksemplar on üldpildis meeldivalt viisakas, siis nipet-näpet tähelepanu vajab.',
     ],
     specs: [
       { label: 'Kere tüüp',       value: 'Sedaan (XJ6 Series III)' },
@@ -426,10 +425,12 @@ window.CARS = {
     images: ['assets/omega-1.jpg', 'assets/omega-2.jpg', 'assets/omega-3.jpg'],
     imageViews: ['front-3q', 'interior', 'engine'],
     photoStyle: true,
-    tagline: 'Euroopa kiireim sportssedaan oma ajal — 3.0 24V on legend põhjusega.',
-    description: [
-      'Opel Omega 3000 on üks suurim legend, mis Euroopa autotööstusest 80ndate lõpus välja tuli. Legendaarne 3.0-liitrine 24-klapine mootor kombineerituna aerodünaamilise kere ja sportliku veermikuga muutis Omega 3000 tõeliseks BMW 5-seeria ja Mercedes-Benz E-klassi konkurendiks — ning võitis tihti ka võrdlusteste.',
-      'Hästi säilinud Omega 3000 on täna haruldus — enamik on roostes, rikutud või lihtsalt kadunud. See eksemplar on investeering Euroopa autotööstuse ajalukku. Kasvava kollektsionääriväärtusega auto, mis pole veel saavutanud sellele kuuluvat hinda.',
+    special: [
+      'Üks õige suur 80ndate ja 90ndate sportsedaan, millel on kiidetud veermik, legendaarne 3.0 24V mootor ja aerodünaamiline kere - eks kõik see põhjuseks, miks tollal Omega 3000 24V lõviosas kui mitte kõik võrdlustestid võitis.',
+      'Seda mudelit toodeti ainult 15400 tükki, millest säilinud on vähe.',
+    ],
+    caution: [
+      'Vaatamata üldpildis igati viisakale ja heale seisukorral oskab antud Omega 3000 24V hinnata omanikku, kes on meeleldi valmis natukene siit-sealt auto kallal nokitsema.',
     ],
     specs: [
       { label: 'Mootor',   value: '3.0L 24V DOHC' },
@@ -458,10 +459,11 @@ window.CARS = {
     images: ['assets/mercedes230-1.jpg', 'assets/mercedes230-3.jpg', 'assets/mercedes230-2.jpg', 'assets/mercedes230-4.jpg'],
     imageViews: ['front-3q', 'rear-3q', 'interior', 'engine'],
     photoStyle: true,
-    tagline: 'Särav kollane W115 "Stroke-8" — 230.4 tähistab Mercedese 70ndate keskklassi sedaanit selle ehedaimal kujul.',
-    description: [
-      'Mercedes-Benz 230.4 kuulub W114/W115 "Stroke-8" perekonda, mis oli aastatel 1968–1976 Mercedese keskklassi selgroog. Mudelitähis 230.4 viitab 2.3-liitrisele neljasilindrilisele M115 mootorile, mis lisandus mudelivalikusse 1973. aasta värskenduse käigus.',
-      'Särav kollane värv ja korras kromdetailid annavad sellele eksemplarile omapärase 70ndate hõngu. Vana kooli Mercedesena hindab ta hoolt ja tähelepanu, tasudes selle eest ehedalt nostalgilise sõiduelamusega.',
+    special: [
+      'Üks väga äge vana kooli Mercedes, mis on suurepärases seisukorras. Mimosa kollane värvitoon tõmbab pilke ja annab autole vahva iseloomu. Olemas on hooldusajalugu ja sõidab oma vanuse kohta igati krapsakalt ja mõnusalt.',
+    ],
+    caution: [
+      'Otseselt midagi ette heita polegi, sest kõikidele neile, kes autost tänapäevaseid mugavusi ei otsi, on tegu väga hea leiuga, millega stiilipuhtalt suve nautida.',
     ],
     specs: [
       { label: 'Mudel',            value: '230.4 (W115)' },
@@ -490,9 +492,10 @@ window.CARS = {
     images: ['assets/fiero-1.jpg', 'assets/fiero-3.jpg', 'assets/fiero-5.jpg', 'assets/fiero-2.jpg', 'assets/fiero-4.jpg'],
     imageViews: ['front-3q', 'rear-3q', 'interior', 'front-3q', 'rear-3q'],
     photoStyle: true,
-    tagline: 'Esimene seeriana toodetud keskmootoriga ameerika auto — kultusstaatus garanteeritud.',
-    description: [
+    special: [
       'Klapptuled, keskmootor, tagavedu, 80ndad - omadused, mis defineerivad autounistusi. Antud auto 2.5 R4 mootor on sõbralik omaniku rahakoti vastu, samas pakub koostöös manuaalkastiga piisaval määral temperamenti, et sõit oleks meeleolukas. Seda toetab ka Fiero kerge kaal läbi heade sõiduomaduste.',
+    ],
+    caution: [
       'Võttes arvesse antud auto viisakat seisukorda ja vahvat olekut, siis siinkohal ei oskagi midagi välja tuua.',
     ],
     specs: [
@@ -522,9 +525,10 @@ window.CARS = {
     images: ['assets/car-m535i-1.jpg', 'assets/car-m535i-4.jpg', 'assets/car-m535i-2.jpg', 'assets/car-m535i-3.jpg'],
     imageViews: ['front-3q', 'rear-3q', 'front-3q', 'front'],
     photoStyle: true,
-    tagline: 'Silmatorkav punane E28 M535i — hainina BMW, mille teeb ihaldusväärseks M-mudeliversioon.',
-    description: [
+    special: [
       'Vana hea hainina BMW, mille muudab ihaldusväärseks M535i mudeliversioon. Kui M5 on juba väga rahakate entusiastide pärusmaa, siis M535i on kättesaadav ka laiemale publikule. Antud autole lisab väärtust silmatorkav punane välisvärv ja väga korralik seisukord.',
+    ],
+    caution: [
       'Vana kooli hainina BMW-le tüüpilised sõiduomadused, mis ei too kõikidele loodetud naeratust näole.',
     ],
     specs: [
@@ -553,8 +557,7 @@ window.CARS = {
     images: ['assets/xjsv12-1.webp', 'assets/xjsv12-2.webp', 'assets/xjsv12-3.webp', 'assets/xjsv12-4.webp', 'assets/xjsv12-5.webp'],
     imageViews: ['front-3q', 'rear-3q', 'interior-front', 'interior-rear', 'engine'],
     photoStyle: true,
-    tagline: 'Kuninglik V12 mootor klassikalises briti GT-kupees — valge välisvärv ja punane nahksisu.',
-    description: [
+    special: [
       'Mugav ja rafineeritud sõiduomadustega klassikaline GT-auto selle sõna kõige paremas tähenduses. Auto väga head seisukorda kinnitab ka väljastatud must reg nr. Huvitav valge välisvärvi ja punase interjööri kombinatsioon. Kuninglik V12 mootor.',
     ],
     caution: [

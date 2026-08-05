@@ -3,20 +3,26 @@
  * (assets/cars-data.js) being loaded first.
  */
 window.CarsShared = (function () {
-  // T3: single configurable place for card preview length — change here, not per-card.
-  const CARD_PREVIEW_MAX_PARAGRAPHS = 2;
-  const CARD_PREVIEW_MAX_CHARS = 200;
+  // Safety net only — the real rule (owner, 2026-08-05) is "first sentence of
+  // special[0], full stop." This just guards against one absurdly long sentence
+  // blowing out a card's height.
+  const CARD_PREVIEW_MAX_CHARS = 240;
 
   function esc(s) {
     return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
 
-  // Owner's own copy (car.description), truncated to a uniform length — never the
-  // hand-written marketing "hook" text. Short cars (e.g. few description
-  // paragraphs) simply render their whole text unmodified.
+  function firstSentence(text) {
+    const match = /^[\s\S]*?[.!?](?=\s|$)/.exec(text);
+    return (match ? match[0] : text).trim();
+  }
+
+  // Card preview = first sentence of car.special[0] only. There is no separate
+  // "description"/"tagline" copy anymore — the owner explicitly wants ONLY the
+  // special/caution text used anywhere in the listings (2026-08-05).
   function cardPreviewText(car) {
-    const paragraphs = (car.description || []).slice(0, CARD_PREVIEW_MAX_PARAGRAPHS);
-    let text = paragraphs.join(' ');
+    const source = (car.special && car.special[0]) || '';
+    let text = firstSentence(source);
     if (text.length > CARD_PREVIEW_MAX_CHARS) {
       const cut = text.slice(0, CARD_PREVIEW_MAX_CHARS);
       const lastSpace = cut.lastIndexOf(' ');
