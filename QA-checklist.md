@@ -23,21 +23,25 @@ enam eraldi lühikirjeldus.
 
 ## Auto-spetsiifiline kontroll
 
+**2026-08-07:** omanik saatis uued fotod Bentleyle, Maseratile, S-Type'ile,
+Daimlerile, Mercedes 230.4-le ja W220-le — piltide järjekord ja katvus
+uuendatud, vt allolev tabel.
+
 | Auto | special + caution | Pildid | Märkus |
 |---|---|---|---|
 | Aston Martin DB9 | ✅ | ⚠️ 5 pilti, puudub interjöör/mootor | ainult eksterjööri fotod olemas |
 | BMW M6 | ✅ | ✅ 5 pilti, interjöör olemas | — |
 | Mercedes-Benz 560 SL | ✅ | ⚠️ 4 pilti | interjöör olemas, aga alla 5 pildi |
-| Mercedes-Benz S500 4MATIC | ✅ | ⚠️ 4 pilti | interjöör (eest+taga) olemas, aga alla 5 pildi |
+| Mercedes-Benz S500 4MATIC | ✅ | ✅ 5 pilti, interjöör (eest+taga) olemas | uus side-foto lisatud 2026-08-07 |
 | Jaguar XK | ✅ | ⚠️ 4 pilti | interjöör olemas, aga alla 5 pildi |
-| Jaguar S-Type (müüdud) | ✅ | ✅ 6 pilti, interjöör olemas | — |
-| Daimler Double Six | ✅ | ⚠️ 5 pilti, puudub interjöör/mootor | ainult eksterjööri fotod olemas |
+| Jaguar S-Type (müüdud) | ✅ | ✅ 5 pilti, interjöör (eest+taga) olemas | **kõik fotod asendatud 2026-08-07** kronoloogilises järjekorras (front-3q → side → rear-3q → interjöör eest → interjöör taga) |
+| Daimler Double Six | ✅ | ✅ 5 pilti, interjöör (eest+taga) + mootor olemas | uued fotod 2026-08-07 — front/interjöör/mootor lisatud, vana rear-3q (car-daimler-4) säilis |
 | Fiat 130 | ✅ | ⚠️ 4 pilti, puudub interjöör/mootor | ainult eksterjööri fotod olemas |
-| Maserati Spyder (müüdud) | ✅ | ⚠️ 4 pilti | interjöör olemas, aga alla 5 pildi |
-| Bentley Arnage | ✅ | ⚠️ 4 pilti | **vana vale sisu lahendatud** — võib kuni 7 pilti lisada hiljem |
+| Maserati Spyder (müüdud) | ✅ | ✅ 5 pilti, interjöör + mootor olemas | uued side/rear/mootor fotod 2026-08-07, vana interjöör säilis |
+| Bentley Arnage | ✅ | ✅ 6 pilti, interjöör (eest+taga) + mootor olemas | uued side/interjöör-tagumine/mootor fotod 2026-08-07; katvus nüüd täielik |
 | Jaguar XJ Series III | ✅ | ✅ 5 pilti, interjöör + mootor olemas | — |
 | Opel Omega 3000 (müüdud) | ✅ | ⚠️ 3 pilti | interjöör + mootor olemas, aga vaid 3 pilti |
-| Mercedes-Benz 230.4 (müüdud) | ✅ | ⚠️ 4 pilti | interjöör + mootor olemas, aga alla 5 pildi |
+| Mercedes-Benz 230.4 (müüdud) | ✅ | ✅ 5 pilti, interjöör + mootor olemas | uus side-foto lisatud 2026-08-07 |
 | Pontiac Fiero (müüdud) | ✅ | ✅ 5 pilti, interjöör olemas | — |
 | BMW M535i (müüdud) | ✅ | ⚠️ 4 pilti, puudub interjöör/mootor | ainult eksterjööri fotod olemas |
 | Jaguar XJ-S V12 (valge) | ✅ | ✅ 5 pilti, interjöör (eest+taga) + mootor olemas | hind puudub (`Küsi hinda`) |
@@ -45,11 +49,29 @@ enam eraldi lühikirjeldus.
 
 **Kokkuvõte:** kõigil 16 praegu saidil oleval autol on nüüd nii `special` kui
 `caution` täidetud — sisu poolelt pole enam midagi puudu (vt `audit.md`).
-5/16 autol on valideerimisskripti järgi täiesti korras pildid (BMW M6,
-Jaguar S-Type, Pontiac Fiero, Jaguar XJ Series III, Jaguar XJ-S V12);
-ülejäänutel on kas alla 5 pildi või puudub interjööri-/mootoripilt — see on
-olemasolevate fotode piirang, mitte andmevea tulemus. Roheline XJ-S V12
-seisab pooleli, kuna selle kohta pole ühtegi fotot saadetud.
+10/16 autol on valideerimisskripti järgi täiesti korras pildid (BMW M6,
+Mercedes S500 4MATIC, Jaguar S-Type, Daimler Double Six, Maserati Spyder,
+Bentley Arnage, Jaguar XJ Series III, Mercedes 230.4, Pontiac Fiero, Jaguar
+XJ-S V12); ülejäänud 6 (DB9, 560 SL, XK, Fiat 130, Omega, M535i) on alla 5
+pilti või puudub interjöör/mootor — see on olemasolevate fotode piirang,
+mitte andmevea tulemus. Roheline XJ-S V12 seisab pooleli, kuna selle kohta
+pole ühtegi fotot saadetud.
+
+### Vanad/asendatud failid, mida enam kusagil ei kasutata
+
+Need jäid kettale, kuid ei ole `cars-data.js`-is enam viidatud (mitte
+kustutatud — vt eelmine tsükkel sama teemaga):
+
+- `assets/bentley-1.jpg` (front-3q, asendatud `bentley-2.jpg`-ga)
+- `assets/spyder-2.jpg`, `assets/spyder-3.jpg` (vana rear-3q/detail)
+- `assets/car-stype-1.jpg` … `car-stype-6.jpg` (kõik 6 vana S-Type fotot)
+- `assets/car-daimler-1.jpg`, `car-daimler-2.jpg`, `car-daimler-3.jpg`,
+  `car-daimler-5.jpg` (vanad front/front/rear fotod; `car-daimler-4.jpg`
+  jäi kasutusse)
+
+Samuti on kettal ~17 kokkupakkimata originaali (`DSC0*.jpg`/`.JPG`,
+kokku ~180 MB), mille kompaktsemad koopiad on juba `cars-data.js`-is
+kasutuses — sama muster mis eelmisel korral (DSC00793/DSC00807 jt).
 
 ## Käsitsi kontrollimata (vajab brauserit)
 
