@@ -20,6 +20,10 @@ enam eraldi lühikirjeldus.
 | Vana "Kirjeldus" plokk ja hero tagline eemaldatud kõikjalt | ✅ | `d-desc`, `d-tagline` elemendid ja neid täitev JS eemaldatud `auto.html`-ist; `description`/`tagline` väljad eemaldatud ka `cars-data.js`-ist |
 | Piltide järjekord andmepõhine (mitte kausta tähestik) | ✅ | `images[]` massiivi järjekord `cars-data.js`-is, iga foto märgistatud `imageViews[]`-is |
 | Piltide valideerimisskript olemas | ✅ | `scripts/validate-car-photos.js` — kontrollib ≥5 pilti ja interjööri-/mootoripildi olemasolu |
+| Võimsus samas ühikus (kW) kõigil autodel | ✅ | 2026-08-07 — DB9/M6/560SL/XK/M535i teisendatud, hj-mainimised eemaldatud |
+| "Päritolu"/"Päritoluriik" eemaldatud spec-tabelist | ✅ | 2026-08-07 — 19 rida eemaldatud kõigilt autodelt, segadust tekitav (tootja- vs impordiriik) |
+| "Spetsifikatsioon" sõna eemaldatud sektsiooni pealkirjast | ✅ | 2026-08-07 — `auto.html`, nüüd "Tehnilised andmed." |
+| Peapildi object-fit viga parandatud (foto ei mahtunud raami) | ✅ | 2026-08-07 — `.car-hero-img.is-photo` `cover`→`contain`, fikseeritud 440px kõrgus eemaldatud |
 
 ## Auto-spetsiifiline kontroll
 
@@ -44,23 +48,22 @@ uuendatud, vt allolev tabel.
 | Mercedes-Benz 230.4 (müüdud) | ✅ | ✅ 5 pilti, interjöör + mootor olemas | uus side-foto lisatud 2026-08-07 |
 | Pontiac Fiero (müüdud) | ✅ | ✅ 5 pilti, interjöör olemas | — |
 | BMW M535i (müüdud) | ✅ | ⚠️ 4 pilti, puudub interjöör/mootor | ainult eksterjööri fotod olemas |
-| Jaguar XJ-S V12 (valge) | ✅ | ✅ 5 pilti, interjöör (eest+taga) + mootor olemas | hind puudub (`Küsi hinda`) |
-| Jaguar XJ-S V12 (roheline) | ⚠️ tekst olemas, **auto pole veel lisatud** | ❌ pole fotosid | vt `audit.md` "Pooleli" — vajab vähemalt 1 fotot enne lisamist |
+| Jaguar XJ-S V12 (valge) | ✅ | ✅ 5 pilti, interjöör (eest+taga) + mootor olemas | **märgitud müüdud 2026-08-07** (varem "Küsi hinda") |
+| Jaguar XJ-S 5.3 V12 (roheline) | ✅ | ✅ 5 pilti, interjöör + mootor olemas | **uus kuulutus, lisatud 2026-08-07** (id `jaguar-xjs-v12-green`), hind 19 900€ |
 
-**Kokkuvõte:** kõigil 16 praegu saidil oleval autol on nüüd nii `special` kui
+**Kokkuvõte:** kõigil 17 praegu saidil oleval autol on nüüd nii `special` kui
 `caution` täidetud — sisu poolelt pole enam midagi puudu (vt `audit.md`).
-10/16 autol on valideerimisskripti järgi täiesti korras pildid (BMW M6,
+11/17 autol on valideerimisskripti järgi täiesti korras pildid (BMW M6,
 Mercedes S500 4MATIC, Jaguar S-Type, Daimler Double Six, Maserati Spyder,
-Bentley Arnage, Jaguar XJ Series III, Mercedes 230.4, Pontiac Fiero, Jaguar
-XJ-S V12); ülejäänud 6 (DB9, 560 SL, XK, Fiat 130, Omega, M535i) on alla 5
-pilti või puudub interjöör/mootor — see on olemasolevate fotode piirang,
-mitte andmevea tulemus. Roheline XJ-S V12 seisab pooleli, kuna selle kohta
-pole ühtegi fotot saadetud.
+Bentley Arnage, Jaguar XJ Series III, Mercedes 230.4, Pontiac Fiero, mõlemad
+Jaguar XJ-S V12); ülejäänud 6 (DB9, 560 SL, XK, Fiat 130, Omega, M535i) on
+alla 5 pilti või puudub interjöör/mootor — see on olemasolevate fotode
+piirang, mitte andmevea tulemus.
 
 ### Vanad/asendatud failid, mida enam kusagil ei kasutata
 
 Need jäid kettale, kuid ei ole `cars-data.js`-is enam viidatud (mitte
-kustutatud — vt eelmine tsükkel sama teemaga):
+kustutatud):
 
 - `assets/bentley-1.jpg` (front-3q, asendatud `bentley-2.jpg`-ga)
 - `assets/spyder-2.jpg`, `assets/spyder-3.jpg` (vana rear-3q/detail)
@@ -69,9 +72,10 @@ kustutatud — vt eelmine tsükkel sama teemaga):
   `car-daimler-5.jpg` (vanad front/front/rear fotod; `car-daimler-4.jpg`
   jäi kasutusse)
 
-Samuti on kettal ~17 kokkupakkimata originaali (`DSC0*.jpg`/`.JPG`,
-kokku ~180 MB), mille kompaktsemad koopiad on juba `cars-data.js`-is
-kasutuses — sama muster mis eelmisel korral (DSC00793/DSC00807 jt).
+Samuti on kettal 5 kokkupakkimata `Screenshot 2026-08-16 *.png` originaali
+(rohelise XJ-S fotode allikad, kokku ~28 MB), mille kompaktsemad `.jpg`
+koopiad (`xjsv12-green-1..5.jpg`) on juba `cars-data.js`-is kasutuses —
+sama muster mis varasematel kordadel.
 
 ## Käsitsi kontrollimata (vajab brauserit)
 

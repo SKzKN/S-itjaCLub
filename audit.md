@@ -35,24 +35,30 @@ omanikult — vt tabel allpool.
 | Mercedes-Benz 230.4 (müüdud) | ✅ | ✅ | uuendatud 2026-08-05 |
 | Pontiac Fiero (müüdud) | ✅ | ✅ | uuendatud 2026-08-05 |
 | BMW M535i (müüdud) | ✅ | ✅ | uuendatud 2026-08-05 |
-| Jaguar XJ-S V12 (valge) | ✅ | ✅ | uuendatud 2026-08-05 (vana `description` tõsteti `special`-isse) |
+| Jaguar XJ-S V12 (valge) | ✅ | ✅ | uuendatud 2026-08-05 (vana `description` tõsteti `special`-isse); **märgitud müüdud auto 2026-08-07** |
+| Jaguar XJ-S 5.3 V12 (roheline) | ✅ | ✅ | **lisatud 2026-08-07** (id `jaguar-xjs-v12-green`), tekst omanikult samal kuupäeval |
 
-**16/16 praegu andmestikus oleval autol on mõlemad plokid täidetud.**
+**17/17 praegu andmestikus oleval autol on mõlemad plokid täidetud.**
 
-## Pooleli: Jaguar XJ-S V12 (roheline / British Racing Green)
+## 2026-08-07 — andmete koristus
 
-Omanik saatis 2026-08-05 täieliku `special`/`caution` teksti teisele XJ-S V12-le
-(roheline, valge BRG värv, valge nahkinterjöör asemel):
+Omanik palus ühtlustada ja koristada spec-tabeleid üle kõigi autode:
 
-> **+** Stiilne V12 mootoriga Briti GT-auto koos vääriliste sõiduomadustega.
-> British Racing Green ja valge nahkinterjöör loovad suurepärase koosluse. V12
-> mootor ja mugav vedrustus on meeldivaks kaaslaseks igal road tripil.
->
-> **−** V12 mootoriga kaasnevad alati keskmisest suuremad kulud. Seisukorda
-> iseloomustab hästi "sõidan, naudin, kasutan" stiil ja sobib hästi omanikule,
-> kes on valmis autosse hoolt ja armastust investeerima.
-
-**Ei ole veel lisatud `cars-data.js`-i**, kuna ei saadetud ühtegi fotot selle
-konkreetse (rohelise) auto kohta — sait ei saa kuvada kaarti/detaillehte ilma
-vähemalt ühe pildita. Niipea kui fotod saabuvad, lisa uus kirje (nt id
-`jaguar-xjs-v12-green`) samamoodi nagu valge XJ-S V12 lisati.
+- **Võimsuse ühik ühtlustatud kW-le** kõikjal (DB9, BMW M6, Mercedes 560 SL,
+  Jaguar XK, BMW M535i) — varem osa kW, osa hj esikohal.
+- **"Päritoluriik"/"Päritolu" rida eemaldatud** kõikide autode `specs`/
+  `heroSpecs` alt (19 rida) — segadust tekitav, kuna näitas vahel tootjariiki,
+  vahel riiki, kust auto toodi (nt DB9 puhul USA, kuigi auto ise Inglise).
+- **"Spetsifikatsioon" sõna eemaldatud** `auto.html` sektsiooni pealkirjast
+  (nüüd "Tehnilised andmed.").
+- **Bentley Arnage**: "Limuusin"/"Täislimuusin" (`Tüüp` rida specs+heroSpecs
+  alt, ja hero subtitle) eemaldatud/asendatud — Arnage on sedaan, mitte
+  limusiin.
+- **Daimler Double Six**: "Turule: 1993" asendatud "Mudeliaasta: 1994"-ga.
+- **Jaguar XJ Series III**: "Tootmine: Kuni 1992" rida eemaldatud.
+- **Pontiac Fiero**: mootor on ikka R4, "Pontiac R4 või V6" → "Pontiac R4",
+  heroSpecs "Valik: V6 / R4" → "Valik: R4".
+- **Foto raamistuse viga parandatud**: `auto.html` peapildi `.is-photo`
+  klass sundis 440px kõrgust + `object-fit: cover`, mis lõikas osa fotost
+  ära (nt W220 2. ja 3. pilt, Bentley). Nüüd `object-fit: contain` — kogu
+  foto alati näha, kõrgus paindlik.
