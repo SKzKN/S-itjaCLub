@@ -34,8 +34,8 @@ window.CARS = {
     tag: 'Grand Tourer',
     price: '70 000 €',
     image: 'assets/car-db9-2.jpg',
-    images: ['assets/car-db9-2.jpg', 'assets/car-db9-4.jpg', 'assets/car-db9-5.jpg', 'assets/car-db9-3.jpg', 'assets/car-db9.png'],
-    imageViews: ['front-3q', 'side', 'rear-3q', 'front-3q', 'front-3q'],
+    images: ['assets/car-db9-2.jpg', 'assets/car-db9-4.jpg', 'assets/car-db9-5.jpg', 'assets/car-db9-3.jpg', 'assets/car-db9.png', 'assets/car-db9-6.jpg', 'assets/car-db9-7.jpg', 'assets/car-db9-8.jpg', 'assets/car-db9-9.jpg', 'assets/car-db9-10.jpg'],
+    imageViews: ['front-3q', 'side', 'rear-3q', 'front-3q', 'front-3q', 'front-3q', 'side', 'rear-3q', 'interior-front', 'detail'],
     photoStyle: true,
     special: [
       'DB9 on GT-auto super näide - võimas, kiire, eksklusiivse interjööriga, mugav ka pikkade vahemaade läbimiseks, lisaks võimeline pakkuma hulga positiivset sõiduemotsiooni.',
